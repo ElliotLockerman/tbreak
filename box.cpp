@@ -6,7 +6,7 @@
 // TODO: Fill option
 
 
-Box::Box(int x, int y, int width, int height, int thickness, uint32_t ch, uint16_t fg, uint16_t bg)
+Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch, uint16_t fg, uint16_t bg)
 {
 	// TODO: Bounds checking
 	
@@ -14,7 +14,7 @@ Box::Box(int x, int y, int width, int height, int thickness, uint32_t ch, uint16
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	this->thickness = thickness;
+	this->border_thickness = border_thickness;
 	this->cell = cell;
 	
 	this->cell.ch = ch;

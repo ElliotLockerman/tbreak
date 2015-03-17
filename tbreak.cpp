@@ -71,8 +71,8 @@ int main()
 	
 	
 	
-	Box border(0, 0, console_width, console_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
-	border.draw();
+	//Box border(0, 0, console_width, console_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
+	//border.draw();
 	tb_present();
 	
 	
