@@ -51,3 +51,7 @@ void Box::draw()
 }
 
 
+bool Box::contains_point(int x, int y)
+{
+	return false;
+}

@@ -1,4 +1,6 @@
-class Box
+#include "drawable.h"
+
+class Box: public Drawable
 {
 private:
 	int x, y, width, height, thickness;
@@ -7,7 +9,9 @@ private:
 public:
 	Box(int x, int y, int width, int height, int thickness, uint32_t ch, uint16_t fg, uint16_t bg);
 	
-	void draw();
-	bool contains_point(int x, int y);
-
+	using Drawable::draw;
+	virtual void draw ();
+	
+	using Drawable::contains_point;
+	virtual bool contains_point(int x, int y);
 };
