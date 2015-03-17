@@ -3,6 +3,9 @@
 #include "box.h"
 
 
+// TODO: Fill option
+
+
 Box::Box(int x, int y, int width, int height, int thickness, uint32_t ch, uint16_t fg, uint16_t bg)
 {
 	// TODO: Bounds checking
@@ -47,7 +50,6 @@ void Box::draw()
 		for(int j = 0; j < thickness; j++)
 			tb_put_cell(x + width - 1 - j, y + i, &cell);
 	
-	tb_present();
 }
 
 
