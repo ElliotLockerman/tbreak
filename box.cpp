@@ -22,9 +22,9 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch,
 	this->height = height;
 	this->border_thickness = border_thickness;
 	
-	this->border_cell.cell.ch = ch;
-	this->border_cell.cell.fg = fg;
-	this->border_cell.cell.bg = bg;
+	this->border_wrap.cell.ch = ch;
+	this->border_wrap.cell.fg = fg;
+	this->border_wrap.cell.bg = bg;
 
 	
 	initialize_matrix();
@@ -44,9 +44,9 @@ Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16
 	this->width = width;
 	this->height = height;
 	
-	this->center_cell.cell.ch = cch;
-	this->center_cell.cell.fg = cfg;
-	this->center_cell.cell.bg = cbg;
+	this->center_wrap.cell.ch = cch;
+	this->center_wrap.cell.fg = cfg;
+	this->center_wrap.cell.bg = cbg;
 	
 	
 	initialize_matrix();
@@ -72,14 +72,14 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 	this->width = width;
 	this->height = height;
 	
-	this->center_cell.cell.ch = cch;
-	this->center_cell.cell.fg = cfg;
-	this->center_cell.cell.bg = cbg;
+	this->center_wrap.cell.ch = cch;
+	this->center_wrap.cell.fg = cfg;
+	this->center_wrap.cell.bg = cbg;
 	
 	
-	this->border_cell.cell.ch = bch;
-	this->border_cell.cell.fg = bfg;
-	this->border_cell.cell.bg = bbg;
+	this->border_wrap.cell.ch = bch;
+	this->border_wrap.cell.fg = bfg;
+	this->border_wrap.cell.bg = bbg;
 	
 	
 	initialize_matrix();
@@ -100,11 +100,11 @@ void Box::initialize_matrix()
 		.bg = TB_DEFAULT
 	};
 	
-	empty_char.cell = empty_cell;
-	empty_char.empty = true;
+	empty_wrap.cell = empty_cell;
+	empty_wrap.empty = true;
 	
 	
-	std::vector<char_wrap*> inner(height, &empty_char);
+	std::vector<char_wrap*> inner(height, &empty_wrap);
 	matrix.assign(width, inner);
 	
 
@@ -112,32 +112,32 @@ void Box::initialize_matrix()
 	{
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < height; j++)
-				matrix[i][j] = &center_cell;
+				matrix[i][j] = &center_wrap;
 	}
 	if(has_border)
 	{
 		//Top border
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < border_thickness; j++)
-				matrix[i][j] = &border_cell;
+				matrix[i][j] = &border_wrap;
 		
 
 		//Bottom border
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < border_thickness; j++)
-				matrix[i][height - 1 - j] = &border_cell;
+				matrix[i][height - 1 - j] = &border_wrap;
 			
 
 		// Left border
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < border_thickness; j++)
-				matrix[j][i] = &border_cell;
+				matrix[j][i] = &border_wrap;
 					
 
 		//Right border
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < border_thickness; j++)
-				matrix[width - 1 - j][i] = &border_cell;
+				matrix[width - 1 - j][i] = &border_wrap;
 	}
 		
 }
@@ -145,12 +145,37 @@ void Box::initialize_matrix()
 
 
 
+void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg)
+{
+	if(x < width && x >= 0 && y < height && y >= 0)
+	{
+		tb_cell new_cell =
+		{
+			.ch = ch,
+			.fg = fg,
+			.bg = bg
+		};
+	
+		char_wrap new_special_wrap = 
+		{			
+			.cell = new_cell,
+			.empty = false
+		};
+	
+		specials.push_back(new_special_wrap);
+	
+		matrix[x][y] = &specials.back();
+	}
+	
+}
 
 
 
-
-
-
+void Box::remove_char(int x, int y)
+{
+	if(x < width && x >= 0 && y < height && y >= 0)
+		matrix[x][y] = &empty_wrap;
+}
 
 
 
@@ -161,108 +186,92 @@ void Box::initialize_matrix()
 
 void Box::draw()
 {
-	/*
+	
 	// Draw center
 	if(has_center)
 	{
-	for(int i = 0; i < width; i++)
-		for(int j = 0; j < height; j++)
-			tb_put_cell(x + i, y + j, &center_cell);
+		for(int i = 0; i < width; i++)
+		{
+			for(int j = 0; j < height; j++)
+			{
+				if(!matrix[i][j]->empty)
+				{
+					tb_put_cell(x + i, y + j, &(matrix[i][j]->cell));
+				}
+			}
+		}
 	}
-	
-	
-	// Draw borders
-	if(has_border)
+	// Draw borders, but only if there's no center (the border is inside)
+	else if(has_border)
 	{
 		//Top border
 		for(int i = 0; i < width; i++)
+		{
 			for(int j = 0; j < border_thickness; j++)
-				tb_put_cell(x + i, y + j, &border_cell);
-		
+			{
+				if(!matrix[i][j]->empty)
+				{
+					tb_put_cell(x + i, y + j, &(matrix[i][j]->cell));
+				}
+			}
+		}
+
+
 
 		//Bottom border
 		for(int i = 0; i < width; i++)
+		{
 			for(int j = 0; j < border_thickness; j++)
-				tb_put_cell(x + i, y + height - 1 - j, &border_cell);
+			{
+				if(!matrix[i][height - 1 - j]->empty)
+				{
+					tb_put_cell(x + i, y + height - 1 - j, &(matrix[i][height - 1 - j]->cell));
+				}
+			}
+		}
 			
 
 		// Left border
 		for(int i = 0; i < height; i++)
-			for(int j = 0; j < border_thickness; j++)	
-				tb_put_cell(x + j, y + i, &border_cell);
+		{
+			for(int j = 0; j < border_thickness; j++)
+			{
+				if(!matrix[j][i]->empty)
+				{
+					tb_put_cell(x + j, y + i, &(matrix[j][i]->cell));
+				}
+			}
+		}
 					
 
 		//Right border
 		for(int i = 0; i < height; i++)
+		{
 			for(int j = 0; j < border_thickness; j++)
-				tb_put_cell(x + width - 1 - j, y + i, &border_cell);
+			{
+				if(!matrix[width - 1 - j][i]->empty)
+				{
+					tb_put_cell(x + width - 1 - j, y + i, &(matrix[width - 1 - j][i]->cell));
+				}
+			}
+		}
 	}
-		
-		
-	// Draw special chars
-	*/
 }
 
 
 
 
 bool Box::contains_point(int x, int y)
-{/*
-	// Check specials in case it was deleted
-	if(specials.count(x))
-	{
-		if(specials[x].count(y))
-		{
-			if(specials[x][y].removed)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-	}
+{
+	// Don't want to index out of bounds
+	if(x < this->x || x >= this->x + this->width || y < this-> y || y > this->y + this->height)
+		return false;
 	
-	// Check center
-	if(has_center)
-	{
-		if(x >= this->x && x < this->x + this->width &&
-			y >= this->y && y < this->y + this->height)
-		{
-			return true;
-		}
-	}
+
+	if(!matrix[x - this->x][y - this->y]->empty)
+		return true;
 	
-	
-	// Check border
-	else if(has_border)
-	{
-		// Top border
-		if(x >= this->x && x < this->x + this->width &&
-			y >= this-> y && y < this->y + this->border_thickness)
-			return true;
-
-		
-		// Bottom border
-		if(x >= this->x && x < this->x + this->width &&
-			y >= this->y + this->height - this->border_thickness && y < this->y + this->height)
-			return true;
-
-		// Left border
-		if(x >= this-> x && x < this->x + this->border_thickness &&
-			y >= this->y && y < this->y + this->height)
-			return true;
-		
-		// Right border
-		if(x >= this->x + this->width - this->border_thickness && x < this->x + this-> width &&
-			y >= this->y && y < this->y + this->height)
-			return true;
-		
-	}
-
 	return false;
-*/
 }
 
 

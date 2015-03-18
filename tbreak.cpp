@@ -64,6 +64,8 @@ int main()
 	draw_string(34, 15, 40, "ESC: Quit", TB_DEFAULT, TB_DEFAULT);
 
 	
+	
+	
 	tb_present();
 	
 

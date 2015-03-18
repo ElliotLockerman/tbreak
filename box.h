@@ -19,7 +19,7 @@ private:
 	{
 		tb_cell cell;	
 		bool empty; 
-	} empty_char, border_cell, center_cell;
+	} empty_wrap, border_wrap, center_wrap;
 	
 	 // Outer is column/width (x), inner is row/height (y)
 	std::vector<std::vector<char_wrap*> > matrix; 
@@ -43,17 +43,24 @@ public:
 	
 	
 	// Replaces the char at the given location with the arguments.
-	// Make removed true to make the char no longer collidable
-	void replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg, bool removed);
+	// X and Y are relative
+	void replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg);
+	
+	// Remove a char. Will no longer be collidable and will not overwrite previous chars
+	// X and Y are relative
+	void remove_char(int x, int y);
+	
 	
 	
 	// Drawable implementations. See drawable.h
 	using Drawable::draw;
 	virtual void draw ();
 	
+	// X and Y are absolute
 	using Drawable::contains_point;
 	virtual bool contains_point(int x, int y);
 	
+	// X and Y are absolute
 	using Drawable::move_to;
 	virtual void move_to(int x, int y);
 	
