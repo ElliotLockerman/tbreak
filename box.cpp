@@ -53,7 +53,7 @@ Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16
 
 
 // Border and center, discrete arguments
-Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t cch, uint16_t cfg, uint16_t cbg, uint32_t bch, uint16_t bfg, uint16_t bbg)
+Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg, uint32_t cch, uint16_t cfg, uint16_t cbg)
 {
 	// TODO: Bounds checking
 	
@@ -81,8 +81,46 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t cch
 	this->border_cell.bg = bbg;
 }
 
+// End constructors
 // ********************************************************
 
+
+
+
+void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg, bool removed)
+{
+	tb_cell new_cell = 
+	{
+		.ch = ch,
+		.fg = fg,
+		.bg = bg
+	};
+	
+	special_char new_char =
+	{
+		.cell = new_cell,
+		.removed = removed
+	};
+	
+	this->specials[x][y] = new_char;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ********************************************************
+// Drawable methods
 
 void Box::draw()
 {
@@ -122,6 +160,9 @@ void Box::draw()
 				tb_put_cell(x + width - 1 - j, y + i, &border_cell);
 	}
 		
+		
+	// Draw special chars
+	
 }
 
 
@@ -182,10 +223,6 @@ bool Box::contains_point(int x, int y)
 		
 	}
 
-
-
-
-
 	return false;
 }
 
@@ -199,3 +236,6 @@ void Box::move_to(int x, int y)
 	
 	return;
 }
+
+// End drawables
+// ********************************************************

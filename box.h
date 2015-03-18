@@ -14,13 +14,12 @@ class Box: public Drawable
 private:
 	int width, height, border_thickness;
 	tb_cell border_cell, center_cell;
-	
 	bool has_border, has_center;
 	
 	struct special_char
 	{
 		tb_cell cell;	
-		bool removed; // True if the location has been deleted; checked for colision detection
+		bool removed; 
 	};
 	std::map<int, std::map<int, special_char> > specials;
 
@@ -36,15 +35,14 @@ public:
 	Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16_t cbg);
 	
 	// Both border and center
-	Box(int x, int y, int width, int height, int border_thickness,  uint32_t cch, uint16_t cfg, uint16_t cbg, uint32_t bch, uint16_t bfg, uint16_t bbg);
+	Box(int x, int y, int width, int height, int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg, uint32_t cch, uint16_t cfg, uint16_t cbg);
 
 
 	
 	
 	// Replaces the char at the given location with the arguments.
-	//void replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg);
-	void replace_char(int x, int y, tb_cell cell);	
-	void remove_char(int x, int y);
+	// Make removed true to make the char no longer collidable
+	void replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg, bool removed);
 	
 	
 	// Drawable implementations. See drawable.h

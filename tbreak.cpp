@@ -48,10 +48,16 @@ int main()
 	Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 	border.draw();
 	
+	Box blocks(5, 3, 70, 6, '=', TB_DEFAULT, TB_DEFAULT);
+	blocks.draw();
 
+
+	Box title_background(20, 4, 38, 15, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
+	title_background.draw();
 	
-	draw_string(30, 5, 40, "Terminal Breakout", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-	draw_string(28, 7, 40, "Elliot.Lockerman.info", TB_DEFAULT, TB_DEFAULT);
+	draw_string(30, 6, 40, "Terminal Breakout", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+	draw_string(28, 8, 40, "Elliot.Lockerman.info", TB_DEFAULT, TB_DEFAULT);
+	
 	draw_string(34, 12, 40, "Controls", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
 	draw_string(25, 13, 40, "Space: Start/Launch new ball", TB_DEFAULT, TB_DEFAULT);
 	draw_string(24, 14, 40, "Left/Right Arrows: Move paddle", TB_DEFAULT, TB_DEFAULT);
@@ -60,7 +66,7 @@ int main()
 	
 	tb_present();
 	
-	
+
 	
 	
 	// Event loop
