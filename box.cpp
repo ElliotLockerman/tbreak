@@ -6,17 +6,14 @@
 // ********************************************************
 // Constructors 
 
-// Border only, discrete arguments
+// Border only
 Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch, uint16_t fg, uint16_t bg)
 {
 	// TODO: Bounds checking
 	
-	if(border_thickness > 0)
-	{
-		has_border = true;
-		this->border_thickness = border_thickness;
-	}
-	
+	if(border_thickness < 1) border_thickness = 1;
+
+	has_border = true;
 	has_center = false;
 	
 	this->x = x;
@@ -25,14 +22,16 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch,
 	this->height = height;
 	this->border_thickness = border_thickness;
 	
-	this->border_cell.ch = ch;
-	this->border_cell.fg = fg;
-	this->border_cell.bg = bg;
+	this->border_cell.cell.ch = ch;
+	this->border_cell.cell.fg = fg;
+	this->border_cell.cell.bg = bg;
 
+	
+	initialize_matrix();
 }
 
 
-// Center only, discrete arguments
+// Center only
 Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16_t cbg)
 {
 	// TODO: Bounds checking
@@ -45,14 +44,17 @@ Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16
 	this->width = width;
 	this->height = height;
 	
-	this->center_cell.ch = cch;
-	this->center_cell.fg = cfg;
-	this->center_cell.bg = cbg;
+	this->center_cell.cell.ch = cch;
+	this->center_cell.cell.fg = cfg;
+	this->center_cell.cell.bg = cbg;
+	
+	
+	initialize_matrix();
 }
 
 
 
-// Border and center, discrete arguments
+// Border and center
 Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg, uint32_t cch, uint16_t cfg, uint16_t cbg)
 {
 	// TODO: Bounds checking
@@ -61,7 +63,6 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 	{
 		has_border = true;
 		this->border_thickness = border_thickness;
-	
 	}
 	
 	has_center = true;
@@ -71,14 +72,17 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 	this->width = width;
 	this->height = height;
 	
-	this->center_cell.ch = cch;
-	this->center_cell.fg = cfg;
-	this->center_cell.bg = cbg;
+	this->center_cell.cell.ch = cch;
+	this->center_cell.cell.fg = cfg;
+	this->center_cell.cell.bg = cbg;
 	
 	
-	this->border_cell.ch = bch;
-	this->border_cell.fg = bfg;
-	this->border_cell.bg = bbg;
+	this->border_cell.cell.ch = bch;
+	this->border_cell.cell.fg = bfg;
+	this->border_cell.cell.bg = bbg;
+	
+	
+	initialize_matrix();
 }
 
 // End constructors
@@ -86,25 +90,58 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 
 
 
-
-void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg, bool removed)
+void Box::initialize_matrix()
 {
-	tb_cell new_cell = 
+	// It should never be printed, but we should have something just in case
+	tb_cell empty_cell =
 	{
-		.ch = ch,
-		.fg = fg,
-		.bg = bg
+		.ch = ' ',
+		.fg = TB_DEFAULT,
+		.bg = TB_DEFAULT
 	};
 	
-	special_char new_char =
+	empty_char.cell = empty_cell;
+	empty_char.empty = true;
+	
+	
+	std::vector<char_wrap*> inner(height, &empty_char);
+	matrix.assign(width, inner);
+	
+
+	if(has_center)
 	{
-		.cell = new_cell,
-		.removed = removed
-	};
-	
-	this->specials[x][y] = new_char;
-	
+		for(int i = 0; i < width; i++)
+			for(int j = 0; j < height; j++)
+				matrix[i][j] = &center_cell;
+	}
+	if(has_border)
+	{
+		//Top border
+		for(int i = 0; i < width; i++)
+			for(int j = 0; j < border_thickness; j++)
+				matrix[i][j] = &border_cell;
+		
+
+		//Bottom border
+		for(int i = 0; i < width; i++)
+			for(int j = 0; j < border_thickness; j++)
+				matrix[i][height - 1 - j] = &border_cell;
+			
+
+		// Left border
+		for(int i = 0; i < height; i++)
+			for(int j = 0; j < border_thickness; j++)
+				matrix[j][i] = &border_cell;
+					
+
+		//Right border
+		for(int i = 0; i < height; i++)
+			for(int j = 0; j < border_thickness; j++)
+				matrix[width - 1 - j][i] = &border_cell;
+	}
+		
 }
+
 
 
 
@@ -124,6 +161,7 @@ void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg, bool
 
 void Box::draw()
 {
+	/*
 	// Draw center
 	if(has_center)
 	{
@@ -162,14 +200,14 @@ void Box::draw()
 		
 		
 	// Draw special chars
-	
+	*/
 }
 
 
 
 
 bool Box::contains_point(int x, int y)
-{
+{/*
 	// Check specials in case it was deleted
 	if(specials.count(x))
 	{
@@ -224,6 +262,7 @@ bool Box::contains_point(int x, int y)
 	}
 
 	return false;
+*/
 }
 
 

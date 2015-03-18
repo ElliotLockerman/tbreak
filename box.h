@@ -1,4 +1,4 @@
-#include "map"
+#include <vector>
 
 #include "drawable.h"
 
@@ -13,18 +13,20 @@ class Box: public Drawable
 {
 private:
 	int width, height, border_thickness;
-	tb_cell border_cell, center_cell;
 	bool has_border, has_center;
 	
-	struct special_char
+	struct char_wrap
 	{
 		tb_cell cell;	
-		bool removed; 
-	};
-	std::map<int, std::map<int, special_char> > specials;
+		bool empty; 
+	} empty_char, border_cell, center_cell;
+	
+	 // Outer is column/width (x), inner is row/height (y)
+	std::vector<std::vector<char_wrap*> > matrix; 
+	std::vector<char_wrap> specials;
 
-	
-	
+	void initialize_matrix();
+
 
 public:
 	// Border only
