@@ -1,4 +1,4 @@
-#include "vector"
+#include "map"
 
 #include "drawable.h"
 
@@ -19,12 +19,10 @@ private:
 	
 	struct special_char
 	{
-		int x;
-		int y;
 		tb_cell cell;	
 		bool removed; // True if the location has been deleted; checked for colision detection
 	};
-	std::vector<special_char> specials;
+	std::map<int, std::map<int, special_char> > specials;
 
 	
 	

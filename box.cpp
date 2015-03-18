@@ -11,7 +11,12 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch,
 {
 	// TODO: Bounds checking
 	
-	has_border = true;
+	if(border_thickness > 0)
+	{
+		has_border = true;
+		this->border_thickness = border_thickness;
+	}
+	
 	has_center = false;
 	
 	this->x = x;
@@ -52,14 +57,19 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t cch
 {
 	// TODO: Bounds checking
 	
-	has_border = true;
+	if(border_thickness > 0)
+	{
+		has_border = true;
+		this->border_thickness = border_thickness;
+	
+	}
+	
 	has_center = true;
 	
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	this->border_thickness = border_thickness;
 	
 	this->center_cell.ch = cch;
 	this->center_cell.fg = cfg;
@@ -119,6 +129,63 @@ void Box::draw()
 
 bool Box::contains_point(int x, int y)
 {
+	// Check specials in case it was deleted
+	if(specials.count(x))
+	{
+		if(specials[x].count(y))
+		{
+			if(specials[x][y].removed)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+	}
+	
+	// Check center
+	if(has_center)
+	{
+		if(x >= this->x && x < this->x + this->width &&
+			y >= this->y && y < this->y + this->height)
+		{
+			return true;
+		}
+	}
+	
+	
+	// Check border
+	else if(has_border)
+	{
+		// Top border
+		if(x >= this->x && x < this->x + this->width &&
+			y >= this-> y && y < this->y + this->border_thickness)
+			return true;
+
+		
+		// Bottom border
+		if(x >= this->x && x < this->x + this->width &&
+			y >= this->y + this->height - this->border_thickness && y < this->y + this->height)
+			return true;
+
+		// Left border
+		if(x >= this-> x && x < this->x + this->border_thickness &&
+			y >= this->y && y < this->y + this->height)
+			return true;
+		
+		// Right border
+		if(x >= this->x + this->width - this->border_thickness && x < this->x + this-> width &&
+			y >= this->y && y < this->y + this->height)
+			return true;
+		
+	}
+
+
+
+
+
 	return false;
 }
 
