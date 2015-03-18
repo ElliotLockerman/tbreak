@@ -1,3 +1,5 @@
+#include "vector"
+
 #include "drawable.h"
 
 /*
@@ -11,37 +13,34 @@ class Box: public Drawable
 {
 private:
 	int width, height, border_thickness;
-	tb_cell border, center;
+	tb_cell border_cell, center_cell;
+	
 	bool has_border, has_center;
 	
-	vector<vector<char_wrapper*>> mat;
-	
-	struct char_wrapper
+	struct special_char
 	{
 		int x;
 		int y;
-		tb_cell cell;
-		
-		bool removed;
-	}
-	// Constructors' helpers
-	void prepare_border();
-	void prepare_center();
+		tb_cell cell;	
+		bool removed; // True if the location has been deleted; checked for colision detection
+	};
+	std::vector<special_char> specials;
+
+	
 	
 
 public:
 	// Border only
-	//Box(int x, int y, int width, int height, int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg);
-	Box(int x, int y, int width, int height, int border_thickness, tb_cell border);
+	Box(int x, int y, int width, int height, int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg);
+
 	
 	// Center only
-	//Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16_t cbg);
-	Box(int x, int y, int width, int height, tb_cell center);
+	Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16_t cbg);
 	
 	// Both border and center
-	//Box(int x, int y, int width, int height, int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg, uint32_t cch, uint16_t cfg, uint16_t cbg);
-	//Box(int x, int y, int width, int height, int border_thickness, tb_cell border,  tb_cell center);
-	
+	Box(int x, int y, int width, int height, int border_thickness,  uint32_t cch, uint16_t cfg, uint16_t cbg, uint32_t bch, uint16_t bfg, uint16_t bbg);
+
+
 	
 	
 	// Replaces the char at the given location with the arguments.
@@ -58,5 +57,7 @@ public:
 	virtual bool contains_point(int x, int y);
 	
 	using Drawable::move_to;
-	virtual bool move_to(int x, int y);
+	virtual void move_to(int x, int y);
+	
+	
 };
