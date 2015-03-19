@@ -7,7 +7,7 @@
 #include "box.h"
 #include "draw_string.h"
 #include "paddle.h"
-
+#include "ball.h"
 
 
 class Game_main
@@ -22,8 +22,9 @@ private:
 	static const int full_height = 24; 
 	
 	std::vector<Box> blocks;
-	Box *border;
-	Paddle *paddle;
+	Box* border;
+	Paddle* paddle;
+	Ball* ball;
 	
 	
 	void sleep(unsigned int miliseconds);

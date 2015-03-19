@@ -1,6 +1,10 @@
 #include <vector>
 
+#ifndef  drawable
 #include "drawable.h"
+#define drawable
+#endif
+
 
 /*
 A box drawn to the terminal, consisting of a single character ch.

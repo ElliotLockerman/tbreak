@@ -10,9 +10,7 @@ protected:
 	int x, y;
 	
 public:
-	
-	
-	
+
 	// Does the drawing (but does not call present())
 	virtual void draw() = 0;
 	

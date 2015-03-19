@@ -74,6 +74,9 @@ int Game_main::run()
 	Paddle paddle(33, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT);
 	this->paddle = &paddle;
 	
+	Ball ball(1, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT);
+	this->ball = &ball;
+	
 	// Game event loop	
 	while(true)
 	{	
@@ -84,9 +87,12 @@ int Game_main::run()
 		blocks.draw();
 		paddle.draw();
 		
+		ball.draw();
+		
 		tb_present();
 		
 		
+		ball.move();
 		
 		
 		
@@ -109,6 +115,9 @@ int Game_main::run()
 				return 0; // Quits
 			}
 		}	
+
+		
+
 
 		sleep(tick);
 	}
