@@ -66,7 +66,7 @@ int Game_main::run()
 	
 
 
-	Box title_background(21, 4, 38, 15, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
+	Box title_background(19, 4, 41, 17, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
 	title_background.draw();
 	
 	draw_string(32, 6, 40, "Terminal Breakout", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
@@ -75,7 +75,9 @@ int Game_main::run()
 	draw_string(36, 12, 40, "Controls", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
 	draw_string(26, 13, 40, "Space: Start/Launch new ball", TB_DEFAULT, TB_DEFAULT);
 	draw_string(25, 14, 40, "Left/Right Arrows: Move paddle", TB_DEFAULT, TB_DEFAULT);
-	draw_string(35, 15, 40, "ESC: Quit", TB_DEFAULT, TB_DEFAULT);
+
+	draw_string(35, 16, 40, "p: Pause", TB_DEFAULT, TB_DEFAULT);
+	draw_string(35, 17, 40, "ESC: Quit", TB_DEFAULT, TB_DEFAULT);
 
 	
 	
@@ -147,8 +149,8 @@ int Game_main::run()
 			if(ev.key == TB_KEY_ARROW_LEFT)
 			{
 				// Check if we can move two (prefered), one or zero spaces
-				bool left_collide_1 = will_collide(&paddle, paddle.get_x() - 1, paddle.get_y());
-				bool left_collide_2 = will_collide(&paddle, paddle.get_x() - 2, paddle.get_y());
+				bool left_collide_1 = will_collide(&paddle, paddle.get_x() - 1, paddle.get_y(), false);
+				bool left_collide_2 = will_collide(&paddle, paddle.get_x() - 2, paddle.get_y(), false);
 			
 				
 				if(!(left_collide_1 || left_collide_2))
@@ -159,36 +161,82 @@ int Game_main::run()
 			else if(ev.key == TB_KEY_ARROW_RIGHT)
 			{
 				// Check if we can move two (prefered), one or zero spaces
-				bool right_collide_1 = will_collide(&paddle, paddle.get_x() + paddle.get_width(), paddle.get_y());
-				bool right_collide_2 = will_collide(&paddle, paddle.get_x() + paddle.get_width() + 1, paddle.get_y());
+				bool right_collide_1 = will_collide(&paddle, paddle.get_x() + paddle.get_width(), paddle.get_y(), false);
+				bool right_collide_2 = will_collide(&paddle, paddle.get_x() + paddle.get_width() + 1, paddle.get_y(), false);
 				
 				if(!(right_collide_1 || right_collide_2))
 					paddle.move_right(2);
 				else if(!right_collide_1)
 					paddle.move_right(1);
 			}
+			if(ev.ch == 'p')
+			{
+				while(true)
+				{
+					
+					Box title_background(27, 4, 26, 7, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
+					title_background.draw();
+					
+					draw_string(37, 6, 40, "Paused", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+					
+					tb_present();
+					
+					
+					int status = tb_poll_event(&ev);
+					if(status > 0 && ev.type == TB_EVENT_KEY)
+					{
+						if(ev.ch == 'p')
+							break;
+						if(ev.key == TB_KEY_ESC)
+							return 0;
+					}
+				}
+				
+			}
 			else if(ev.key == TB_KEY_ESC)
 			{
-				return 0; // Quits
+				while(true)
+				{
+					
+					Box title_background(27, 4, 26, 7, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
+					title_background.draw();
+					
+					draw_string(35, 6, 40, "Quit? (y/n)", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+					
+					tb_present();
+					
+					
+					int status = tb_poll_event(&ev);
+					if(status > 0 && ev.type == TB_EVENT_KEY)
+					{
+						if(ev.ch == 'n')
+							break;
+						if(ev.ch == 'y')
+							return 0;
+					}
+				}
 			}
 		}
 
 
 		// Ball collsion
 		// First find out if it will collide at all
-		if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy))
+		if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy, false))
 		{
 			bool hor_wall = false;
 			bool ver_wall = false;
 			
 			//Then figure out what the angle is
 			// Check if its a horizontal wall, above or below
-			if(will_collide(&ball, ball.get_x(), ball.get_y() + ball.dy))
+			if(will_collide(&ball, ball.get_x(), ball.get_y() + ball.dy, false))
 				hor_wall = true;
 			
 			// next, a ver wall, left or right
-			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y()))
+			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y(), false))
 				ver_wall = true;
+			
+			// If its a wall, delete it
+			will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy, true);
 			
 			
 			// if its a corner (inside or outside), reverse both
@@ -206,6 +254,7 @@ int Game_main::run()
 				ball.dx *= -1;
 			}
 			
+		
 		}
 		ball.move(); // Does not re-draw untill top of next loop
 
@@ -215,14 +264,13 @@ int Game_main::run()
 	
 };
 
-bool Game_main::will_collide(Drawable* object, int x, int y)
+bool Game_main::will_collide(Drawable* object, int x, int y, bool and_delete)
 {
 	if(object != paddle && paddle->contains_point(x, y))
 		return true;
 	
 	if(object != ball && ball->contains_point(x, y))
 		return true;
-	
 	
 	
 	if(border->contains_point(x, y))
@@ -233,7 +281,8 @@ bool Game_main::will_collide(Drawable* object, int x, int y)
 	{
 		if((*blocks_it)->contains_point(x,y))
 		{
-			blocks.remove((*blocks_it));
+			if(and_delete)
+				blocks.remove(*blocks_it);
 			return true;
 		}
 	}

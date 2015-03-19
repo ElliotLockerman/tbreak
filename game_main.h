@@ -32,7 +32,7 @@ private:
 	
 	void sleep(unsigned int miliseconds);
 	
-	bool will_collide(Drawable *object, int x, int y);
+	bool will_collide(Drawable *object, int x, int y, bool and_delete);
 	
 public:
 	int run();
