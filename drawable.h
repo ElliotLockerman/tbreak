@@ -24,7 +24,5 @@ public:
 	virtual int get_x() = 0;
 	virtual int get_y() = 0;
 	
-	// To be called when something collides with the object
-	//virtual void collided() = 0;
 
 };

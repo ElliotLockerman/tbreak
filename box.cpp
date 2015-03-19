@@ -172,7 +172,7 @@ void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg)
 		};
 	
 		specials.push_back(new_special_wrap);
-	
+		
 		matrix[x][y] = &specials.back();
 	}
 	

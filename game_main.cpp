@@ -1,5 +1,7 @@
+#import <iostream>
+
 #import "game_main.h"
- 
+
  
 void Game_main::sleep(unsigned int miliseconds)
 {
@@ -23,8 +25,46 @@ int Game_main::run()
 	this->border = &border;
 	border.draw();
 	
-	Box blocks(1, 3, 78, 6, '=', TB_DEFAULT, TB_DEFAULT);
-	blocks.draw();
+	
+	
+	
+	
+	
+	for(int i = 0; i < 13; i++)
+	{
+		for(int j = 0; j < 4; j++)
+		{
+			int x = (i * 6) + 1;
+			int y = (j * 2) + 3;
+			
+			Box* block = new Box(x, y, 6, 2, '%', TB_DEFAULT, TB_DEFAULT);
+			
+	
+			block->replace_char(0, 0, '|', TB_DEFAULT, TB_DEFAULT);	
+			block->replace_char(0, 1, '|', TB_DEFAULT, TB_DEFAULT);
+			block->replace_char(5, 1, '|', TB_DEFAULT, TB_DEFAULT);
+			block->replace_char(5, 0, '|', TB_DEFAULT, TB_DEFAULT);
+                 
+			block->replace_char(1, 0, '"', TB_DEFAULT, TB_DEFAULT);
+			block->replace_char(2, 0, '"', TB_DEFAULT, TB_DEFAULT);
+			block->replace_char(3, 0, '"', TB_DEFAULT, TB_DEFAULT);
+			block->replace_char(4, 0, '"', TB_DEFAULT, TB_DEFAULT);
+                 
+			block->replace_char(1, 1, '_', TB_DEFAULT, TB_DEFAULT);
+			block->replace_char(2, 1, '_', TB_DEFAULT, TB_DEFAULT);
+			block->replace_char(3, 1, '_', TB_DEFAULT, TB_DEFAULT);
+			block->replace_char(4, 1, '_', TB_DEFAULT, TB_DEFAULT);
+	
+			blocks.push_back(block);
+		}
+	}
+
+	for(blocks_it = blocks.begin(); blocks_it != blocks.end(); blocks_it++)
+	{
+		(*blocks_it)->draw();
+	}
+	
+
 
 	Box title_background(21, 4, 38, 15, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
 	title_background.draw();
@@ -85,6 +125,12 @@ int Game_main::run()
 		
 		border.draw();
 		paddle.draw();
+		border.draw();
+		
+		for(blocks_it = blocks.begin(); blocks_it != blocks.end(); blocks_it++)
+		{
+			(*blocks_it)->draw();
+		}
 		
 		ball.draw();
 		

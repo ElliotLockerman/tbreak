@@ -1,6 +1,6 @@
 #include <time.h>
 #include <string>
-#include <vector>
+#include <list>
 
 #include "termbox.h"
 
@@ -22,7 +22,9 @@ private:
 	static const int full_width = 80;
 	static const int full_height = 24; 
 	
-	std::vector<Box> blocks;
+	std::list<Drawable*> blocks;
+	std::list<Drawable*>::iterator blocks_it;
+	
 	Box* border;
 	Paddle* paddle;
 	Ball* ball;

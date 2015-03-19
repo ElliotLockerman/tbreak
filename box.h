@@ -1,4 +1,5 @@
 #include <vector>
+#include <list>
 
 #include "drawable.h"
 
@@ -25,7 +26,7 @@ private:
 	
 	 // Outer is column/width (x), inner is row/height (y)
 	std::vector<std::vector<char_wrap*> > matrix; 
-	std::vector<char_wrap> specials;
+	std::list<char_wrap> specials;
 
 	void initialize_matrix();
 
