@@ -1,12 +1,4 @@
-#include <time.h>
-
-#include "termbox.h"
-
 #import "game_main.h"
-#include "box.h"
-#include "draw_string.h"
-#include "paddle.h"
-
  
  
 void Game_main::sleep(unsigned int miliseconds)
@@ -19,15 +11,9 @@ void Game_main::sleep(unsigned int miliseconds)
 
 
 
-void Game_main::run()
+int Game_main::run()
 {
-	// Initialize
-	int init_status = tb_init();
-	if(init_status != 0)
-	{ 
-		std::cerr << "tb_init() failed with error code " << init_status << std::endl; 
-		return 1;
-	}
+
 	
 	
 	
@@ -72,7 +58,7 @@ void Game_main::run()
 			if(ev.key == TB_KEY_SPACE) 
 				break; 
 			else if(ev.key == TB_KEY_ESC)
-				return; // Quits
+				return 0; // Quits
 		}	
 
 		sleep(tick);
@@ -122,7 +108,7 @@ void Game_main::run()
 						paddle.move_right();
 						break;
 					case TB_KEY_ESC:
-						return; // Quits
+						return 0; // Quits
 						break;
 				}
 				break;
@@ -131,4 +117,4 @@ void Game_main::run()
 		sleep(tick);
 	}
 	
-}
+};

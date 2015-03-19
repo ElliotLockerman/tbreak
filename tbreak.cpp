@@ -1,12 +1,22 @@
+#include <iostream>
+
 #import "game_main.h"
 
 
 int main()
 {
-	Game_main game();
-	game.run();
+	// Initialize
+	int init_status = tb_init();
+	if(init_status != 0)
+	{ 
+		std::cerr << "tb_init() failed with error code " << init_status << std::endl; 
+		return 1;
+	}
+	
+	Game_main game;
+	int status = game.run();
 
 	tb_shutdown();
-	return 0;
+	return status;
  	
 }
