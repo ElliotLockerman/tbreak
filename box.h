@@ -1,9 +1,7 @@
 #include <vector>
 
-#ifndef  drawable
 #include "drawable.h"
-#define drawable
-#endif
+
 
 
 /*

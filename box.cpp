@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "termbox.h"
 
 #include "box.h"
@@ -26,6 +28,7 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch,
 	this->border_wrap.cell.fg = fg;
 	this->border_wrap.cell.bg = bg;
 
+	this->border_wrap.empty = false;
 	
 	initialize_matrix();
 }
@@ -47,6 +50,8 @@ Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16
 	this->center_wrap.cell.ch = cch;
 	this->center_wrap.cell.fg = cfg;
 	this->center_wrap.cell.bg = cbg;
+	
+	this->center_wrap.empty = false;
 	
 	
 	initialize_matrix();
@@ -72,15 +77,19 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 	this->width = width;
 	this->height = height;
 	
+	
 	this->center_wrap.cell.ch = cch;
 	this->center_wrap.cell.fg = cfg;
 	this->center_wrap.cell.bg = cbg;
+	
+	this->center_wrap.empty = false;
 	
 	
 	this->border_wrap.cell.ch = bch;
 	this->border_wrap.cell.fg = bfg;
 	this->border_wrap.cell.bg = bbg;
 	
+	this->border_wrap.empty = false;
 	
 	initialize_matrix();
 }
@@ -264,7 +273,7 @@ void Box::draw()
 bool Box::contains_point(int x, int y)
 {
 	// Don't want to index out of bounds
-	if(x < this->x || x >= this->x + this->width || y < this-> y || y > this->y + this->height)
+	if(x < this->x || x >= this->x + this->width || y < this-> y || y >= this->y + this->height)
 		return false;
 	
 

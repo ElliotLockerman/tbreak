@@ -1,9 +1,7 @@
 #include "termbox.h"
 
-#ifndef  drawable
 #include "drawable.h"
-#define drawable
-#endif
+
 
 class Ball : public Drawable
 {

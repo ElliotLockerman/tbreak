@@ -8,6 +8,7 @@
 #include "draw_string.h"
 #include "paddle.h"
 #include "ball.h"
+#include "drawable.h"
 
 
 class Game_main
@@ -29,7 +30,8 @@ private:
 	
 	void sleep(unsigned int miliseconds);
 	
-	bool is_collision(int x, int y);
+	bool will_collide(Drawable *object, int x, int y);
+	
 public:
 	int run();
 		

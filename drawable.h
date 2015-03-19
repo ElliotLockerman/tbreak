@@ -1,7 +1,8 @@
+#pragma once
+
 /*
 Represents anything that can be drawn on the screen
 */
-
 class Drawable
 {
 private:

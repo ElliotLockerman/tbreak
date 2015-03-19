@@ -74,7 +74,7 @@ int Game_main::run()
 	Paddle paddle(33, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT);
 	this->paddle = &paddle;
 	
-	Ball ball(1, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT);
+	Ball ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT);
 	this->ball = &ball;
 	
 	// Game event loop	
@@ -84,7 +84,6 @@ int Game_main::run()
 		tb_clear();
 		
 		border.draw();
-		blocks.draw();
 		paddle.draw();
 		
 		ball.draw();
@@ -92,7 +91,6 @@ int Game_main::run()
 		tb_present();
 		
 		
-		ball.move();
 		
 		
 		
@@ -102,21 +100,55 @@ int Game_main::run()
 		{
 			if(ev.key == TB_KEY_ARROW_LEFT)
 			{
-				if(!is_collision(paddle.get_x() - 1, paddle.get_y()))
+				if(!will_collide(&paddle, paddle.get_x() - 1, paddle.get_y()))
 					paddle.move_left();
 			}
 			else if(ev.key == TB_KEY_ARROW_RIGHT)
 			{
-				if(!is_collision(paddle.get_x() + paddle.get_width(), paddle.get_y()))
+				if(!will_collide(&paddle, paddle.get_x() + paddle.get_width(), paddle.get_y()))
 					paddle.move_right();
 			}
 			else if(ev.key == TB_KEY_ESC)
 			{
 				return 0; // Quits
 			}
-		}	
+		}
 
-		
+
+		// Ball collsion
+		// First find out if it will collide at all
+		if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy))
+		{
+			bool hor_wall = false;
+			bool ver_wall = false;
+			
+			//Then figure out what the angle is
+			// Check if its a horizontal wall, above or below
+			if(will_collide(&ball, ball.get_x(), ball.get_y() + ball.dy))
+				hor_wall = true;
+			
+			// next, a ver wall
+			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y()))
+				ver_wall = true;
+			
+			
+			// if its a corner (inside or outside), reverse both
+			if(hor_wall && ver_wall)
+			{
+				ball.dx *= -1;
+				ball.dy *= -1;
+			}
+			else if(hor_wall) // A horizontal wall (ball moving up or down to), reverse dy
+			{
+				ball.dy *= -1;
+			}
+			else if(ver_wall) // A ver wall (ball moving left or right to), reverse dy
+			{
+				ball.dx *= -1;
+			}
+			
+		}
+		ball.move();
 
 
 		sleep(tick);
@@ -124,13 +156,17 @@ int Game_main::run()
 	
 };
 
-bool Game_main::is_collision(int x, int y)
+bool Game_main::will_collide(Drawable* object, int x, int y)
 {
 	
-	if(border->contains_point(x, y))
+	if(object != border && border->contains_point(x, y))
 		return true;
 	
+	if(object != paddle && paddle->contains_point(x, y))
+		return true;
 	
+	if(object != ball && ball->contains_point(x, y))
+		return true;
 	
 	return false;
-}
+};
