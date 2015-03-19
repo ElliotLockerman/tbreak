@@ -217,15 +217,26 @@ int Game_main::run()
 
 bool Game_main::will_collide(Drawable* object, int x, int y)
 {
-	
-	if(object != border && border->contains_point(x, y))
-		return true;
-	
 	if(object != paddle && paddle->contains_point(x, y))
 		return true;
 	
 	if(object != ball && ball->contains_point(x, y))
 		return true;
+	
+	
+	
+	if(border->contains_point(x, y))
+		return true;
+	
+	
+	for(blocks_it = blocks.begin(); blocks_it != blocks.end(); blocks_it++)
+	{
+		if((*blocks_it)->contains_point(x,y))
+		{
+			blocks.remove((*blocks_it));
+			return true;
+		}
+	}
 	
 	return false;
 };
