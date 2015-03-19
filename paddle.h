@@ -19,8 +19,8 @@ public:
 	
 	
 	// Moving paddle
-	void move_left();
-	void move_right();
+	void move_right(int dx);
+	void move_left(int dx);
 	
 	// For launching a new ball
 	void show_ball();

@@ -100,13 +100,26 @@ int Game_main::run()
 		{
 			if(ev.key == TB_KEY_ARROW_LEFT)
 			{
-				if(!will_collide(&paddle, paddle.get_x() - 1, paddle.get_y()))
-					paddle.move_left();
+				// Check if we can move two (prefered), one or zero spaces
+				bool left_collide_1 = will_collide(&paddle, paddle.get_x() - 1, paddle.get_y());
+				bool left_collide_2 = will_collide(&paddle, paddle.get_x() - 2, paddle.get_y());
+			
+				
+				if(!(left_collide_1 || left_collide_2))
+					paddle.move_left(2);
+				else if(!left_collide_1)
+					paddle.move_left(1);
 			}
 			else if(ev.key == TB_KEY_ARROW_RIGHT)
 			{
-				if(!will_collide(&paddle, paddle.get_x() + paddle.get_width(), paddle.get_y()))
-					paddle.move_right();
+				// Check if we can move two (prefered), one or zero spaces
+				bool right_collide_1 = will_collide(&paddle, paddle.get_x() + paddle.get_width(), paddle.get_y());
+				bool right_collide_2 = will_collide(&paddle, paddle.get_x() + paddle.get_width() + 1, paddle.get_y());
+				
+				if(!(right_collide_1 || right_collide_2))
+					paddle.move_right(2);
+				else if(!right_collide_1)
+					paddle.move_right(1);
 			}
 			else if(ev.key == TB_KEY_ESC)
 			{
@@ -127,13 +140,13 @@ int Game_main::run()
 			if(will_collide(&ball, ball.get_x(), ball.get_y() + ball.dy))
 				hor_wall = true;
 			
-			// next, a ver wall
+			// next, a ver wall, left or right
 			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y()))
 				ver_wall = true;
 			
 			
 			// if its a corner (inside or outside), reverse both
-			if(hor_wall && ver_wall)
+			if((hor_wall && ver_wall) || (!hor_wall && !ver_wall))
 			{
 				ball.dx *= -1;
 				ball.dy *= -1;
@@ -148,7 +161,7 @@ int Game_main::run()
 			}
 			
 		}
-		ball.move();
+		ball.move(); // Does not re-draw untill top of next loop
 
 
 		sleep(tick);
