@@ -15,7 +15,7 @@ void Game_main::sleep(unsigned int miliseconds)
 
 int Game_main::run()
 {
-
+	
 	
 	// Draw title screen
 	tb_clear();
@@ -25,6 +25,11 @@ int Game_main::run()
 	this->border = &border;
 	border.draw();
 	
+	lives = 3;
+	score = 0;
+	
+	draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
+	draw_string(50, 1, 10, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
 	
 	
 	
@@ -126,6 +131,10 @@ int Game_main::run()
 		tb_clear();
 		
 		border.draw();
+		
+		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
+		draw_string(50, 1, 15, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
+		
 		paddle.draw();
 		border.draw();
 		
@@ -282,7 +291,10 @@ bool Game_main::will_collide(Drawable* object, int x, int y, bool and_delete)
 		if((*blocks_it)->contains_point(x,y))
 		{
 			if(and_delete)
+			{
+				score += 10;
 				blocks.remove(*blocks_it);
+			}
 			return true;
 		}
 	}

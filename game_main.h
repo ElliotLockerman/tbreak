@@ -22,6 +22,9 @@ private:
 	static const int full_width = 80;
 	static const int full_height = 24; 
 	
+	int lives;
+	int score;
+	
 	std::list<Drawable*> blocks;
 	std::list<Drawable*>::iterator blocks_it;
 	
