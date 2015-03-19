@@ -54,7 +54,7 @@ public:
 	
 	// Drawable implementations. See drawable.h
 	using Drawable::draw;
-	virtual void draw ();
+	virtual void draw();
 	
 	// X and Y are absolute
 	using Drawable::contains_point;
@@ -64,5 +64,14 @@ public:
 	using Drawable::move_to;
 	virtual void move_to(int x, int y);
 	
+	
+	using Drawable::get_x;
+	virtual int get_x();
+	
+	using Drawable::get_y;
+	virtual int get_y();
+	
+	int get_width(){return width;}
+	int get_height(){return height;}
 	
 };

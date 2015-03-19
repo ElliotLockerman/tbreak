@@ -15,14 +15,12 @@ int Game_main::run()
 {
 
 	
-	
-	
-	
 	// Draw title screen
 	tb_clear();
 	
 	
 	Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
+	this->border = &border;
 	border.draw();
 	
 	Box blocks(1, 3, 78, 6, '=', TB_DEFAULT, TB_DEFAULT);
@@ -73,11 +71,10 @@ int Game_main::run()
 
 
 	// Prepare game
-
 	Paddle paddle(33, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT);
-
+	this->paddle = &paddle;
 	
-	// Game event loop
+	// Game event loop	
 	while(true)
 	{	
 		
@@ -92,29 +89,39 @@ int Game_main::run()
 		
 		
 		
+		
 		int status = tb_peek_event(&ev, peek_time);
 		
-		if(status > 0)
+		if(status > 0 && ev.type == TB_EVENT_KEY) 
 		{
-			switch (ev.type) 
+			if(ev.key == TB_KEY_ARROW_LEFT)
 			{
-			case TB_EVENT_KEY:
-				switch (ev.key) 
-				{
-					case TB_KEY_ARROW_LEFT:
-						paddle.move_left();
-						break;
-					case TB_KEY_ARROW_RIGHT:
-						paddle.move_right();
-						break;
-					case TB_KEY_ESC:
-						return 0; // Quits
-						break;
-				}
-				break;
+				if(!is_collision(paddle.get_x() - 1, paddle.get_y()))
+					paddle.move_left();
 			}
-		}
+			else if(ev.key == TB_KEY_ARROW_RIGHT)
+			{
+				if(!is_collision(paddle.get_x() + paddle.get_width(), paddle.get_y()))
+					paddle.move_right();
+			}
+			else if(ev.key == TB_KEY_ESC)
+			{
+				return 0; // Quits
+			}
+		}	
+
 		sleep(tick);
 	}
 	
 };
+
+bool Game_main::is_collision(int x, int y)
+{
+	
+	if(border->contains_point(x, y))
+		return true;
+	
+	
+	
+	return false;
+}

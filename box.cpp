@@ -285,5 +285,10 @@ void Box::move_to(int x, int y)
 	return;
 }
 
+int Box::get_x(){return x;};
+
+int Box::get_y(){return y;};
+
+
 // End drawables
 // ********************************************************

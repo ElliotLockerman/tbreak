@@ -7,9 +7,12 @@ class Drawable
 private:
 	
 protected:
-	int x, y;	
+	int x, y;
 	
 public:
+	
+	
+	
 	// Does the drawing (but does not call present())
 	virtual void draw() = 0;
 	
@@ -18,7 +21,9 @@ public:
 	
 	// Changes x and y. Updates on the next calls to tb_clear(), draw(), tb_present(). 
 	virtual void move_to(int x, int y) = 0;
-	
+
+	virtual int get_x() = 0;
+	virtual int get_y() = 0;
 	
 	// To be called when something collides with the object
 	//virtual void collided() = 0;
