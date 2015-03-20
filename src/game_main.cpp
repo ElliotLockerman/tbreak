@@ -228,7 +228,29 @@ int Game_main::run()
 							if(ev.ch == 'p')
 								break;
 							if(ev.key == TB_KEY_ESC)
-								return 0;
+							{
+								while(true)
+								{
+					
+									Box title_background(27, 4, 26, 7, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
+									title_background.draw();
+					
+									draw_string(35, 6, 40, "Quit? (y/n)", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+					
+									tb_present();
+					
+					
+									int status = tb_poll_event(&ev);
+									if(status > 0 && ev.type == TB_EVENT_KEY)
+									{
+										if(ev.ch == 'n')
+											break;
+										if(ev.ch == 'y')
+											return 0;
+									}
+								}
+							}
+								
 						}
 					}
 				
