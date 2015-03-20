@@ -25,6 +25,8 @@ private:
 	int lives;
 	int score;
 	
+	bool ball_in_play;
+	
 	std::list<Drawable*> blocks;
 	std::list<Drawable*>::iterator blocks_it;
 	

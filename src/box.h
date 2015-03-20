@@ -15,7 +15,6 @@ For information on ch, fg and bg, see termbox.h
 class Box: public Drawable
 {
 private:
-	int width, height, border_thickness;
 	bool has_border, has_center;
 	
 	struct char_wrap
@@ -30,6 +29,9 @@ private:
 
 	void initialize_matrix();
 
+protected:
+	int width, height, border_thickness;
+	
 
 public:
 	// Border only

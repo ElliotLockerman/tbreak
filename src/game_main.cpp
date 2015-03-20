@@ -124,6 +124,8 @@ int Game_main::run()
 	Ball ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT);
 	this->ball = &ball;
 	
+	ball_in_play = false;
+	
 	// Game event loop	
 	while(true)
 	{	
@@ -143,7 +145,8 @@ int Game_main::run()
 			(*blocks_it)->draw();
 		}
 		
-		ball.draw();
+		if(ball_in_play)
+			ball.draw();
 		
 		tb_present();
 		
@@ -155,7 +158,26 @@ int Game_main::run()
 		
 		if(status > 0 && ev.type == TB_EVENT_KEY) 
 		{
-			if(ev.key == TB_KEY_ARROW_LEFT)
+			
+			if(ev.key == TB_KEY_SPACE)
+			{
+				if(!ball_in_play)
+				{
+					int ran = rand() % 100;
+					int dx;
+					if(ran > 50)
+						dx = 1;
+					else
+						dx = -1;
+										
+					ball.dx = dx;
+					paddle.remove_ball();
+					ball_in_play = true;
+					ball.move_to(paddle.ball_x(), paddle.get_y());
+				}
+				
+			}
+			else if(ev.key == TB_KEY_ARROW_LEFT)
 			{
 				// Check if we can move two (prefered), one or zero spaces
 				bool left_collide_1 = will_collide(&paddle, paddle.get_x() - 1, paddle.get_y(), false);
@@ -265,7 +287,8 @@ int Game_main::run()
 			
 		
 		}
-		ball.move(); // Does not re-draw untill top of next loop
+		if(ball_in_play)
+			ball.move(); // Does not re-draw untill top of next loop
 
 
 		sleep(tick);
