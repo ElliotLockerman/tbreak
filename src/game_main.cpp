@@ -24,9 +24,7 @@ int Game_main::run()
 		Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 		this->border = &border;
 		border.draw();
-	
-		lives = 3;
-		score = 0;
+
 	
 		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
 		draw_string(50, 1, 10, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
@@ -113,22 +111,21 @@ int Game_main::run()
 	
 	
 	
-	
-	
+	// Prepare game
+	Paddle paddle(33, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT);
+	this->paddle = &paddle;
+
+	Ball ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT);
+	this->ball = &ball;
 	
 	
 
 	while(true)
 	{
 
-
-		// Prepare game
-		Paddle paddle(33, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT);
-		this->paddle = &paddle;
-	
-		Ball ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT);
-		this->ball = &ball;
-	
+		lives = 3;
+		score = 0;
+		
 		ball_in_play = false;
 		game_status = false;
 	
@@ -353,7 +350,7 @@ int Game_main::run()
 	
 			draw_string(33, 8, 40, std::to_string(score) + "/520 points", TB_DEFAULT, TB_DEFAULT);
 	
-			draw_string(29, 13, 40, "Press space to play again", TB_DEFAULT, TB_DEFAULT);
+			draw_string(27, 13, 40, "Press space to play again", TB_DEFAULT, TB_DEFAULT);
 	
 	
 	
@@ -379,9 +376,8 @@ int Game_main::run()
 		}
 		
 		// Prepare for next game
-		lives = 3;
-		score = 0;
 		
+		blocks.clear();
 		
 		for(int i = 0; i < 13; i++)
 		{
