@@ -158,25 +158,28 @@ int Game_main::run()
 		
 		if(status > 0 && ev.type == TB_EVENT_KEY) 
 		{
-			
+			// Launch ball
 			if(ev.key == TB_KEY_SPACE)
 			{
 				if(!ball_in_play)
 				{
 					int ran = rand() % 100;
+					
 					int dx;
 					if(ran > 50)
 						dx = 1;
-					else
+					if(ran <= 50)
 						dx = -1;
+						
 										
 					ball.dx = dx;
-					paddle.remove_ball();
+					paddle.ball = false;
 					ball_in_play = true;
 					ball.move_to(paddle.ball_x(), paddle.get_y());
 				}
 				
 			}
+			// Move paddle left
 			else if(ev.key == TB_KEY_ARROW_LEFT)
 			{
 				// Check if we can move two (prefered), one or zero spaces
@@ -189,6 +192,7 @@ int Game_main::run()
 				else if(!left_collide_1)
 					paddle.move_left(1);
 			}
+			// Move paddle right
 			else if(ev.key == TB_KEY_ARROW_RIGHT)
 			{
 				// Check if we can move two (prefered), one or zero spaces
@@ -200,6 +204,7 @@ int Game_main::run()
 				else if(!right_collide_1)
 					paddle.move_right(1);
 			}
+			// Pause
 			if(ev.ch == 'p')
 			{
 				while(true)
@@ -224,6 +229,7 @@ int Game_main::run()
 				}
 				
 			}
+			// Quit
 			else if(ev.key == TB_KEY_ESC)
 			{
 				while(true)
@@ -251,7 +257,7 @@ int Game_main::run()
 
 
 		// Ball collsion
-		// First find out if it will collide at all
+		// First find out if it will collide with an object at all
 		if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy, false))
 		{
 			bool hor_wall = false;
@@ -287,6 +293,20 @@ int Game_main::run()
 			
 		
 		}
+		// Now check if it will hit the bottom
+		if(ball_in_play && ball.get_y() == 22)
+		{
+			paddle.ball = true;
+			ball_in_play = false;
+			lives--;
+			if(lives == 0)
+				return 0;
+		}
+		
+		
+		
+		
+		
 		if(ball_in_play)
 			ball.move(); // Does not re-draw untill top of next loop
 
@@ -295,6 +315,12 @@ int Game_main::run()
 	}
 	
 };
+
+
+
+
+
+
 
 bool Game_main::will_collide(Drawable* object, int x, int y, bool and_delete)
 {

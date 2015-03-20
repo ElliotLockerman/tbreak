@@ -8,10 +8,6 @@ void Paddle::draw()
 		tb_put_cell(x + (width / 2), y, &ball_cell);
 }
 
-void Paddle::remove_ball()
-{
-	ball = false;
-}
 
 int Paddle::ball_x()
 {

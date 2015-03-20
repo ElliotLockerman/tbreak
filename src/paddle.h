@@ -7,10 +7,11 @@
 class Paddle : public Box
 {
 private:
-	bool ball;
 	tb_cell ball_cell;
 
 public:
+	bool ball;
+	
 	
 	Paddle(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16_t cbg) : 
 		Box(x, y, width, height, cch, cfg, cbg)
@@ -29,9 +30,7 @@ public:
 	
 	// Get the ball's x position
 	int ball_x();
-	
-	// To be called upon launching it
-	void remove_ball();
+
 	
 	// Moving paddle
 	void move_right(int dx);
