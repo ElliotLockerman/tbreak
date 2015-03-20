@@ -113,6 +113,10 @@ int Game_main::run()
 	
 	
 	
+	
+	
+	
+	
 
 
 
@@ -125,6 +129,7 @@ int Game_main::run()
 	this->ball = &ball;
 	
 	ball_in_play = false;
+	game_status = false;
 	
 	// Game event loop	
 	while(true)
@@ -163,6 +168,7 @@ int Game_main::run()
 			{
 				if(!ball_in_play)
 				{
+					srand (time(NULL));
 					int ran = rand() % 100;
 					
 					int dx;
@@ -299,8 +305,11 @@ int Game_main::run()
 			paddle.ball = true;
 			ball_in_play = false;
 			lives--;
-			if(lives == 0)
-				return 0;
+			if(lives == 0)	
+			{
+				status = false;
+				break;
+			}
 		}
 		
 		
@@ -310,6 +319,60 @@ int Game_main::run()
 		if(ball_in_play)
 			ball.move(); // Does not re-draw untill top of next loop
 
+
+		// Check if the game was won
+		if(blocks.size() == 0)
+		{
+			game_status = true;
+			break;
+		}
+
+		sleep(tick);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	// Ending screen
+	
+	title_background.draw();
+	
+	if(game_status == true)
+	{	
+		draw_string(36, 6, 40, "You Won!", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+	}
+	else
+	{
+		draw_string(35, 6, 40, "Game Over", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		
+	}
+	
+		draw_string(33, 8, 40, std::to_string(score) + "/520 points", TB_DEFAULT, TB_DEFAULT);
+	
+		draw_string(29, 13, 40, "Press any key to quit", TB_DEFAULT, TB_DEFAULT);
+	
+	
+	
+	
+	tb_present();
+	
+
+	
+	
+	// Title screen event loop
+	
+	while(true)
+	{	
+		int status = tb_peek_event(&ev, peek_time);
+		
+		if(status > 0 && ev.type == TB_EVENT_KEY) 
+		{
+			return 0; // Quits				
+		}	
 
 		sleep(tick);
 	}

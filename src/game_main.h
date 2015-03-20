@@ -26,6 +26,7 @@ private:
 	int score;
 	
 	bool ball_in_play;
+	bool game_status; // True for no more blocks, false for out of lives
 	
 	std::list<Drawable*> blocks;
 	std::list<Drawable*>::iterator blocks_it;
