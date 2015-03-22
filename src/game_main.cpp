@@ -123,9 +123,8 @@ int Game_main::run()
 	Ball ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT);
 	this->ball = &ball;
 	
-	
-
-
+	ball_in_play = false;
+	game_status = false;
 	
 	
 	while(true)
@@ -327,8 +326,11 @@ int Game_main::run()
 					ball.dx *= -1;
 				}
 			}
-			hit_blocks.clear(); // If there wasen't a collision, clear the checks
-			
+			else
+				{
+					// If case there wasn't a collision, clear the hit blocks
+					hit_blocks.clear();
+				}
 			
 			// Now check if it will hit the bottom
 			if(ball_in_play && ball.get_y() == 22)
@@ -491,9 +493,7 @@ void Game_main::delete_hit()
 {
 	for(hit_it = hit_blocks.begin(); hit_it != hit_blocks.end(); hit_it++)
 	{
-		
-		score += 10;
-				
+		score += 10;	
 		blocks.remove(*hit_it);		
 	}
 	hit_blocks.clear();
