@@ -1,14 +1,9 @@
 #import <iostream>
 
 #import "game_main.h"
-
+#import "utility.h"
  
-void Game_main::sleep(unsigned int miliseconds)
-{
-	unsigned int micro = 1000 * miliseconds;
-    clock_t goal = micro + clock();
-    while (clock() < goal);
-}
+
 
 
 
