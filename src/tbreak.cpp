@@ -1,7 +1,7 @@
 #include <iostream>
 
 #import "game_main.h"
-
+#import "utility.h"
 
 int main()
 {
@@ -14,9 +14,8 @@ int main()
 	}
 	
 	Game_main game;
-	int status = game.run();
+	game.run();
 
-	tb_shutdown();
-	return status;
- 	
+	
+ 	quit();
 }

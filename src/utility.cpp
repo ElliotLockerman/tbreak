@@ -6,3 +6,9 @@ void sleep(unsigned int miliseconds)
     clock_t goal = micro + clock();
     while (clock() < goal);
 }
+
+void quit()
+{
+	tb_shutdown();
+	std::exit(0);
+}
