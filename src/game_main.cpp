@@ -19,12 +19,17 @@ int Game_main::run()
 	
 		// Draw title screen
 		tb_clear();
+		
+		
 	
 	
 		Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 		this->border = &border;
 		border.draw();
-
+		
+		
+		lives = 3;
+		score = 0;
 	
 		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
 		draw_string(50, 1, 10, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
@@ -58,7 +63,7 @@ int Game_main::run()
 				block->replace_char(3, 1, '_', TB_DEFAULT, TB_DEFAULT);
 				block->replace_char(4, 1, '_', TB_DEFAULT, TB_DEFAULT);
 	
-				blocks.push_back(block);
+				blocks.push_back(std::shared_ptr<Box>(block));
 			}
 		}
 
@@ -112,7 +117,7 @@ int Game_main::run()
 	
 	
 	// Prepare game
-	Paddle paddle(33, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT);
+	Paddle paddle(32, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT);
 	this->paddle = &paddle;
 
 	Ball ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT);
@@ -120,14 +125,20 @@ int Game_main::run()
 	
 	
 
+
+	
+	
 	while(true)
 	{
 
-		lives = 3;
-		score = 0;
-		
 		ball_in_play = false;
 		game_status = false;
+		
+		if(game_status == false)
+		{
+			lives = 3;
+			score = 0;
+		}
 	
 		// Game event loop	
 		while(true)
@@ -174,9 +185,10 @@ int Game_main::run()
 							dx = 1;
 						if(ran <= 50)
 							dx = -1;
-						
 										
 						ball.dx = dx;
+						ball.dy = -1;
+						
 						paddle.ball = false;
 						ball_in_play = true;
 						ball.move_to(paddle.ball_x(), paddle.get_y());
@@ -298,9 +310,10 @@ int Game_main::run()
 				if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y()))
 					ver_wall = true;
 			
-				// Delete all hit blocks
+				// Delete all hit blocks, also incriments score
 				clear_hit();
 			
+				
 				// if its a corner (inside or outside), reverse both
 				if((hor_wall && ver_wall) || (!hor_wall && !ver_wall))
 				{
@@ -361,16 +374,17 @@ int Game_main::run()
 		if(game_status == true)
 		{	
 			draw_string(36, 6, 40, "You Won!", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+			draw_string(25, 13, 40, "Press space to play next level", TB_DEFAULT, TB_DEFAULT);
 		}
 		else
 		{
 			draw_string(35, 6, 40, "Game Over", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-		
+			draw_string(27, 13, 40, "Press space to play again", TB_DEFAULT, TB_DEFAULT);
 		}
 	
 			draw_string(33, 8, 40, std::to_string(score) + "/520 points", TB_DEFAULT, TB_DEFAULT);
 	
-			draw_string(27, 13, 40, "Press space to play again", TB_DEFAULT, TB_DEFAULT);
+			
 	
 	
 	
@@ -424,7 +438,7 @@ int Game_main::run()
 				block->replace_char(3, 1, '_', TB_DEFAULT, TB_DEFAULT);
 				block->replace_char(4, 1, '_', TB_DEFAULT, TB_DEFAULT);
 	
-				blocks.push_back(block);
+				blocks.push_back(std::shared_ptr<Box>(block));
 			}
 		}
 
@@ -462,9 +476,7 @@ bool Game_main::will_collide(Drawable* object, int x, int y)
 	{
 		if((*blocks_it)->contains_point(x,y))
 		{
-			score += 10;
-			hit_blocks.push_back(*blocks_it);
-			blocks.remove(*blocks_it);
+			hit_blocks.insert(*blocks_it);
 			
 			return true;
 		}
@@ -478,10 +490,16 @@ bool Game_main::will_collide(Drawable* object, int x, int y)
 
 void Game_main::clear_hit()
 {
-	for(blocks_it = hit_blocks.begin(); blocks_it != hit_blocks.end(); blocks_it++)
+	//std::cerr << "clear_hit()" << std::endl;
+	//std::cerr << hit_blocks.size() << std::endl;
+	
+	for(hit_it = hit_blocks.begin(); hit_it != hit_blocks.end(); hit_it++)
 	{
-		delete *blocks_it;
-		hit_blocks.erase(blocks_it);
+		
+		score += 10;
+				
+		blocks.remove(*hit_it);		
 	}
-
+	hit_blocks.clear();
+	//std::cerr << hit_blocks.size() << std::endl << std::endl;
 };

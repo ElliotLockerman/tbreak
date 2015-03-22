@@ -1,6 +1,7 @@
 #include <time.h>
 #include <string>
 #include <list>
+#include <set>
 
 #include "termbox.h"
 
@@ -28,10 +29,12 @@ private:
 	bool ball_in_play;
 	bool game_status; // True for no more blocks (i.e. perfect game), false for out of lives
 	
-	std::list<Box*> blocks;
-	std::list<Box*> hit_blocks;
-	std::list<Box*>::iterator blocks_it;
+	std::list<std::shared_ptr<Box> > blocks;
+	std::list<std::shared_ptr<Box> >::iterator blocks_it;
 	
+	std::set<std::shared_ptr<Box> > hit_blocks;
+	std::set<std::shared_ptr<Box> >::iterator hit_it;
+		
 	Box* border;
 	Paddle* paddle;
 	Ball* ball;
