@@ -26,10 +26,11 @@ private:
 	int score;
 	
 	bool ball_in_play;
-	bool game_status; // True for no more blocks, false for out of lives
+	bool game_status; // True for no more blocks (i.e. perfect game), false for out of lives
 	
-	std::list<Drawable*> blocks;
-	std::list<Drawable*>::iterator blocks_it;
+	std::list<Box*> blocks;
+	std::list<Box*> hit_blocks;
+	std::list<Box*>::iterator blocks_it;
 	
 	Box* border;
 	Paddle* paddle;
@@ -38,7 +39,10 @@ private:
 	
 	void sleep(unsigned int miliseconds);
 	
-	bool will_collide(Drawable *object, int x, int y, bool and_delete);
+	bool will_collide(Drawable *object, int x, int y);
+	
+	// Deletes all hit_blocks
+	void clear_hit();
 	
 public:
 	int run();

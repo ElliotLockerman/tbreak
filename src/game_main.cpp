@@ -187,8 +187,8 @@ int Game_main::run()
 				else if(ev.key == TB_KEY_ARROW_LEFT)
 				{
 					// Check if we can move two (prefered), one or zero spaces
-					bool left_collide_1 = will_collide(&paddle, paddle.get_x() - 1, paddle.get_y(), false);
-					bool left_collide_2 = will_collide(&paddle, paddle.get_x() - 2, paddle.get_y(), false);
+					bool left_collide_1 = will_collide(&paddle, paddle.get_x() - 1, paddle.get_y());
+					bool left_collide_2 = will_collide(&paddle, paddle.get_x() - 2, paddle.get_y());
 			
 				
 					if(!(left_collide_1 || left_collide_2))
@@ -200,8 +200,8 @@ int Game_main::run()
 				else if(ev.key == TB_KEY_ARROW_RIGHT)
 				{
 					// Check if we can move two (prefered), one or zero spaces
-					bool right_collide_1 = will_collide(&paddle, paddle.get_x() + paddle.get_width(), paddle.get_y(), false);
-					bool right_collide_2 = will_collide(&paddle, paddle.get_x() + paddle.get_width() + 1, paddle.get_y(), false);
+					bool right_collide_1 = will_collide(&paddle, paddle.get_x() + paddle.get_width(), paddle.get_y());
+					bool right_collide_2 = will_collide(&paddle, paddle.get_x() + paddle.get_width() + 1, paddle.get_y());
 				
 					if(!(right_collide_1 || right_collide_2))
 						paddle.move_right(2);
@@ -284,23 +284,22 @@ int Game_main::run()
 
 			// Ball collsion
 			// First find out if it will collide with an object at all
-			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy, false))
+			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy))
 			{
 				bool hor_wall = false;
 				bool ver_wall = false;
 			
 				//Then figure out what the angle is
 				// Check if its a horizontal wall, above or below
-				if(will_collide(&ball, ball.get_x(), ball.get_y() + ball.dy, false))
+				if(will_collide(&ball, ball.get_x(), ball.get_y() + ball.dy))
 					hor_wall = true;
 			
 				// next, a ver wall, left or right
-				if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y(), false))
+				if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y()))
 					ver_wall = true;
 			
-				// If its a wall, delete it
-				will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy, true);
-			
+				// Delete all hit blocks
+				clear_hit();
 			
 				// if its a corner (inside or outside), reverse both
 				if((hor_wall && ver_wall) || (!hor_wall && !ver_wall))
@@ -334,8 +333,7 @@ int Game_main::run()
 		
 		
 		
-		
-		
+	
 			if(ball_in_play)
 				ball.move(); // Does not re-draw untill top of next loop
 
@@ -447,7 +445,7 @@ int Game_main::run()
 
 
 
-bool Game_main::will_collide(Drawable* object, int x, int y, bool and_delete)
+bool Game_main::will_collide(Drawable* object, int x, int y)
 {
 	if(object != paddle && paddle->contains_point(x, y))
 		return true;
@@ -464,14 +462,26 @@ bool Game_main::will_collide(Drawable* object, int x, int y, bool and_delete)
 	{
 		if((*blocks_it)->contains_point(x,y))
 		{
-			if(and_delete)
-			{
-				score += 10;
-				blocks.remove(*blocks_it);
-			}
+			score += 10;
+			hit_blocks.push_back(*blocks_it);
+			blocks.remove(*blocks_it);
+			
 			return true;
 		}
 	}
 	
 	return false;
+};
+
+
+
+
+void Game_main::clear_hit()
+{
+	for(blocks_it = hit_blocks.begin(); blocks_it != hit_blocks.end(); blocks_it++)
+	{
+		delete *blocks_it;
+		hit_blocks.erase(blocks_it);
+	}
+
 };
