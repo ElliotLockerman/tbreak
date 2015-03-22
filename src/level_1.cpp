@@ -140,7 +140,7 @@ Level_status Level_1::run()
 					title_background.draw();
 			
 					draw_string(37, 6, 40, "Paused", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-					draw_string(35, 6, 40, "Press p to unpause", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+					draw_string(31, 8, 40, "Press p to unpause", TB_DEFAULT, TB_DEFAULT);
 					
 					tb_present();
 			
