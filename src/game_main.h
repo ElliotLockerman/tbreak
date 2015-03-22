@@ -45,7 +45,7 @@ private:
 	bool will_collide(Drawable *object, int x, int y);
 	
 	// Deletes all hit_blocks
-	void clear_hit();
+	void delete_hit();
 	
 public:
 	int run();

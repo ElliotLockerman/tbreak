@@ -130,15 +130,15 @@ int Game_main::run()
 	
 	while(true)
 	{
-
-		ball_in_play = false;
-		game_status = false;
-		
+				
 		if(game_status == false)
 		{
 			lives = 3;
 			score = 0;
 		}
+		
+		ball_in_play = false;
+		game_status = false;
 	
 		// Game event loop	
 		while(true)
@@ -155,9 +155,8 @@ int Game_main::run()
 			border.draw();
 		
 			for(blocks_it = blocks.begin(); blocks_it != blocks.end(); blocks_it++)
-			{
 				(*blocks_it)->draw();
-			}
+			
 		
 			if(ball_in_play)
 				ball.draw();
@@ -295,23 +294,22 @@ int Game_main::run()
 
 
 			// Ball collsion
-			// First find out if it will collide with an object at all
-			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy))
+			bool hor_wall = false;
+			bool ver_wall = false;
+		
+			// Check if its a horizontal wall, above or below
+			if(will_collide(&ball, ball.get_x(), ball.get_y() + ball.dy))
+				hor_wall = true;
+			
+			// next, a ver wall, left or right
+			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y()))
+				ver_wall = true;
+			
+			// A colission is one directly forwards or both hor and ver
+			if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y() + ball.dy) || (ver_wall && hor_wall))
 			{
-				bool hor_wall = false;
-				bool ver_wall = false;
-			
-				//Then figure out what the angle is
-				// Check if its a horizontal wall, above or below
-				if(will_collide(&ball, ball.get_x(), ball.get_y() + ball.dy))
-					hor_wall = true;
-			
-				// next, a ver wall, left or right
-				if(will_collide(&ball, ball.get_x() + ball.dx, ball.get_y()))
-					ver_wall = true;
-			
 				// Delete all hit blocks, also incriments score
-				clear_hit();
+				delete_hit();
 			
 				
 				// if its a corner (inside or outside), reverse both
@@ -328,9 +326,10 @@ int Game_main::run()
 				{
 					ball.dx *= -1;
 				}
-			
-		
 			}
+			hit_blocks.clear(); // If there wasen't a collision, clear the checks
+			
+			
 			// Now check if it will hit the bottom
 			if(ball_in_play && ball.get_y() == 22)
 			{
@@ -488,11 +487,8 @@ bool Game_main::will_collide(Drawable* object, int x, int y)
 
 
 
-void Game_main::clear_hit()
+void Game_main::delete_hit()
 {
-	//std::cerr << "clear_hit()" << std::endl;
-	//std::cerr << hit_blocks.size() << std::endl;
-	
 	for(hit_it = hit_blocks.begin(); hit_it != hit_blocks.end(); hit_it++)
 	{
 		
@@ -501,5 +497,4 @@ void Game_main::clear_hit()
 		blocks.remove(*hit_it);		
 	}
 	hit_blocks.clear();
-	//std::cerr << hit_blocks.size() << std::endl << std::endl;
 };
