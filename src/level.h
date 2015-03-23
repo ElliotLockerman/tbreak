@@ -20,6 +20,7 @@ protected:
 	tb_event ev;
 	
 	int lives;
+	int level;
 	int score;
 	
 	bool ball_in_play;

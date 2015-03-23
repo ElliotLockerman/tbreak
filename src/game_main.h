@@ -9,6 +9,7 @@
 
 #include "level_a_1.h"
 #include "level_a_2.h"
+#include "level_a_3.h"
 
 class Game_main
 {

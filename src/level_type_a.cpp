@@ -26,6 +26,7 @@ Level_status Level_type_a::run()
 		border->draw();
 
 		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
+		draw_string(35, 1, 10, "Level: " + std::to_string(level), TB_DEFAULT, TB_DEFAULT);
 		draw_string(50, 1, 15, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
 
 		paddle->draw();
@@ -262,6 +263,7 @@ Level_status Level_type_a::run()
 		tb_clear();
 		
 		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
+		draw_string(35, 1, 10, "Level: " + std::to_string(level), TB_DEFAULT, TB_DEFAULT);
 		draw_string(50, 1, 15, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
 		
 		paddle->draw();

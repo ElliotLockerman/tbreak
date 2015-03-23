@@ -17,6 +17,6 @@ private:
 	
 	
 public:	
-	Level_a_1(int lives, int score);
+	Level_a_1(int lives, int level, int score);
 
 };

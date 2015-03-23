@@ -1,8 +1,9 @@
 #include "level_a_1.h"
 
-Level_a_1::Level_a_1(int lives, int score)
+Level_a_1::Level_a_1(int lives, int level, int score)
 {
 	this->lives = lives;
+	this->level = level;
 	this->score = score;
 	
 	ball_in_play = false;

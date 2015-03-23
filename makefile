@@ -1,2 +1,2 @@
 all:
-	g++ src/tbreak.cpp src/utility.cpp src/game_main.cpp src/window.cpp src/level_type_a.cpp src/level_a_1.cpp src/level_a_2.cpp  src/box.cpp src/draw_string.cpp src/paddle.cpp  src/ball.cpp -o tbreak -ltermbox
+	g++ src/tbreak.cpp src/utility.cpp src/game_main.cpp src/window.cpp src/level_type_a.cpp src/level_a_1.cpp src/level_a_2.cpp src/level_a_3.cpp  src/box.cpp src/draw_string.cpp src/paddle.cpp  src/ball.cpp -o tbreak -ltermbox

@@ -99,7 +99,7 @@ Level_status Game_main::run()
 		
 		
 		// Level 1
-		Level_a_1 level_a_1(lives, score);
+		Level_a_1 level_a_1(lives, 1, score);
 		status = level_a_1.run();
 		if(status == WON)
 		{
@@ -117,7 +117,7 @@ Level_status Game_main::run()
 		
 		
 		// Level 2
-		Level_a_2 level_a_2(lives, score);
+		Level_a_2 level_a_2(lives, 2, score);
 		status = level_a_2.run();
 		if(status == WON)
 		{
@@ -129,12 +129,29 @@ Level_status Game_main::run()
 			return status;
 		}
 		
-	
+		
+		
+		
+		
+		// Level 3
+		Level_a_3 level_a_3(lives, 3, score);
+		status = level_a_3.run();
+		if(status == WON)
+		{
+			lives = level_a_3.get_lives();
+			score = level_a_3.get_score();
+		}
+		else
+		{
+			return status;
+		}
 	
 	
 	
 	
 		tb_clear();
+	
+		border.draw();
 	
 		// End screen
 		Window end_win(Window::CENTER, 4, 40, 10, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
