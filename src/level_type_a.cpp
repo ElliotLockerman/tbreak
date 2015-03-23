@@ -1,58 +1,8 @@
-#include "level_1.h"
-
-Level_1::Level_1(int lives, int score)
-{
-	this->lives = lives;
-	this->score = score;
-	
-	ball_in_play = false;
-	level_status = OUT_OF_LIVES; // Just so its not uninitialized
-	
-	
-	border.reset(new Box(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT));
-	paddle.reset(new Paddle(32, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT));
-	ball.reset(new Ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT));
-
-	
-		
-	// Draw blocks
-	for(int i = 0; i < 13; i++)
-	{
-		for(int j = 0; j < 4; j++)
-		{
-			int x = (i * 6) + 1;
-			int y = (j * 2) + 3;
-		
-			Box* block = new Box(x, y, 6, 2, '%', TB_DEFAULT, TB_DEFAULT);
-		
-
-			block->replace_char(0, 0, '|', TB_DEFAULT, TB_DEFAULT);	
-			block->replace_char(0, 1, '|', TB_DEFAULT, TB_DEFAULT);
-			block->replace_char(5, 1, '|', TB_DEFAULT, TB_DEFAULT);
-			block->replace_char(5, 0, '|', TB_DEFAULT, TB_DEFAULT);
-             
-			block->replace_char(1, 0, '"', TB_DEFAULT, TB_DEFAULT);
-			block->replace_char(2, 0, '"', TB_DEFAULT, TB_DEFAULT);
-			block->replace_char(3, 0, '"', TB_DEFAULT, TB_DEFAULT);
-			block->replace_char(4, 0, '"', TB_DEFAULT, TB_DEFAULT);
-             
-			block->replace_char(1, 1, '_', TB_DEFAULT, TB_DEFAULT);
-			block->replace_char(2, 1, '_', TB_DEFAULT, TB_DEFAULT);
-			block->replace_char(3, 1, '_', TB_DEFAULT, TB_DEFAULT);
-			block->replace_char(4, 1, '_', TB_DEFAULT, TB_DEFAULT);
-
-			blocks.push_back(std::shared_ptr<Box>(block));
-		}
-	}
-		
-}
+#include "level_type_a.h"
 
 
 
-
-
-
-Level_status Level_1::run()
+Level_status Level_type_a::run()
 {
 	Window pause_win(Window::CENTER, 4, 26, 7, 1, 0, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
 	
@@ -298,7 +248,7 @@ Level_status Level_1::run()
 	else
 	{
 		end.add_string(Window::CENTER, 2, "Game Over", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-		end.add_string(Window::CENTER, 4, "Press space to play again", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		end.add_string(Window::CENTER, 4, "Press space to return to title", 40, 0, TB_DEFAULT, TB_DEFAULT);
 		/*draw_string(36, 7, 40, "Game Over", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
 		draw_string(28, 10, 40, "Press space to play again", TB_DEFAULT, TB_DEFAULT);*/
 	}
@@ -357,7 +307,7 @@ Level_status Level_1::run()
 };
 
 
-bool Level_1::will_collide(std::shared_ptr<Drawable> object, int x, int y)
+bool Level_type_a::will_collide(std::shared_ptr<Drawable> object, int x, int y)
 {
 	if(object != paddle && paddle->contains_point(x, y))
 		return true;
@@ -386,7 +336,7 @@ bool Level_1::will_collide(std::shared_ptr<Drawable> object, int x, int y)
 
 
 
-void Level_1::delete_hit()
+void Level_type_a::delete_hit()
 {
 	for(hit_it = hit_blocks.begin(); hit_it != hit_blocks.end(); hit_it++)
 	{
@@ -396,6 +346,6 @@ void Level_1::delete_hit()
 	hit_blocks.clear();
 };
 
-int Level_1::get_lives(){return lives;};
+int Level_type_a::get_lives(){return lives;};
 
-int Level_1::get_score(){return score;};
+int Level_type_a::get_score(){return score;};

@@ -6,7 +6,10 @@
 #include "draw_string.h"
 #include "window.h"
 
-class Level_1 : public Level
+
+#pragma once
+
+class Level_type_a : public Level
 {
 private:
 	
@@ -22,7 +25,6 @@ protected:
 	
 	
 public:	
-	Level_1(int lives, int score);
 	
 	using Level::run;
 	virtual Level_status run(); 

@@ -6,9 +6,9 @@
 
 
 
-void Game_main::run()
+Level_status Game_main::run()
 {
-	
+
 		lives = starting_lives;
 		score = starting_score;
 
@@ -56,21 +56,6 @@ void Game_main::run()
 		}
 
 	
-
-		/*
-		Box title_background(19, 4, 41, 17, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
-		title_background.draw();
-	
-		draw_string(32, 6, 40, "Terminal Breakout", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-		draw_string(30, 8, 40, "Elliot.Lockerman.info", TB_DEFAULT, TB_DEFAULT);
-	
-		draw_string(36, 12, 40, "Controls", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-		draw_string(26, 13, 40, "Space: Start/Launch new ball", TB_DEFAULT, TB_DEFAULT);
-		draw_string(25, 14, 40, "Left/Right Arrows: Move paddle", TB_DEFAULT, TB_DEFAULT);
-
-		draw_string(35, 16, 40, "p: Pause", TB_DEFAULT, TB_DEFAULT);
-		draw_string(35, 17, 40, "ESC: Quit", TB_DEFAULT, TB_DEFAULT);
-		*/
 		
 		
 		Window intro(Window::CENTER, 4, 40, 16, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
@@ -103,30 +88,79 @@ void Game_main::run()
 				if(ev.key == TB_KEY_SPACE) 
 					break; 
 				else if(ev.key == TB_KEY_ESC)
-					return; // Quits
+					quit();
 			}	
 
 			sleep(tick);
 		}
 
 		
-		// There's only 1 level so far, so loop level 1;
+		
+		
+		
+		// Level 1
+		Level_a_1 level_a_1(lives, score);
+		status = level_a_1.run();
+		if(status == WON)
+		{
+			lives = level_a_1.get_lives();
+			score = level_a_1.get_score();
+		}
+		else
+		{
+			return status;
+		}
+		
+		
+		
+		
+		
+		
+		// Level 2
+		Level_a_2 level_a_2(lives, score);
+		status = level_a_2.run();
+		if(status == WON)
+		{
+			lives = level_a_2.get_lives();
+			score = level_a_2.get_score();
+		}
+		else
+		{
+			return status;
+		}
+		
+	
+	
+	
+	
+	
+		tb_clear();
+	
+		// End screen
+		Window end_win(Window::CENTER, 4, 40, 10, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
+		
+		end_win.add_string(Window::CENTER, 2, "The End!", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		end_win.add_string(Window::CENTER, 4, "That's all there is so far,", 80, 0, TB_DEFAULT, TB_DEFAULT);
+		end_win.add_string(Window::CENTER, 5, "but there's more to come soon!", 80, 0, TB_DEFAULT, TB_DEFAULT);
+		end_win.add_string(Window::CENTER, 7, "Space to quit", 80, 0, TB_DEFAULT, TB_DEFAULT);
+		
+		end_win.draw_window();
+	
+		tb_present();
+		
+
+		
 		while(true)
 		{
-			Level_1 level_1(lives, score);
-			status = level_1.run();
-			if(status == WON)
+			int status = tb_peek_event(&ev, peek_time);
+			
+			if(status > 0 && ev.type == TB_EVENT_KEY)
 			{
-				lives = level_1.get_lives();
-				score = level_1.get_score();
+				if(ev.key == TB_KEY_SPACE || ev.key == TB_KEY_ESC)
+					quit();
 			}
-			else
-			{
-				lives = starting_lives;
-				score = starting_score;
-			}
+			sleep(tick);
 		}
-	
 	
 };
 

@@ -9,7 +9,7 @@
 #include "ball.h"
 #include "drawable.h"
 
-
+#pragma once
 
 class Level
 {

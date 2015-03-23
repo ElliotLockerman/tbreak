@@ -7,7 +7,8 @@
 #include "utility.h"
 #include "window.h"
 
-#include "level_1.h"
+#include "level_a_1.h"
+#include "level_a_2.h"
 
 class Game_main
 {
@@ -20,6 +21,6 @@ private:
 	Level_status status;
 	
 public:
-	void run();
+	Level_status run();
 		
 };

@@ -3,6 +3,9 @@
 #include "drawable.h"
 
 
+#pragma once
+
+
 class Ball : public Drawable
 {
 private:

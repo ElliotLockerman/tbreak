@@ -2,7 +2,7 @@
 
 #import "box.h"
 
-
+#pragma once
 
 class Paddle : public Box
 {
