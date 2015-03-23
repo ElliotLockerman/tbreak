@@ -253,8 +253,7 @@ Level_status Level_1::run()
 			lives--;
 			if(lives == 0)	
 			{
-				level_status = OUT_OF_LIVES;
-				break;
+				return OUT_OF_LIVES;
 			}
 		}
 
@@ -268,8 +267,7 @@ Level_status Level_1::run()
 		// Check if the game was won
 		if(blocks.size() == 0)
 		{
-			level_status = WON;
-			break;
+			return WON;
 		}
 
 		sleep(tick);
