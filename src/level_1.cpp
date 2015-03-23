@@ -44,12 +44,28 @@ Level_1::Level_1(int lives, int score)
 			blocks.push_back(std::shared_ptr<Box>(block));
 		}
 	}
-	
+		
 }
+
+
+
+
 
 
 Level_status Level_1::run()
 {
+	Window pause_win(Window::CENTER, 4, 26, 7, 1, 0, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
+	
+	pause_win.add_string(Window::CENTER, 2, "Paused", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+	pause_win.add_string(Window::CENTER, 4, "Press p to unpause", 20, 0, TB_DEFAULT, TB_DEFAULT);
+	
+	
+	
+	Window quit_win(Window::CENTER, 4, 26, 7, 1, 0, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
+	quit_win.add_string(Window::CENTER, 2, "Quit?", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+	quit_win.add_string(Window::CENTER, 4, "y/n", 20, 0, TB_DEFAULT, TB_DEFAULT);
+	
+	
 
 	// Game event loop	
 	while(true)
@@ -135,13 +151,8 @@ Level_status Level_1::run()
 			{
 				while(true)
 				{
-			
-					Box title_background(27, 4, 26, 7, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
-					title_background.draw();
-			
-					draw_string(37, 6, 40, "Paused", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-					draw_string(31, 8, 40, "Press p to unpause", TB_DEFAULT, TB_DEFAULT);
-					
+									
+					pause_win.draw_window();
 					tb_present();
 			
 			
@@ -153,15 +164,9 @@ Level_status Level_1::run()
 						if(ev.key == TB_KEY_ESC)
 						{
 							while(true)
-							{
-			
-								Box title_background(27, 4, 26, 7, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
-								title_background.draw();
-			
-								draw_string(35, 6, 40, "Quit? (y/n)", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-			
+							{		
+								quit_win.draw_window();
 								tb_present();
-			
 			
 								int status = tb_poll_event(&ev);
 								if(status > 0 && ev.type == TB_EVENT_KEY)
@@ -183,15 +188,10 @@ Level_status Level_1::run()
 			{
 				while(true)
 				{
-			
-					Box title_background(27, 4, 26, 7, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
-					title_background.draw();
-			
-					draw_string(35, 6, 40, "Quit? (y/n)", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-			
+					
+					quit_win.draw_window();
 					tb_present();
-			
-			
+				
 					int status = tb_poll_event(&ev);
 					if(status > 0 && ev.type == TB_EVENT_KEY)
 					{
@@ -253,7 +253,8 @@ Level_status Level_1::run()
 			lives--;
 			if(lives == 0)	
 			{
-				return OUT_OF_LIVES;
+				level_status = OUT_OF_LIVES;
+				break;
 			}
 		}
 
@@ -267,7 +268,8 @@ Level_status Level_1::run()
 		// Check if the game was won
 		if(blocks.size() == 0)
 		{
-			return WON;
+			level_status = WON;
+			break;
 		}
 
 		sleep(tick);
@@ -281,7 +283,26 @@ Level_status Level_1::run()
 
 	// Ending screen
 
+	Window end(Window::CENTER, 4, 40, 8, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
+	/*
+	Box title_background(22, 5, 37, 8, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
+	title_background.draw();*/
 
+	if(level_status == WON)
+	{	
+		end.add_string(Window::CENTER, 2, "You Won!", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		end.add_string(Window::CENTER, 4, "Press space to play next level", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		/*draw_string(36, 7, 40, "You Won!", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		draw_string(25, 10, 40, "Press space to play next level", TB_DEFAULT, TB_DEFAULT);*/
+	}
+	else
+	{
+		end.add_string(Window::CENTER, 2, "Game Over", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		end.add_string(Window::CENTER, 4, "Press space to play again", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		/*draw_string(36, 7, 40, "Game Over", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		draw_string(28, 10, 40, "Press space to play again", TB_DEFAULT, TB_DEFAULT);*/
+	}
+	//draw_string(34, 8, 40, std::to_string(score) + " points", TB_DEFAULT, TB_DEFAULT);
 
 
 	// Ending screen event loop
@@ -290,6 +311,9 @@ Level_status Level_1::run()
 	{	
 		tb_clear();
 		
+		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
+		draw_string(50, 1, 15, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
+		
 		paddle->draw();
 		border->draw();
 
@@ -297,23 +321,7 @@ Level_status Level_1::run()
 			(*blocks_it)->draw();
 
 
-		
-		Box title_background(22, 5, 37, 8, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
-		title_background.draw();
-
-		if(level_status == WON)
-		{	
-			draw_string(36, 7, 40, "You Won!", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-			draw_string(25, 10, 40, "Press space to play next level", TB_DEFAULT, TB_DEFAULT);
-		}
-		else
-		{
-			draw_string(36, 7, 40, "Game Over", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-			draw_string(28, 10, 40, "Press space to play again", TB_DEFAULT, TB_DEFAULT);
-		}
-
-			draw_string(34, 8, 40, std::to_string(score) + " points", TB_DEFAULT, TB_DEFAULT);
-
+		end.draw_window();
 		
 		tb_present();
 		
@@ -324,38 +332,28 @@ Level_status Level_1::run()
 		if(status > 0 && ev.type == TB_EVENT_KEY) 
 		{
 			if(ev.key == TB_KEY_SPACE)
-				break;	
+				return level_status;	
 			// Quit
-			else if(ev.key == TB_KEY_ESC)
+			while(true)
 			{
-				while(true)
+
+				quit_win.draw_window();
+				tb_present();
+		
+		
+				int status = tb_poll_event(&ev);
+				if(status > 0 && ev.type == TB_EVENT_KEY)
 				{
-			
-					Box title_background(27, 4, 26, 7, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
-					title_background.draw();
-			
-					draw_string(35, 6, 40, "Quit? (y/n)", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-			
-					tb_present();
-			
-			
-					int status = tb_poll_event(&ev);
-					if(status > 0 && ev.type == TB_EVENT_KEY)
-					{
-						if(ev.ch == 'n')
-							break;
-						if(ev.ch == 'y')
-							quit();
-					}
+					if(ev.ch == 'n')
+						break;
+					if(ev.ch == 'y')
+						quit();
 				}
 			}		
 		}	
 
 	}
 
-	
- 
-	return level_status;
 };
 
 

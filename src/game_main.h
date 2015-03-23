@@ -5,6 +5,7 @@
 #include "constants.h"
 #include "draw_string.h"
 #include "utility.h"
+#include "window.h"
 
 #include "level_1.h"
 

@@ -4,6 +4,7 @@
 #include "drawable.h"
 
 
+#pragma once
 
 /*
 A box drawn to the terminal, consisting of a single character ch.

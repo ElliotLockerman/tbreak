@@ -9,25 +9,22 @@
 void Game_main::run()
 {
 	
+		lives = starting_lives;
+		score = starting_score;
+
+
 	
 		// Draw title screen
 		tb_clear();
-		
-		
-	
 	
 		Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 		border.draw();
-		
-		
-		
-	
+				
+
 		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
 		draw_string(50, 1, 10, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
 	
-	
-	
-	
+
 	
 		for(int i = 0; i < 13; i++)
 		{
@@ -60,7 +57,7 @@ void Game_main::run()
 
 	
 
-
+		/*
 		Box title_background(19, 4, 41, 17, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
 		title_background.draw();
 	
@@ -73,7 +70,20 @@ void Game_main::run()
 
 		draw_string(35, 16, 40, "p: Pause", TB_DEFAULT, TB_DEFAULT);
 		draw_string(35, 17, 40, "ESC: Quit", TB_DEFAULT, TB_DEFAULT);
-
+		*/
+		
+		
+		Window intro(Window::CENTER, 4, 40, 16, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
+		
+		intro.add_string(Window::CENTER, 2, "Terminal Breakout", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 4, "Elliot.Lockerman.info", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 8, "Controls", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 9, "Space: Start/Launch new ball", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 10, "Left/Right Arrows: Move paddle", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 11, "p: Pause", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 12, "ESC: Quit", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		
+		intro.draw_window();
 	
 	
 	
@@ -98,10 +108,7 @@ void Game_main::run()
 
 			sleep(tick);
 		}
-	
-	
-		lives = starting_lives;
-		score = starting_score;
+
 		
 		// There's only 1 level so far, so loop level 1;
 		while(true)

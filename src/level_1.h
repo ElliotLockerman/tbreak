@@ -4,6 +4,7 @@
 
 #include "level.h"
 #include "draw_string.h"
+#include "window.h"
 
 class Level_1 : public Level
 {

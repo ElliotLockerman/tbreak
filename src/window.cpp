@@ -1,20 +1,23 @@
 #include "window.h"
 
+#include <iostream>
 
-void Window::add_string(int rel_y, std::string str, alignment align, int colwidth, int left_padding, uint16_t fg, uint16_t bg)
+
+void Window::add_string(alignment align, int rel_y, std::string str, int colwidth, int left_padding, uint16_t fg, uint16_t bg)
 {
 	int rel_x = 0;
 	if(align == CENTER)
 	{
-		rel_x = ((width - (2 * border_thickness)) - str.length()) / 2;
+		rel_x = (width - str.length()) / 2;
 	}
 	else if(align == LEFT)
 	{
-		rel_x = border_thickness + left_padding;
+		rel_x = left_padding;
 	}
 	
 	add_string(rel_x, rel_y, str, colwidth, fg, bg);
 }
+
 
 
 void Window::add_string(int rel_x, int rel_y, std::string str, int colwidth, uint16_t fg, uint16_t bg)
@@ -22,8 +25,8 @@ void Window::add_string(int rel_x, int rel_y, std::string str, int colwidth, uin
 	text new_text =
 	{
 		.str = str,
-		.rel_x = x,
-		.rel_y = y,
+		.rel_x = rel_x,
+		.rel_y = rel_y,
 		.colwidth = colwidth,
 		.fg = fg,
 		.bg = bg
@@ -32,15 +35,23 @@ void Window::add_string(int rel_x, int rel_y, std::string str, int colwidth, uin
 	texts.push_back(new_text);
 }
 
+
+
 void Window::draw_window()
 {
-	draw(); // Calls Box's draw for the background
-	
+	draw(); // Calls Box's draw for the background		
+		
 	for(std::list<text>::iterator it = texts.begin(); it != texts.end(); it++)
-	{
+	{	
 		for(int i = 0; i < it->str.length(); i++)
-		{
-			tb_change_cell(it->rel_x + x + (i % it->colwidth), y + it->rel_y + (i / it->colwidth), (uint32_t)it->str[i], it->fg, it->bg);
+		{			
+			tb_change_cell(x + it->rel_x + (i % it->colwidth), y + it->rel_y + (i / it->colwidth), (uint32_t)it->str[i], it->fg, it->bg);
 		}
+		
 	}
+}
+
+void Window::clear_text()
+{
+	texts.clear();
 }

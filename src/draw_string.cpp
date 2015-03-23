@@ -7,7 +7,6 @@ void draw_string(int x, int y, int colwidth, std::string str, uint16_t fg, uint1
 {
 	// TODO: Bounds checking
 	// TODO: Try to break between words
-	// TODO: Option to center text
 	
 	for(int i = 0; i < str.length(); i++)
 	{
