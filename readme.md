@@ -16,3 +16,5 @@ tbreak requires [Termbox](https://github.com/nsf/termbox)
 ### Build
 
 Simply run `make` in the root directory, and move the resulting binary to your directory of choice.
+
+You should also turn off key-repeat delay.
