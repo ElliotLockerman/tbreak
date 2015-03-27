@@ -159,7 +159,7 @@ Level_status Game_main::run()
 		end_win.add_string(Window::CENTER, 2, "The End!", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
 		end_win.add_string(Window::CENTER, 4, "That's all there is so far,", 80, 0, TB_DEFAULT, TB_DEFAULT);
 		end_win.add_string(Window::CENTER, 5, "but there's more to come soon!", 80, 0, TB_DEFAULT, TB_DEFAULT);
-		end_win.add_string(Window::CENTER, 7, "Space to quit", 80, 0, TB_DEFAULT, TB_DEFAULT);
+		end_win.add_string(Window::CENTER, 7, "Esc to quit", 80, 0, TB_DEFAULT, TB_DEFAULT);
 		
 		end_win.draw_window();
 	
@@ -173,7 +173,7 @@ Level_status Game_main::run()
 			
 			if(status > 0 && ev.type == TB_EVENT_KEY)
 			{
-				if(ev.key == TB_KEY_SPACE || ev.key == TB_KEY_ESC)
+				if(ev.key == TB_KEY_ESC)
 					quit();
 			}
 			sleep(tick);

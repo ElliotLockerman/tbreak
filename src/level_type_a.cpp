@@ -286,20 +286,21 @@ Level_status Level_type_a::run()
 			if(ev.key == TB_KEY_SPACE)
 				return level_status;	
 			// Quit
-			while(true)
+			if(ev.key == TB_KEY_ESC)
 			{
+				while(true)
+				{		
+					quit_win.draw_window();
+					tb_present();
 
-				quit_win.draw_window();
-				tb_present();
-		
-		
-				int status = tb_poll_event(&ev);
-				if(status > 0 && ev.type == TB_EVENT_KEY)
-				{
-					if(ev.ch == 'n')
-						break;
-					if(ev.ch == 'y')
-						quit();
+					int status = tb_poll_event(&ev);
+					if(status > 0 && ev.type == TB_EVENT_KEY)
+					{
+						if(ev.ch == 'n')
+							break;
+						if(ev.ch == 'y')
+							quit();
+					}
 				}
 			}		
 		}	
