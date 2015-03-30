@@ -4,4 +4,6 @@ sand
 sand.cpp
 
 tbreak
+obj/
+
 log.txt
