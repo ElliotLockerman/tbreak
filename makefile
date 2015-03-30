@@ -1,17 +1,20 @@
-CXX=g++
-CXXFLAGS=-c -Wall
-LDFLAGS=-ltermbox
+CXX = g++
+CXXFLAGS = -c -Wall
+LDFLAGS = -ltermbox
+DEBUG = -g
 
 SRC = src
 OBJ = obj
-PREFIX = /usr/local
+PREFIX? = /usr/local
 
-EXECUTABLE=tbreak
+EXECUTABLE = tbreak
 
 
 
-all: $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_a_1.o $(OBJ)/level_a_2.o $(OBJ)/level_a_3.o $(OBJ)/level_type_a.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o
-	$(CXX) $(LDFLAGS) -o $(EXECUTABLE) $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_a_1.o $(OBJ)/level_a_2.o $(OBJ)/level_a_3.o $(OBJ)/level_type_a.o  $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o 
+OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_a_1.o $(OBJ)/level_a_2.o $(OBJ)/level_a_3.o $(OBJ)/level_type_a.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o
+
+all: $(OBJS)
+	$(CXX) $(LDFLAGS) -o $(EXECUTABLE) $(DEBUG) $(OBJS)
 
 
 
@@ -38,7 +41,7 @@ uninstall:
 $(OBJ)/main.o: $(SRC)/game_main.h $(SRC)/utility.h
 	$(CXX) $(CXXFLAGS) -o $@ $(SRC)/main.cpp
 
-$(OBJ)/game_main.o: $(SRC)/game_main.h $(SRC)/game_main.cpp $(OBJ)/draw_string.o $(OBJ)/utility.o  $(OBJ)/window.o $(OBJ)/level_a_1.o $(OBJ)/level_a_2.o $(OBJ)/level_a_3.o
+$(OBJ)/game_main.o: $(SRC)/game_main.h $(SRC)/game_main.cpp $(SRC)/draw_string.h $(SRC)/utility.h  $(SRC)/window.h $(SRC)/level_a_1.h $(SRC)/level_a_2.h $(SRC)/level_a_3.h
 	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/game_main.cpp
 
 $(OBJ)/draw_string.o: $(SRC)/draw_string.h $(SRC)/draw_string.cpp
