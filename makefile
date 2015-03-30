@@ -11,7 +11,7 @@ EXECUTABLE = tbreak
 
 
 
-OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_a_1.o $(OBJ)/level_a_2.o $(OBJ)/level_a_3.o $(OBJ)/level_type_a.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o
+OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_type_a.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o
 
 all: $(OBJS)
 	$(CXX) $(LDFLAGS) -o $(EXECUTABLE) $(DEBUG) $(OBJS)
@@ -52,15 +52,6 @@ $(OBJ)/utility.o: $(SRC)/utility.h  $(SRC)/utility.cpp
 
 $(OBJ)/window.o: $(SRC)/window.h $(SRC)/window.cpp $(SRC)/box.h $(SRC)/constants.h
 	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/window.cpp
-
-$(OBJ)/level_a_1.o: $(SRC)/level_a_1.h $(SRC)/level_type_a.h $(SRC)/level_type_a.h $(SRC)/draw_string.h $(SRC)/drawable.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/level_a_1.cpp
-
-$(OBJ)/level_a_2.o: $(SRC)/level_a_2.h $(SRC)/level_type_a.h $(SRC)/draw_string.h $(SRC)/drawable.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/level_a_2.cpp
-
-$(OBJ)/level_a_3.o: $(SRC)/level_a_3.h $(SRC)/level_type_a.h $(SRC)/level_type_a.h $(SRC)/draw_string.h $(SRC)/drawable.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/level_a_3.cpp
 
 $(OBJ)/box.o: $(SRC)/box.h $(SRC)/drawable.h
 	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/box.cpp
