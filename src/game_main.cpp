@@ -95,6 +95,12 @@ Level_status Game_main::run()
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	// Level 1
 	Level_a_1 level_a_1("Level 1", level_status.lives, level_status.score);
 	level_status = level_a_1.run();
@@ -129,6 +135,9 @@ Level_status Game_main::run()
 
 
 
+
+
+	// Draw end of game screen
 	tb_clear();
 
 	border.draw();
@@ -146,7 +155,7 @@ Level_status Game_main::run()
 	tb_present();
 	
 
-	
+	// End of game event loop
 	while(true)
 	{
 		int level_status = tb_peek_event(&ev, peek_time);
