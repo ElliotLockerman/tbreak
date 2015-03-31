@@ -16,8 +16,8 @@ private:
 	
 	
 public:	
-	Level_a_3(int lives, int level, int score) :
-        Level_type_a(lives, level, score)
+	Level_a_3(std::string name, int lives, int score) :
+        Level_type_a(name, lives, score)
     {
     	// Draw blocks
     	for(int i = 0; i < 11; i++)

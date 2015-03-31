@@ -1,14 +1,14 @@
 #include "level_type_a.h"
 
 
-Level_type_a::Level_type_a(int lives, int level, int score)
+Level_type_a::Level_type_a(std::string name, int lives, int score)
 {
 	this->level_status.lives = lives,
 	this->level_status.score = score,
 	this->level_status.result = OUT_OF_LIVES; // Just so its not uninitialized. It should be set before its read
 	
 
-	this->level = level;
+	this->name = name;
 	ball_in_play = false;
 
 
@@ -16,7 +16,6 @@ Level_type_a::Level_type_a(int lives, int level, int score)
 	paddle.reset(new Paddle(32, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT));
 	ball.reset(new Ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT));
 }
-
 
 
 
@@ -30,13 +29,10 @@ Level_status Level_type_a::run()
 	{	
 
 		tb_clear();
-
+		
+		draw_data();
+		
 		border->draw();
-
-		draw_string(20, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
-		draw_string(35, 1, 10, "Level: " + std::to_string(level), TB_DEFAULT, TB_DEFAULT);
-		draw_string(50, 1, 15, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
-
 		paddle->draw();
 		border->draw();
 
@@ -225,9 +221,7 @@ Level_status Level_type_a::run()
 	{	
 		tb_clear();
 		
-		draw_string(20, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
-		draw_string(35, 1, 10, "Level: " + std::to_string(level), TB_DEFAULT, TB_DEFAULT);
-		draw_string(50, 1, 15, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
+		draw_data();
 		
 		paddle->draw();
 		border->draw();
@@ -298,3 +292,10 @@ void Level_type_a::delete_hit()
 	}
 	hit_blocks.clear();
 };
+
+void Level_type_a::draw_data()
+{
+	draw_string(5, 1, 10, name, TB_DEFAULT, TB_DEFAULT);
+	draw_string(50, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
+	draw_string(65, 1, 15, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
+}

@@ -22,10 +22,6 @@ Level_status Game_main::run()
 	border.draw();
 			
 
-	draw_string(20, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
-	draw_string(50, 1, 10, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
-
-
 
 	for(int i = 0; i < 13; i++)
 	{
@@ -100,7 +96,7 @@ Level_status Game_main::run()
 	
 	
 	// Level 1
-	Level_a_1 level_a_1(level_status.lives, 1, level_status.score);
+	Level_a_1 level_a_1("Level 1", level_status.lives, level_status.score);
 	level_status = level_a_1.run();
 	if(level_status.result == OUT_OF_LIVES)
 	{
@@ -111,7 +107,7 @@ Level_status Game_main::run()
 	
 	
 	// Level 2
-	Level_a_2 level_a_2(level_status.lives, 2, level_status.score);
+	Level_a_2 level_a_2("Level 2", level_status.lives, level_status.score);
 	level_status = level_a_2.run();
 	if(level_status.result == OUT_OF_LIVES)
 	{
@@ -122,7 +118,7 @@ Level_status Game_main::run()
 	
 
 	// Level 3
-	Level_a_3 level_a_3(level_status.lives, 3, level_status.score);
+	Level_a_3 level_a_3("Level 3", level_status.lives, level_status.score);
 	level_status = level_a_3.run();
 	if(level_status.result == OUT_OF_LIVES)
 	{

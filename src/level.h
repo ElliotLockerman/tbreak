@@ -1,6 +1,7 @@
 #include <list>
 #include <set>
 #include <cstdlib>
+#include <string>
 
 #include "constants.h"
 #include "utility.h"
@@ -21,7 +22,7 @@ protected:
 	
 	Level_status level_status; 
 	
-	int level;
+	std::string name;
 	bool ball_in_play;
 	
 	std::list<std::shared_ptr<Box> > blocks;

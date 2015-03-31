@@ -20,10 +20,10 @@ protected:
 	using Level::delete_hit;
 	virtual void delete_hit();
 	
-		
+	void draw_data();
 	
 public:	
-	Level_type_a(int lives, int level, int score);
+	Level_type_a(std::string name, int lives, int score);
     
 	using Level::run;
 	virtual Level_status run(); 
