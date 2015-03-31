@@ -14,7 +14,7 @@ int main()
 	}
 	
 	Game_main game;
-	while(game.run() == OUT_OF_LIVES) {}
+	while(game.run().result == OUT_OF_LIVES) {}
 	
 	
  	quit();

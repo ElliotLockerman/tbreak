@@ -1,6 +1,26 @@
 #include "level_type_a.h"
 
 
+Level_type_a::Level_type_a(int lives, int level, int score)
+{
+	this->level_status.lives = lives,
+	this->level_status.score = score,
+	this->level_status.result = OUT_OF_LIVES; // Just so its not uninitialized. It should be set before its read
+	
+
+	this->level = level;
+	ball_in_play = false;
+
+
+	border.reset(new Box(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT));
+	paddle.reset(new Paddle(32, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT));
+	ball.reset(new Ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT));
+}
+
+
+
+
+
 
 Level_status Level_type_a::run()
 {
@@ -13,9 +33,9 @@ Level_status Level_type_a::run()
 
 		border->draw();
 
-		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
+		draw_string(20, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
 		draw_string(35, 1, 10, "Level: " + std::to_string(level), TB_DEFAULT, TB_DEFAULT);
-		draw_string(50, 1, 15, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
+		draw_string(50, 1, 15, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
 
 		paddle->draw();
 		border->draw();
@@ -144,10 +164,10 @@ Level_status Level_type_a::run()
 		{
 			paddle->ball = true;
 			ball_in_play = false;
-			lives--;
-			if(lives == 0)	
+			level_status.lives--;
+			if(level_status.lives == 0)	
 			{
-				level_status = OUT_OF_LIVES;
+				level_status.result = OUT_OF_LIVES;
 				break;
 			}
 		}
@@ -162,7 +182,7 @@ Level_status Level_type_a::run()
 		// Check if the game was won
 		if(blocks.size() == 0)
 		{
-			level_status = WON;
+			level_status.result = WON;
 			break;
 		}
 
@@ -182,7 +202,7 @@ Level_status Level_type_a::run()
 	Box title_background(22, 5, 37, 8, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
 	title_background.draw();*/
 
-	if(level_status == WON)
+	if(level_status.result == WON)
 	{	
 		end.add_string(Window::CENTER, 2, "You Won!", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
 		end.add_string(Window::CENTER, 4, "Press space to play next level", 40, 0, TB_DEFAULT, TB_DEFAULT);
@@ -205,9 +225,9 @@ Level_status Level_type_a::run()
 	{	
 		tb_clear();
 		
-		draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
+		draw_string(20, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
 		draw_string(35, 1, 10, "Level: " + std::to_string(level), TB_DEFAULT, TB_DEFAULT);
-		draw_string(50, 1, 15, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
+		draw_string(50, 1, 15, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
 		
 		paddle->draw();
 		border->draw();
@@ -273,12 +293,8 @@ void Level_type_a::delete_hit()
 {
 	for(hit_it = hit_blocks.begin(); hit_it != hit_blocks.end(); hit_it++)
 	{
-		score += score_per_block;	
+		level_status.score += score_per_block;	
 		blocks.remove(*hit_it);		
 	}
 	hit_blocks.clear();
 };
-
-int Level_type_a::get_lives(){return lives;};
-
-int Level_type_a::get_score(){return score;};

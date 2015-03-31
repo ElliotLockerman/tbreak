@@ -16,10 +16,7 @@ class Game_main
 private:
 	tb_event ev;
 	
-	int lives;
-	int score;
-	
-	Level_status status;
+	Level_status level_status;
 	
 public:
 	Level_status run();

@@ -9,10 +9,10 @@
 Level_status Game_main::run()
 {
 	
-	
-	
-	lives = starting_lives;
-	score = starting_score;
+	this->level_status.lives = starting_lives;
+	this->level_status.score = starting_score;
+	this->level_status.result = OUT_OF_LIVES;
+
 
 
 	// Draw title screen
@@ -22,8 +22,8 @@ Level_status Game_main::run()
 	border.draw();
 			
 
-	draw_string(20, 1, 10, "Lives: " + std::to_string(lives), TB_DEFAULT, TB_DEFAULT);
-	draw_string(50, 1, 10, "Score: " + std::to_string(score), TB_DEFAULT, TB_DEFAULT);
+	draw_string(20, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
+	draw_string(50, 1, 10, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
 
 
 
@@ -82,9 +82,9 @@ Level_status Game_main::run()
 
 	while(true)
 	{	
-		int status = tb_peek_event(&ev, peek_time);
+		int level_status = tb_peek_event(&ev, peek_time);
 	
-		if(status > 0 && ev.type == TB_EVENT_KEY) 
+		if(level_status > 0 && ev.type == TB_EVENT_KEY) 
 		{
 			if(ev.key == TB_KEY_SPACE) 
 				break; 
@@ -100,52 +100,35 @@ Level_status Game_main::run()
 	
 	
 	// Level 1
-	Level_a_1 level_a_1(lives, 1, score);
-	status = level_a_1.run();
-	if(status == WON)
+	Level_a_1 level_a_1(level_status.lives, 1, level_status.score);
+	level_status = level_a_1.run();
+	if(level_status.result == OUT_OF_LIVES)
 	{
-		lives = level_a_1.get_lives();
-		score = level_a_1.get_score();
+		return level_status;
 	}
-	else
-	{
-		return status;
-	}
-	
-	
 	
 	
 	
 	
 	// Level 2
-	Level_a_2 level_a_2(lives, 2, score);
-	status = level_a_2.run();
-	if(status == WON)
+	Level_a_2 level_a_2(level_status.lives, 2, level_status.score);
+	level_status = level_a_2.run();
+	if(level_status.result == OUT_OF_LIVES)
 	{
-		lives = level_a_2.get_lives();
-		score = level_a_2.get_score();
-	}
-	else
-	{
-		return status;
+		return level_status;
 	}
 	
 	
 	
-	
-	
+
 	// Level 3
-	Level_a_3 level_a_3(lives, 3, score);
-	status = level_a_3.run();
-	if(status == WON)
+	Level_a_3 level_a_3(level_status.lives, 3, level_status.score);
+	level_status = level_a_3.run();
+	if(level_status.result == OUT_OF_LIVES)
 	{
-		lives = level_a_3.get_lives();
-		score = level_a_3.get_score();
+		return level_status;
 	}
-	else
-	{
-		return status;
-	}
+	
 
 
 
@@ -170,9 +153,9 @@ Level_status Game_main::run()
 	
 	while(true)
 	{
-		int status = tb_peek_event(&ev, peek_time);
+		int level_status = tb_peek_event(&ev, peek_time);
 		
-		if(status > 0 && ev.type == TB_EVENT_KEY)
+		if(level_status > 0 && ev.type == TB_EVENT_KEY)
 		{
 			if(ev.key == TB_KEY_ESC)
 				quit();

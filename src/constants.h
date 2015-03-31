@@ -15,4 +15,11 @@ static const int starting_lives = 3;
 static const int starting_score = 0;
 static const int score_per_block = 10;
 
-enum Level_status{OUT_OF_LIVES, WON};
+enum Level_result{OUT_OF_LIVES, WON};
+
+struct Level_status
+{
+	int lives;
+	int score;
+	Level_result result;
+};

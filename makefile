@@ -56,7 +56,7 @@ $(OBJ)/window.o: $(SRC)/window.h $(SRC)/window.cpp $(SRC)/box.h $(SRC)/constants
 $(OBJ)/box.o: $(SRC)/box.h $(SRC)/drawable.h
 	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/box.cpp
 
-$(OBJ)/level_type_a.o: $(SRC)/level_type_a.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
+$(OBJ)/level_type_a.o: $(SRC)/level_type_a.h $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
 	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/level_type_a.cpp
 
 $(OBJ)/ball.o:$(SRC)/ball.cpp $(SRC)/ball.h $(SRC)/drawable.h

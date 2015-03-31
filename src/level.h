@@ -19,13 +19,10 @@ private:
 protected:
 	tb_event ev;
 	
-	int lives;
-	int level;
-	int score;
-	
-	bool ball_in_play;
 	Level_status level_status; 
 	
+	int level;
+	bool ball_in_play;
 	
 	std::list<std::shared_ptr<Box> > blocks;
 	std::list<std::shared_ptr<Box> >::iterator blocks_it;
@@ -48,8 +45,5 @@ protected:
 	
 public:		
 	virtual Level_status run() = 0;
-	             
-	virtual int get_lives() = 0;
-	virtual int get_score() = 0;
-		
+
 };
