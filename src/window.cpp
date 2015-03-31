@@ -8,7 +8,9 @@ void Window::add_string(alignment align, int rel_y, std::string str, int colwidt
 	int rel_x = 0;
 	if(align == CENTER)
 	{
-		rel_x = (width - str.length()) / 2;
+		if(str.length() < colwidth)
+			colwidth = str.length();
+		rel_x = (width - colwidth) / 2;
 	}
 	else if(align == LEFT)
 	{
