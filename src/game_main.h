@@ -18,6 +18,8 @@ private:
 	
 	Level_status level_status;
 	
+    void after_level_window();
+    
 public:
 	Level_status run();
 		

@@ -164,7 +164,7 @@ Level_status Level_type_a::run()
 			if(level_status.lives == 0)	
 			{
 				level_status.result = OUT_OF_LIVES;
-				break;
+				return level_status;
 			}
 		}
 
@@ -179,77 +179,12 @@ Level_status Level_type_a::run()
 		if(blocks.size() == 0)
 		{
 			level_status.result = WON;
-			break;
+			return level_status;
 		}
 
 		sleep(tick);
 	}
 
-
-
-
-
-
-
-	// Ending screen
-
-	Window end(Window::CENTER, 4, 40, 8, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
-	/*
-	Box title_background(22, 5, 37, 8, 1, '*', TB_DEFAULT, TB_DEFAULT, ' ', TB_DEFAULT, TB_DEFAULT);
-	title_background.draw();*/
-
-	if(level_status.result == WON)
-	{	
-		end.add_string(Window::CENTER, 2, "You Won!", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-		end.add_string(Window::CENTER, 4, "Press space to play next level", 40, 0, TB_DEFAULT, TB_DEFAULT);
-		/*draw_string(36, 7, 40, "You Won!", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-		draw_string(25, 10, 40, "Press space to play next level", TB_DEFAULT, TB_DEFAULT);*/
-	}
-	else
-	{
-		end.add_string(Window::CENTER, 2, "Game Over", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-		end.add_string(Window::CENTER, 4, "Press space to return to title", 40, 0, TB_DEFAULT, TB_DEFAULT);
-		/*draw_string(36, 7, 40, "Game Over", TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-		draw_string(28, 10, 40, "Press space to play again", TB_DEFAULT, TB_DEFAULT);*/
-	}
-	//draw_string(34, 8, 40, std::to_string(score) + " points", TB_DEFAULT, TB_DEFAULT);
-
-
-	// Ending screen event loop
-
-	while(true)
-	{	
-		tb_clear();
-		
-		draw_data();
-		
-		paddle->draw();
-		border->draw();
-
-		for(blocks_it = blocks.begin(); blocks_it != blocks.end(); blocks_it++)
-			(*blocks_it)->draw();
-
-
-		end.draw_window();
-		
-		tb_present();
-		
-		
-		
-		int status = tb_peek_event(&ev, peek_time);
-
-		if(status > 0 && ev.type == TB_EVENT_KEY) 
-		{
-			if(ev.key == TB_KEY_SPACE)
-				return level_status;	
-			// Quit
-			if(ev.key == TB_KEY_ESC)
-			{
-				quit_window();
-			}		
-		}	
-
-	}
 
 };
 

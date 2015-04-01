@@ -108,8 +108,7 @@ Level_status Game_main::run()
 	{
 		return level_status;
 	}
-	
-	
+	after_level_window();
 	
 	
 	// Level 2
@@ -119,7 +118,7 @@ Level_status Game_main::run()
 	{
 		return level_status;
 	}
-	
+	after_level_window();
 	
 	
 
@@ -148,7 +147,7 @@ Level_status Game_main::run()
 	end_win.add_string(Window::CENTER, 2, "The End!", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
 	end_win.add_string(Window::CENTER, 4, "That's all there is so far,", 80, 0, TB_DEFAULT, TB_DEFAULT);
 	end_win.add_string(Window::CENTER, 5, "but there's more to come soon!", 80, 0, TB_DEFAULT, TB_DEFAULT);
-	end_win.add_string(Window::CENTER, 7, "Esc to quit", 80, 0, TB_DEFAULT, TB_DEFAULT);
+	end_win.add_string(Window::CENTER, 7, "Space to return to start", 80, 0, TB_DEFAULT, TB_DEFAULT);
 	
 	end_win.draw_window();
 
@@ -158,10 +157,12 @@ Level_status Game_main::run()
 	// End of game event loop
 	while(true)
 	{
-		int level_status = tb_peek_event(&ev, peek_time);
+		int status = tb_peek_event(&ev, peek_time);
 		
-		if(level_status > 0 && ev.type == TB_EVENT_KEY)
-		{
+		if(status > 0 && ev.type == TB_EVENT_KEY)
+		{   
+            if(ev.key == TB_KEY_SPACE)
+                return level_status;
 			if(ev.key == TB_KEY_ESC)
 				quit();
 		}
@@ -172,6 +173,43 @@ Level_status Game_main::run()
 
 
 
+
+void Game_main::after_level_window()
+{
+	Window end(Window::CENTER, 4, 40, 8, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
+
+
+	if(level_status.result == WON)
+	{	
+		end.add_string(Window::CENTER, 2, "You Won!", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		end.add_string(Window::CENTER, 4, "Press space to play next level", 40, 0, TB_DEFAULT, TB_DEFAULT);
+	}
+	else
+	{
+		end.add_string(Window::CENTER, 2, "Game Over", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		end.add_string(Window::CENTER, 4, "Press space to return to title", 40, 0, TB_DEFAULT, TB_DEFAULT);
+	}
+
+
+
+	// Ending screen event loop
+	while(true)
+	{	
+		
+		end.draw_window();
+		tb_present();
+		
+		int status = tb_peek_event(&ev, peek_time);
+		if(status > 0 && ev.type == TB_EVENT_KEY) 
+		{
+			if(ev.key == TB_KEY_SPACE)
+				return;	
+			if(ev.key == TB_KEY_ESC)
+				quit_window();	
+		}	
+
+	}
+}
 
 
 
