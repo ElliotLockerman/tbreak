@@ -7,7 +7,7 @@ SRC = src
 OBJ = obj
 PREFIX? = /usr/local
 
-EXECUTABLE = tbreak
+EXECUTABLE = termbreak
 
 
 
