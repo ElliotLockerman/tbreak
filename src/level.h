@@ -2,6 +2,7 @@
 #include <set>
 #include <cstdlib>
 #include <string>
+#include <memory>
 
 #include "constants.h"
 #include "utility.h"

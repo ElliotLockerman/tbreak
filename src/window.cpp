@@ -8,7 +8,7 @@ void Window::add_string(alignment align, int rel_y, std::string str, int colwidt
 	int rel_x = 0;
 	if(align == CENTER)
 	{
-		if(str.length() < colwidth)
+		if(str.length() < static_cast<unsigned int>(colwidth))
 			colwidth = str.length();
 		rel_x = (width - colwidth) / 2;
 	}
@@ -45,7 +45,7 @@ void Window::draw_window()
 		
 	for(std::list<text>::iterator it = texts.begin(); it != texts.end(); it++)
 	{	
-		for(int i = 0; i < it->str.length(); i++)
+		for(unsigned int i = 0; i < it->str.length(); i++)
 		{			
 			tb_change_cell(x + it->rel_x + (i % it->colwidth), y + it->rel_y + (i / it->colwidth), (uint32_t)it->str[i], it->fg, it->bg);
 		}

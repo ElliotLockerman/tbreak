@@ -1,5 +1,5 @@
-CXX = clang++
-CXXFLAGS = -c -Wall
+CXX = g++
+CXXFLAGS = -c -Wall -std=c++11
 LDFLAGS = -ltermbox
 DEBUG = -g
 
