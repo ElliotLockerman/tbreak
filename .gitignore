@@ -3,7 +3,7 @@ misc/
 sand
 sand.cpp
 
-tbreak
+termbreak
 *.o
 
 log.txt
