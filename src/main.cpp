@@ -1,7 +1,7 @@
 #include <iostream>
 
-#import "game_main.h"
-#import "utility.h"
+#include "game_main.h"
+#include "utility.h"
 
 int main()
 {

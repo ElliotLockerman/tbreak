@@ -1,9 +1,9 @@
-#import <ctime>
-#import <cstdlib>
+#include <ctime>
+#include <cstdlib>
  
-#import "termbox.h"
+#include "termbox.h"
 
-#import "Window.h"
+#include "Window.h"
 
 
 void sleep(unsigned int miliseconds);

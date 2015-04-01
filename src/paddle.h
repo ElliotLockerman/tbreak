@@ -1,6 +1,6 @@
-#import "termbox.h"
+#include "termbox.h"
 
-#import "box.h"
+#include "box.h"
 
 #pragma once
 

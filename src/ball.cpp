@@ -1,4 +1,4 @@
-#import "ball.h"
+#include "ball.h"
 
 
 Ball::Ball(int x, int y, int dx, int dy, uint32_t ch, uint16_t fg, uint16_t bg)

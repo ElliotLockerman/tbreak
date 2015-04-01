@@ -1,4 +1,4 @@
-#import "paddle.h"
+#include "paddle.h"
 
 void Paddle::draw()
 {
