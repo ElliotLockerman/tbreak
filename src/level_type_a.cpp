@@ -28,6 +28,7 @@ Level_status Level_type_a::run()
 	while(true)
 	{	
 
+		// Draw everthing
 		tb_clear();
 		
 		draw_data();
@@ -48,9 +49,8 @@ Level_status Level_type_a::run()
 
 
 
-
+		// Handle input
 		int status = tb_peek_event(&ev, peek_time);
-
 		if(status > 0 && ev.type == TB_EVENT_KEY) 
 		{
 			// Launch ball
@@ -115,64 +115,67 @@ Level_status Level_type_a::run()
 		}
 
 
-		// Ball collsion
-		bool hor_wall = false;
-		bool ver_wall = false;
-
-		// Check if its a horizontal wall, above or below
-		if(will_collide(ball, ball->get_x(), ball->get_y() + ball->dy))
-			hor_wall = true;
-	
-		// next, a ver wall, left or right
-		if(will_collide(ball, ball->get_x() + ball->dx, ball->get_y()))
-			ver_wall = true;
-	
-		// A colission is one directly forwards or both hor and ver
-		if(will_collide(ball, ball->get_x() + ball->dx, ball->get_y() + ball->dy) || (ver_wall && hor_wall))
-		{
-			// Delete all hit blocks, also incriments score
-			delete_hit();
-	
-		
-			// if its a corner (inside or outside), reverse both
-			if((hor_wall && ver_wall) || (!hor_wall && !ver_wall))
-			{
-				ball->dx *= -1;
-				ball->dy *= -1;
-			}
-			else if(hor_wall) // A horizontal wall (ball moving up or down to), reverse dy
-			{
-				ball->dy *= -1;
-			}
-			else if(ver_wall) // A ver wall (ball moving left or right to), reverse dy
-			{
-				ball->dx *= -1;
-			}
-		}
-		else
-			{
-				// If case there wasn't a collision, clear the hit blocks
-				hit_blocks.clear();
-			}
-	
-		// Now check if it will hit the bottom
-		if(ball_in_play && ball->get_y() == 22)
-		{
-			paddle->ball = true;
-			ball_in_play = false;
-			level_status.lives--;
-			if(level_status.lives == 0)	
-			{
-				level_status.result = OUT_OF_LIVES;
-				return level_status;
-			}
-		}
 
 
 
 
+
+		// Ball collsion and movement
 		if(ball_in_play)
+		{
+			bool hor_wall = false;
+			bool ver_wall = false;
+
+			// Check if its a horizontal wall, above or below
+			if(will_collide(ball, ball->get_x(), ball->get_y() + ball->dy))
+				hor_wall = true;
+	
+			// next, a ver wall, left or right
+			if(will_collide(ball, ball->get_x() + ball->dx, ball->get_y()))
+				ver_wall = true;
+	
+			
+			if(will_collide(ball, ball->get_x() + ball->dx, ball->get_y() + ball->dy) || ver_wall || hor_wall)
+			{
+				// Delete all hit blocks from blocks, clear hit_blocks, incriments score
+				delete_hit();
+		
+				// if its a corner (inside or outside), reverse both
+				if((hor_wall && ver_wall) || (!hor_wall && !ver_wall))
+				{
+					ball->dx *= -1;
+					ball->dy *= -1;
+				}
+				else if(hor_wall) // A horizontal wall (ball moving up or down to), reverse dy
+				{
+					ball->dy *= -1;
+				}
+				else if(ver_wall) // A ver wall (ball moving left or right to), reverse dy
+				{
+					ball->dx *= -1;
+				}
+			}
+
+
+			// Check if it will hit the bottom
+			if(ball_in_play && ball->get_y() == 22)
+			{
+				paddle->ball = true;
+				ball_in_play = false;
+				level_status.lives--;
+				if(level_status.lives == 0)	// Check if game was lost
+				{
+					level_status.result = OUT_OF_LIVES;
+					return level_status;
+				}
+			}
+
 			ball->move(); // Does not re-draw untill top of next loop
+
+		}
+
+
+
 
 
 		// Check if the game was won
@@ -181,6 +184,10 @@ Level_status Level_type_a::run()
 			level_status.result = WON;
 			return level_status;
 		}
+
+
+
+
 
 		sleep(tick);
 	}

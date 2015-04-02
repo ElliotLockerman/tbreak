@@ -8,8 +8,11 @@
 
 void sleep(unsigned int miliseconds);
 
+// Immediatly quits
 void quit();
+
+// Window asking if sure, if so calls quit()
+void quit_window();
 
 void pause_window();
 
-void quit_window();

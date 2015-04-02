@@ -7,6 +7,7 @@ void sleep(unsigned int miliseconds)
     while (clock() < goal);
 }
 
+
 void quit()
 {
 	tb_shutdown();
@@ -49,7 +50,6 @@ void pause_window()
 
 void quit_window()
 {
-	// Set up quit window
 	Window quit_win(Window::CENTER, 4, 26, 7, 1, 0, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
 	quit_win.add_string(Window::CENTER, 2, "Quit?", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
 	quit_win.add_string(Window::CENTER, 4, "y/n", 20, 0, TB_DEFAULT, TB_DEFAULT);

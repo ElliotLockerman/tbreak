@@ -2,89 +2,16 @@
 #include "game_main.h"
  
 
-
-
-
-
-Level_status Game_main::run()
+void Game_main::new_game()
 {
 	
+
 	this->level_status.lives = starting_lives;
 	this->level_status.score = starting_score;
 	this->level_status.result = OUT_OF_LIVES;
 
 
-
-	// Draw title screen
-	tb_clear();
-
 	Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
-	border.draw();
-			
-
-
-	for(int i = 0; i < 13; i++) // < 13
-	{
-		for(int j = 0; j < 4; j++) // < 4
-		{
-			int x = (i * 6) + 1;
-			int y = (j * 2) + 3;
-		
-			Box block(x, y, 6, 2, '%', TB_DEFAULT, TB_DEFAULT);
-		
-			block.replace_string(0, 0, 6, "|\"\"\"\"||____|", TB_DEFAULT, TB_DEFAULT);
-
-			block.draw();
-		}
-	}
-
-
-	
-	
-	Window intro(Window::CENTER, 4, 40, 16, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
-	
-	intro.add_string(Window::CENTER, 2, "Terminal Breakout", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-	intro.add_string(Window::CENTER, 4, "Elliot.Lockerman.info", 40, 0, TB_DEFAULT, TB_DEFAULT);
-	intro.add_string(Window::CENTER, 8, "Controls", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-	intro.add_string(Window::CENTER, 9, "Space: Start/Launch new ball", 40, 0, TB_DEFAULT, TB_DEFAULT);
-	intro.add_string(Window::CENTER, 10, "Left/Right Arrows: Move paddle", 40, 0, TB_DEFAULT, TB_DEFAULT);
-	intro.add_string(Window::CENTER, 11, "p: Pause", 40, 0, TB_DEFAULT, TB_DEFAULT);
-	intro.add_string(Window::CENTER, 12, "ESC: Quit", 40, 0, TB_DEFAULT, TB_DEFAULT);
-		
-	intro.draw_window();
-
-
-
-	tb_present();
-
-
-
-
-	// Title screen event loop
-
-	while(true)
-	{	
-		int level_status = tb_peek_event(&ev, peek_time);
-	
-		if(level_status > 0 && ev.type == TB_EVENT_KEY) 
-		{
-			if(ev.key == TB_KEY_SPACE) 
-				break; 
-			else if(ev.key == TB_KEY_ESC)
-				quit();
-		}	
-
-		sleep(tick);
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	// Level 1
@@ -93,7 +20,7 @@ Level_status Game_main::run()
 	after_level_window();
 	if(level_status.result == OUT_OF_LIVES)
 	{
-		return level_status;
+		return;
 	}
 	
 	
@@ -103,7 +30,7 @@ Level_status Game_main::run()
 	after_level_window();
 	if(level_status.result == OUT_OF_LIVES)
 	{
-		return level_status;
+		return;
 	}
 	
 	
@@ -114,7 +41,7 @@ Level_status Game_main::run()
 	if(level_status.result == OUT_OF_LIVES)
 	{
 		after_level_window();
-		return level_status;
+		return;
 	}
 	
 
@@ -150,14 +77,14 @@ Level_status Game_main::run()
 		if(status > 0 && ev.type == TB_EVENT_KEY)
 		{   
             if(ev.key == TB_KEY_SPACE)
-                return level_status;
+				return;
 			if(ev.key == TB_KEY_ESC)
 				quit();
 		}
 		sleep(tick);
 	}
+}
 
-};
 
 
 
@@ -201,3 +128,74 @@ void Game_main::after_level_window()
 
 
 
+void Game_main::run()
+{
+	while(true)
+	{
+	
+		// Draw title screen
+		tb_clear();
+
+		Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
+		border.draw();
+			
+
+		// Title screen background blocks
+		for(int i = 0; i < 13; i++) // < 13
+		{
+			for(int j = 0; j < 4; j++) // < 4
+			{
+				int x = (i * 6) + 1;
+				int y = (j * 2) + 3;
+		
+				Box block(x, y, 6, 2, '%', TB_DEFAULT, TB_DEFAULT);
+		
+				block.replace_string(0, 0, 6, "|\"\"\"\"||____|", TB_DEFAULT, TB_DEFAULT);
+
+				block.draw();
+			}
+		}
+
+
+	
+		// Title screen instructions
+		Window intro(Window::CENTER, 4, 40, 16, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
+	
+		intro.add_string(Window::CENTER, 2, "Terminal Breakout", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 4, "Elliot.Lockerman.info", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 8, "Controls", 40, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 9, "Space: Start/Launch new ball", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 10, "Left/Right Arrows: Move paddle", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 11, "p: Pause", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		intro.add_string(Window::CENTER, 12, "ESC: Quit", 40, 0, TB_DEFAULT, TB_DEFAULT);
+		
+		intro.draw_window();
+
+
+		tb_present();
+
+
+
+
+		while(true)
+		{	
+			int level_status = tb_peek_event(&ev, peek_time);
+	
+			if(level_status > 0 && ev.type == TB_EVENT_KEY) 
+			{
+				if(ev.key == TB_KEY_SPACE) 
+				{	
+					new_game(); 
+					break;
+				}
+				else if(ev.key == TB_KEY_ESC)
+					quit();
+			}	
+
+			sleep(tick);
+		}
+	
+	
+	
+	};
+};

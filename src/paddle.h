@@ -4,6 +4,8 @@
 
 #pragma once
 
+
+
 class Paddle : public Box
 {
 private:

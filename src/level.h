@@ -13,6 +13,13 @@
 
 #pragma once
 
+
+/*
+ * Abstract class for all levels
+ *
+ */
+
+
 class Level
 {
 private:
@@ -25,12 +32,6 @@ protected:
 	
 	std::string name;
 	bool ball_in_play;
-	
-	std::list<std::shared_ptr<Box> > blocks;
-	std::list<std::shared_ptr<Box> >::iterator blocks_it;
-	
-	std::set<std::shared_ptr<Box> > hit_blocks;
-	std::set<std::shared_ptr<Box> >::iterator hit_it;
 	
 		
 	std::shared_ptr<Box> border;

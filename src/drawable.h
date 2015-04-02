@@ -1,18 +1,19 @@
 #pragma once
 
 /*
-Represents anything that can be drawn on the screen
+Abstract superclass for anything that can be drawn on the screen
 */
 class Drawable
 {
 private:
 	
 protected:
+	// Protected for subclassing
 	int x, y;
 	
 public:
 
-	// Does the drawing (but does not call present())
+	// Does the writing to buffer (but does not call present())
 	virtual void draw() = 0;
 	
 	// Returns true if the object has a character at the given point (Note: even if the character has been overwritten by another object's [which should be avoided]) If you need to replace a portion of an object, call its remove_char() function on any points that will be covered up

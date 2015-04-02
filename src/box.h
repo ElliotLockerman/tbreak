@@ -8,30 +8,35 @@
 #pragma once
 
 /*
-A box drawn to the terminal, consisting of a single character ch.
-x, y are the upper left corner
-Extra lines for thicknesses greater than 1 are placed on the *inside* of the width and height, replacing any center
-For information on ch, fg and bg, see termbox.h
-*/
+ * A box
+ * Can have a center, border, or both
+ * x, y are the upper left corner
+ * Extra lines for thicknesses greater than 1 are placed on the *inside* of the width and height, replacing any center
+ * Character provided in constructor is default, but can be replaced or removed with replace_char(), replace_string(), remove_char();
+ * For information on ch, fg and bg, see termbox.h
+ */
 
 class Box: public Drawable
 {
 private:
 	
+	// The basic unit - one character on the screen, if !empty
 	struct char_wrap
 	{
 		tb_cell cell;	
 		bool empty; 
 	} empty_wrap, border_wrap, center_wrap;
 	
-	
-	 // Outer is column/width (x), inner is row/height (y)
+	// Matrix representing the box; is directly drawn to buffer
+	// Outer is column/width (x), inner is row/height (y)
 	std::vector<std::vector<char_wrap> > matrix; 
 
-	void initialize_matrix();
+	// ALl the constructers feed in to this after dealing with their arguments
+	void initialize_matrix(bool has_border, bool has_center);
 
 
 protected:
+	// Protected for subclassing
 	int width, height, border_thickness;
 	
 
@@ -51,13 +56,15 @@ public:
 	
 	// Replaces the char at the given location with the arguments.
 	// X and Y are relative
+	// Cannot be placed outside of box's bounds
 	void replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg);
 	
-	// Same as char but for an entire string, with behavior similar to draw_string()
+	// Same as char but for an entire string, with wrapping behavior similar to draw_string()
 	// X and Y are relative
+	// Cannot be placed outside of box's bounds
 	void replace_string(int x, int y, int colwidth, std::string str, uint16_t fg, uint16_t bg);
 	
-	// Remove a char. Will no longer be collidable and will not overwrite previous chars
+	// Remove a char. Will no longer be collidable and will not overwrite buffer
 	// X and Y are relative
 	void remove_char(int x, int y);
 	

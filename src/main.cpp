@@ -1,7 +1,11 @@
 #include <iostream>
 
 #include "game_main.h"
-#include "utility.h"
+
+/*
+ * Initializes termbox and starts the game
+ *
+ */
 
 int main()
 {
@@ -14,5 +18,5 @@ int main()
 	}
 	
 	Game_main game;
-	while(true) {game.run();};
+	game.run();
 }

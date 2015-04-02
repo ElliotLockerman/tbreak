@@ -1,6 +1,5 @@
 #include "window.h"
 
-#include <iostream>
 
 
 void Window::add_string(alignment align, int rel_y, std::string str, int colwidth, int left_padding, uint16_t fg, uint16_t bg)
