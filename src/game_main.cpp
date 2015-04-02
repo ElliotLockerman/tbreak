@@ -90,21 +90,21 @@ Level_status Game_main::run()
 	// Level 1
 	Level_a_1 level_a_1("Level 1", level_status.lives, level_status.score);
 	level_status = level_a_1.run();
+	after_level_window();
 	if(level_status.result == OUT_OF_LIVES)
 	{
 		return level_status;
 	}
-	after_level_window();
 	
 	
 	// Level 2
 	Level_a_2 level_a_2("Level 2", level_status.lives, level_status.score);
 	level_status = level_a_2.run();
+	after_level_window();
 	if(level_status.result == OUT_OF_LIVES)
 	{
 		return level_status;
 	}
-	after_level_window();
 	
 	
 
@@ -113,6 +113,7 @@ Level_status Game_main::run()
 	level_status = level_a_3.run();
 	if(level_status.result == OUT_OF_LIVES)
 	{
+		after_level_window();
 		return level_status;
 	}
 	
@@ -130,10 +131,11 @@ Level_status Game_main::run()
 	// End screen
 	Window end_win(Window::CENTER, 4, 40, 10, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
 	
-	end_win.add_string(Window::CENTER, 2, "The End!", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
-	end_win.add_string(Window::CENTER, 4, "That's all there is so far,", 80, 0, TB_DEFAULT, TB_DEFAULT);
-	end_win.add_string(Window::CENTER, 5, "but there's more to come soon!", 80, 0, TB_DEFAULT, TB_DEFAULT);
-	end_win.add_string(Window::CENTER, 7, "Space to return to start", 80, 0, TB_DEFAULT, TB_DEFAULT);
+	end_win.add_string(Window::CENTER, 2, "You Won!", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+	end_win.add_string(Window::CENTER, 3, "The End!", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
+	end_win.add_string(Window::CENTER, 5, "That's all there is so far,", 80, 0, TB_DEFAULT, TB_DEFAULT);
+	end_win.add_string(Window::CENTER, 6, "but there's more to come soon!", 80, 0, TB_DEFAULT, TB_DEFAULT);
+	end_win.add_string(Window::CENTER, 8, "Space to return to start", 80, 0, TB_DEFAULT, TB_DEFAULT);
 	
 	end_win.draw_window();
 
