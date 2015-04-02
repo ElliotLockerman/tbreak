@@ -1,3 +1,5 @@
+#include <string>
+
 /* 
 Draws a string str starting at x, y. If longer than max_width, it wraps to the next line (without regard for word breaks, etc)
 For information on fg and bg, see termbox.h

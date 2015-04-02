@@ -23,30 +23,16 @@ Level_status Game_main::run()
 			
 
 
-	for(int i = 0; i < 13; i++)
+	for(int i = 0; i < 13; i++) // < 13
 	{
-		for(int j = 0; j < 4; j++)
+		for(int j = 0; j < 4; j++) // < 4
 		{
 			int x = (i * 6) + 1;
 			int y = (j * 2) + 3;
 		
 			Box block(x, y, 6, 2, '%', TB_DEFAULT, TB_DEFAULT);
 		
-
-			block.replace_char(0, 0, '|', TB_DEFAULT, TB_DEFAULT);	
-			block.replace_char(0, 1, '|', TB_DEFAULT, TB_DEFAULT);
-			block.replace_char(5, 1, '|', TB_DEFAULT, TB_DEFAULT);
-			block.replace_char(5, 0, '|', TB_DEFAULT, TB_DEFAULT);
-             
-			block.replace_char(1, 0, '"', TB_DEFAULT, TB_DEFAULT);
-			block.replace_char(2, 0, '"', TB_DEFAULT, TB_DEFAULT);
-			block.replace_char(3, 0, '"', TB_DEFAULT, TB_DEFAULT);
-			block.replace_char(4, 0, '"', TB_DEFAULT, TB_DEFAULT);
-             
-			block.replace_char(1, 1, '_', TB_DEFAULT, TB_DEFAULT);
-			block.replace_char(2, 1, '_', TB_DEFAULT, TB_DEFAULT);
-			block.replace_char(3, 1, '_', TB_DEFAULT, TB_DEFAULT);
-			block.replace_char(4, 1, '_', TB_DEFAULT, TB_DEFAULT);
+			block.replace_string(0, 0, 6, "|\"\"\"\"||____|", TB_DEFAULT, TB_DEFAULT);
 
 			block.draw();
 		}

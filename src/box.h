@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #include <list>
 
 #include "drawable.h"
@@ -24,11 +25,12 @@ private:
 		bool empty; 
 	} empty_wrap, border_wrap, center_wrap;
 	
+	
 	 // Outer is column/width (x), inner is row/height (y)
-	std::vector<std::vector<char_wrap*> > matrix; 
-	std::list<char_wrap> specials;
+	std::vector<std::vector<char_wrap> > matrix; 
 
 	void initialize_matrix();
+
 
 protected:
 	int width, height, border_thickness;
@@ -52,9 +54,14 @@ public:
 	// X and Y are relative
 	void replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg);
 	
+	// Same as char but for an entire string, with behavior similar to draw_string()
+	// X and Y are relative
+	void replace_string(int x, int y, int colwidth, std::string str, uint16_t fg, uint16_t bg);
+	
 	// Remove a char. Will no longer be collidable and will not overwrite previous chars
 	// X and Y are relative
 	void remove_char(int x, int y);
+	
 	
 	
 	

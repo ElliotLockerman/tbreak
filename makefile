@@ -1,7 +1,6 @@
 CXX = g++
 CXXFLAGS = -c -Wall -std=c++11
 LDFLAGS = -ltermbox
-DEBUG = -g
 
 SRC = src
 OBJ = obj
@@ -15,8 +14,6 @@ OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game
 
 all: $(OBJS)
 	$(CXX) $(LDFLAGS) -o $(EXECUTABLE) $(DEBUG) $(OBJS)
-
-
 
 
 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "termbox.h"
 
@@ -100,7 +101,7 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 
 
 void Box::initialize_matrix()
-{
+{	
 	// It should never be printed, but we should have something just in case
 	tb_cell empty_cell =
 	{
@@ -113,7 +114,7 @@ void Box::initialize_matrix()
 	empty_wrap.empty = true;
 	
 	
-	std::vector<char_wrap*> inner(height, &empty_wrap);
+	std::vector<char_wrap> inner(height, empty_wrap);
 	matrix.assign(width, inner);
 	
 
@@ -121,32 +122,32 @@ void Box::initialize_matrix()
 	{
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < height; j++)
-				matrix[i][j] = &center_wrap;
+				matrix[i][j] = center_wrap;
 	}
 	if(has_border)
 	{
 		//Top border
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < border_thickness; j++)
-				matrix[i][j] = &border_wrap;
+				matrix[i][j] = border_wrap;
 		
 
 		//Bottom border
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < border_thickness; j++)
-				matrix[i][height - 1 - j] = &border_wrap;
+				matrix[i][height - 1 - j] = border_wrap;
 			
 
 		// Left border
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < border_thickness; j++)
-				matrix[j][i] = &border_wrap;
+				matrix[j][i] = border_wrap;
 					
 
 		//Right border
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < border_thickness; j++)
-				matrix[width - 1 - j][i] = &border_wrap;
+				matrix[width - 1 - j][i] = border_wrap;
 	}
 		
 }
@@ -165,25 +166,51 @@ void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg)
 			.bg = bg
 		};
 	
-		char_wrap new_special_wrap = 
+		char_wrap new_wrap = 
 		{			
 			.cell = new_cell,
 			.empty = false
 		};
+			
+
+		matrix[x][y]= new_wrap;
+
+	}
 	
-		specials.push_back(new_special_wrap);
-		
-		matrix[x][y] = &specials.back();
+}
+
+void Box::replace_string(int x, int y, int colwidth, std::string str, uint16_t fg, uint16_t bg)
+{	
+	if(x < width && x >= 0 && y < height && y >= 0)
+	{
+		for(unsigned int i = 0; i < str.length(); i++)
+		{			
+			tb_cell new_cell =
+			{
+				.ch = static_cast<uint32_t>(str[i]),
+				.fg = fg,
+				.bg = bg
+			};
+	
+			char_wrap new_wrap = 
+			{			
+				.cell = new_cell,
+				.empty = false
+			};
+
+			matrix[x + (i % colwidth)][y + (i / colwidth)] = new_wrap;			
+		}
 	}
 	
 }
 
 
-
 void Box::remove_char(int x, int y)
 {
 	if(x < width && x >= 0 && y < height && y >= 0)
-		matrix[x][y] = &empty_wrap;
+	{	
+		matrix[x][y] = empty_wrap;
+	}
 }
 
 
@@ -203,9 +230,9 @@ void Box::draw()
 		{
 			for(int j = 0; j < height; j++)
 			{
-				if(!matrix[i][j]->empty)
+				if(!matrix[i][j].empty)
 				{
-					tb_put_cell(x + i, y + j, &(matrix[i][j]->cell));
+					tb_put_cell(x + i, y + j, &(matrix[i][j].cell));
 				}
 			}
 		}
@@ -218,9 +245,9 @@ void Box::draw()
 		{
 			for(int j = 0; j < border_thickness; j++)
 			{
-				if(!matrix[i][j]->empty)
+				if(!matrix[i][j].empty)
 				{
-					tb_put_cell(x + i, y + j, &(matrix[i][j]->cell));
+					tb_put_cell(x + i, y + j, &(matrix[i][j].cell));
 				}
 			}
 		}
@@ -232,9 +259,9 @@ void Box::draw()
 		{
 			for(int j = 0; j < border_thickness; j++)
 			{
-				if(!matrix[i][height - 1 - j]->empty)
+				if(!matrix[i][height - 1 - j].empty)
 				{
-					tb_put_cell(x + i, y + height - 1 - j, &(matrix[i][height - 1 - j]->cell));
+					tb_put_cell(x + i, y + height - 1 - j, &(matrix[i][height - 1 - j].cell));
 				}
 			}
 		}
@@ -245,9 +272,9 @@ void Box::draw()
 		{
 			for(int j = 0; j < border_thickness; j++)
 			{
-				if(!matrix[j][i]->empty)
+				if(!matrix[j][i].empty)
 				{
-					tb_put_cell(x + j, y + i, &(matrix[j][i]->cell));
+					tb_put_cell(x + j, y + i, &(matrix[j][i].cell));
 				}
 			}
 		}
@@ -258,9 +285,9 @@ void Box::draw()
 		{
 			for(int j = 0; j < border_thickness; j++)
 			{
-				if(!matrix[width - 1 - j][i]->empty)
+				if(!matrix[width - 1 - j][i].empty)
 				{
-					tb_put_cell(x + width - 1 - j, y + i, &(matrix[width - 1 - j][i]->cell));
+					tb_put_cell(x + width - 1 - j, y + i, &(matrix[width - 1 - j][i].cell));
 				}
 			}
 		}
@@ -277,7 +304,7 @@ bool Box::contains_point(int x, int y)
 		return false;
 	
 
-	if(!matrix[x - this->x][y - this->y]->empty)
+	if(!matrix[x - this->x][y - this->y].empty)
 		return true;
 	
 	return false;
