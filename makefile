@@ -4,13 +4,14 @@ LDFLAGS = -ltermbox
 
 SRC = src
 OBJ = obj
+EXT = external
 PREFIX? = /usr/local
 
 EXECUTABLE = termbreak
 
 
 
-OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_type_a.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o
+OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_type_a.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o $(OBJ)/jsoncpp.o
 
 all: $(OBJS)
 	$(CXX) $(LDFLAGS) -o $(EXECUTABLE) $(DEBUG) $(OBJS)
@@ -35,29 +36,35 @@ uninstall:
 
 
 
-$(OBJ)/main.o: $(SRC)/game_main.h $(SRC)/utility.h
-	$(CXX) $(CXXFLAGS) -o $@ $(SRC)/main.cpp
+$(OBJ)/main.o: $(SRC)/main.cpp $(SRC)/game_main.h  $(SRC)/utility.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(OBJ)/game_main.o: $(SRC)/game_main.h $(SRC)/game_main.cpp $(SRC)/draw_string.h $(SRC)/utility.h  $(SRC)/window.h $(SRC)/level_a_1.h $(SRC)/level_a_2.h $(SRC)/level_a_3.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/game_main.cpp
+$(OBJ)/game_main.o: $(SRC)/game_main.cpp $(SRC)/game_main.h  $(SRC)/draw_string.h $(SRC)/utility.h  $(SRC)/window.h $(SRC)/level_a_1.h $(SRC)/level_a_2.h $(SRC)/level_a_3.h
+	$(CXX) $(CXXFLAGS) -o $@  $<
 
-$(OBJ)/draw_string.o: $(SRC)/draw_string.h $(SRC)/draw_string.cpp
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/draw_string.cpp
+$(OBJ)/draw_string.o: $(SRC)/draw_string.cpp $(SRC)/draw_string.h 
+	$(CXX) $(CXXFLAGS) -o $@  $<
 
-$(OBJ)/utility.o: $(SRC)/utility.h  $(SRC)/utility.cpp $(SRC)/window.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/utility.cpp
+$(OBJ)/utility.o: $(SRC)/utility.cpp $(SRC)/utility.h $(SRC)/window.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(OBJ)/window.o: $(SRC)/window.h $(SRC)/window.cpp $(SRC)/box.h $(SRC)/constants.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/window.cpp
+$(OBJ)/window.o: $(SRC)/window.cpp $(SRC)/window.h $(SRC)/box.h $(SRC)/constants.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(OBJ)/box.o: $(SRC)/box.h $(SRC)/box.cpp $(SRC)/drawable.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/box.cpp
+$(OBJ)/box.o: $(SRC)/box.cpp $(SRC)/box.h $(SRC)/drawable.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(OBJ)/level_type_a.o: $(SRC)/level_type_a.h $(SRC)/level_type_a.cpp $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/level_type_a.cpp
+$(OBJ)/level_type_a.o: $(SRC)/level_type_a.cpp $(SRC)/level_type_a.h $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(OBJ)/ball.o:$(SRC)/ball.cpp $(SRC)/ball.h $(SRC)/drawable.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/ball.cpp
+$(OBJ)/ball.o: $(SRC)/ball.cpp $(SRC)/ball.h $(SRC)/drawable.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
 	
-$(OBJ)/paddle.o:$(SRC)/paddle.cpp $(SRC)/paddle.h $(SRC)/box.h
-	$(CXX) $(CXXFLAGS) -o $@  $(SRC)/paddle.cpp
+$(OBJ)/paddle.o: $(SRC)/paddle.cpp $(SRC)/paddle.h $(SRC)/box.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
+	
+
+
+
+$(OBJ)/jsoncpp.o: $(EXT)/jsoncpp/jsoncpp.cpp $(EXT)/jsoncpp/json/json.h $(EXT)/jsoncpp/json/json-forwards.h
+	$(CXX) $(CXXFLAGS) -o $@ $<

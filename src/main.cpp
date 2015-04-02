@@ -1,9 +1,12 @@
 #include <iostream>
 
+#include "../external/jsoncpp/json/json-forwards.h"
+#include "../external/jsoncpp/json/json.h"
+
 #include "game_main.h"
 
 /*
- * Initializes termbox and starts the game
+ * Handles comand line arguments, initializes termbox and starts the game
  *
  */
 
