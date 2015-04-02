@@ -16,8 +16,8 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch,
 	
 	if(border_thickness < 1) border_thickness = 1;
 
-	has_border = true;
-	has_center = false;
+	bool has_border = true;
+	bool has_center = false;
 	
 	this->x = x;
 	this->y = y;
@@ -31,7 +31,7 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch,
 
 	this->border_wrap.empty = false;
 	
-	initialize_matrix();
+	initialize_matrix(has_border, has_center);
 }
 
 
@@ -40,8 +40,8 @@ Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16
 {
 	// TODO: Bounds checking
 	
-	has_border = false;
-	has_center = true;
+	bool has_border = false;
+	bool has_center = true;
 	
 	this->x = x;
 	this->y = y;
@@ -55,7 +55,7 @@ Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16
 	this->center_wrap.empty = false;
 	
 	
-	initialize_matrix();
+	initialize_matrix(has_border, has_center);
 }
 
 
@@ -64,6 +64,7 @@ Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16
 Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg, uint32_t cch, uint16_t cfg, uint16_t cbg)
 {
 	// TODO: Bounds checking
+	bool has_border = false;
 	
 	if(border_thickness > 0)
 	{
@@ -71,7 +72,7 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 		this->border_thickness = border_thickness;
 	}
 	
-	has_center = true;
+	bool has_center = true;
 	
 	this->x = x;
 	this->y = y;
@@ -92,7 +93,7 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 	
 	this->border_wrap.empty = false;
 	
-	initialize_matrix();
+	initialize_matrix(has_border, has_center);
 }
 
 // End constructors
@@ -100,7 +101,7 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch
 
 
 
-void Box::initialize_matrix()
+void Box::initialize_matrix(bool has_border, bool has_center)
 {	
 	// It should never be printed, but we should have something just in case
 	tb_cell empty_cell =
@@ -223,75 +224,17 @@ void Box::remove_char(int x, int y)
 void Box::draw()
 {
 	
-	// Draw center
-	if(has_center)
+	for(int i = 0; i < width; i++)
 	{
-		for(int i = 0; i < width; i++)
+		for(int j = 0; j < height; j++)
 		{
-			for(int j = 0; j < height; j++)
+			if(!matrix[i][j].empty)
 			{
-				if(!matrix[i][j].empty)
-				{
-					tb_put_cell(x + i, y + j, &(matrix[i][j].cell));
-				}
+				tb_put_cell(x + i, y + j, &(matrix[i][j].cell));
 			}
 		}
 	}
-	// Draw borders, but only if there's no center (the border is inside)
-	else if(has_border)
-	{
-		//Top border
-		for(int i = 0; i < width; i++)
-		{
-			for(int j = 0; j < border_thickness; j++)
-			{
-				if(!matrix[i][j].empty)
-				{
-					tb_put_cell(x + i, y + j, &(matrix[i][j].cell));
-				}
-			}
-		}
 
-
-
-		//Bottom border
-		for(int i = 0; i < width; i++)
-		{
-			for(int j = 0; j < border_thickness; j++)
-			{
-				if(!matrix[i][height - 1 - j].empty)
-				{
-					tb_put_cell(x + i, y + height - 1 - j, &(matrix[i][height - 1 - j].cell));
-				}
-			}
-		}
-			
-
-		// Left border
-		for(int i = 0; i < height; i++)
-		{
-			for(int j = 0; j < border_thickness; j++)
-			{
-				if(!matrix[j][i].empty)
-				{
-					tb_put_cell(x + j, y + i, &(matrix[j][i].cell));
-				}
-			}
-		}
-					
-
-		//Right border
-		for(int i = 0; i < height; i++)
-		{
-			for(int j = 0; j < border_thickness; j++)
-			{
-				if(!matrix[width - 1 - j][i].empty)
-				{
-					tb_put_cell(x + width - 1 - j, y + i, &(matrix[width - 1 - j][i].cell));
-				}
-			}
-		}
-	}
 }
 
 

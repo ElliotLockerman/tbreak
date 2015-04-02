@@ -17,7 +17,6 @@ For information on ch, fg and bg, see termbox.h
 class Box: public Drawable
 {
 private:
-	bool has_border, has_center;
 	
 	struct char_wrap
 	{
