@@ -11,9 +11,6 @@ static const int full_height = 24;
 
 
 // Game
-static const int starting_lives = 3;
-static const int starting_score = 0;
-static const int score_per_block = 10;
 
 enum Level_result{OUT_OF_LIVES, WON};
 

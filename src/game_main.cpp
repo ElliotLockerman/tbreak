@@ -4,16 +4,63 @@
 
 void Game_main::new_game()
 {
-	
+    Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 
-	this->level_status.lives = starting_lives;
-	this->level_status.score = starting_score;
+	this->level_status.lives = level_root["starting_lives"].asInt();
+	this->level_status.score = 0;
 	this->level_status.result = OUT_OF_LIVES;
 
 
-	Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
+	Json::Value levels = level_root["levels"];
+
 	
+	for(int i = 0; i < levels.size(); i++)
+	{
+		if(levels[i]["type"].asString() == "block_grid")
+		{
+			Level_type_block_grid::block_grid_config config = 
+			{
+				.lives              = level_status.lives,
+				.score              = level_status.score,
+				
+				.name               = levels[i]["name"].asString(),
+				
+				.block_width        = levels[i]["block_width"].asInt(),
+				.block_height       = levels[i]["block_height"].asInt(),
+				.block_default_char = levels[i]["block_default_char"].asString()[0],
+				.block_string       = levels[i]["block_string"].asString(),
+					
+					
+				.number_of_columns  = levels[i]["number_of_columns"].asInt(),
+				.number_of_rows     = levels[i]["number_of_rows"].asInt(),
+				.points_per_block   = levels[i]["points_per_block"].asInt(),
+
+				.starting_x         = levels[i]["starting_x"].asInt(),
+				.starting_y         = levels[i]["starting_y"].asInt(),
+				.top_padding        = levels[i]["top_padding"].asInt(),
+				.left_padding       = levels[i]["left_padding"].asInt()
+			};
+			
+			
+			Level_type_block_grid level(config);
+			level_status = level.run();
+			
+			if(i < levels.size() - 1)
+				after_level_window();
+			if(level_status.result == OUT_OF_LIVES)
+			{
+				return;
+			}
+		}
+			
+	}
+	if(level_status.result == OUT_OF_LIVES)
+	{
+		after_level_window();
+	}
 	
+	 
+	/*
 	// Level 1
 	Level_a_1 level_a_1("Level 1", level_status.lives, level_status.score);
 	level_status = level_a_1.run();
@@ -43,7 +90,7 @@ void Game_main::new_game()
 		after_level_window();
 		return;
 	}
-	
+	*/
 
 
 

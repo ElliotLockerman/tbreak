@@ -1,27 +1,49 @@
-#include "level_type_a.h"
+#include "level_type_block_grid.h"
 
 
-Level_type_a::Level_type_a(std::string name, int lives, int score)
+Level_type_block_grid::Level_type_block_grid(block_grid_config config)
 {
-	this->level_status.lives = lives,
-	this->level_status.score = score,
+	score_per_block = 0;
+	
+	this->level_status.lives = config.lives,
+	this->level_status.score = config.score,
 	this->level_status.result = OUT_OF_LIVES; // Just so its not uninitialized. It should be set before its read
 	
 
 	this->name = name;
 	ball_in_play = false;
+	
+	
+	
+	for(int i = 0; i < config.number_of_rows; i++) // < 13
+	{
+		for(int j = 0; j < config.number_of_columns; j++) // < 4
+		{
+			int x = (j * (config.block_width + config.left_padding)) + config.starting_x;
+			int y = (i * (config.block_height + config.top_padding)) + config.starting_y;
+	
+			Box* block = new Box(x, y, config.block_width, config.block_height, config.block_default_char, TB_DEFAULT, TB_DEFAULT);
+	
+			block->replace_string(0, 0, config.block_width, config.block_string, TB_DEFAULT, TB_DEFAULT);
+
+			this->blocks.push_back(std::shared_ptr<Box>(block));
+			
+		}
+	}
+	
 
 
 	border.reset(new Box(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT));
 	paddle.reset(new Paddle(32, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT));
 	ball.reset(new Ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT));
+	
 }
 
 
 
 
 
-Level_status Level_type_a::run()
+Level_status Level_type_block_grid::run()
 {
 
 	// Game event loop	
@@ -196,7 +218,7 @@ Level_status Level_type_a::run()
 };
 
 
-bool Level_type_a::will_collide(std::shared_ptr<Drawable> object, int x, int y)
+bool Level_type_block_grid::will_collide(std::shared_ptr<Drawable> object, int x, int y)
 {
 	if(object != paddle && paddle->contains_point(x, y))
 		return true;
@@ -225,7 +247,7 @@ bool Level_type_a::will_collide(std::shared_ptr<Drawable> object, int x, int y)
 
 
 
-void Level_type_a::delete_hit()
+void Level_type_block_grid::delete_hit()
 {
 	for(hit_it = hit_blocks.begin(); hit_it != hit_blocks.end(); hit_it++)
 	{
@@ -235,7 +257,7 @@ void Level_type_a::delete_hit()
 	hit_blocks.clear();
 };
 
-void Level_type_a::draw_data()
+void Level_type_block_grid::draw_data()
 {
 	draw_string(5, 1, 10, name, TB_DEFAULT, TB_DEFAULT);
 	draw_string(50, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);

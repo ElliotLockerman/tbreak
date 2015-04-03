@@ -11,7 +11,7 @@ EXECUTABLE = termbreak
 
 
 
-OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_type_a.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o $(OBJ)/jsoncpp.o
+OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_type_block_grid.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o $(OBJ)/jsoncpp.o
 
 all: $(OBJS)
 	$(CXX) $(LDFLAGS) -o $(EXECUTABLE) $(DEBUG) $(OBJS)
@@ -36,10 +36,10 @@ uninstall:
 
 
 
-$(OBJ)/main.o: $(SRC)/main.cpp $(SRC)/game_main.h  $(SRC)/utility.h
+$(OBJ)/main.o: $(SRC)/main.cpp $(SRC)/game_main.h  $(SRC)/utility.h $(SRC)/default_levels.h
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(OBJ)/game_main.o: $(SRC)/game_main.cpp $(SRC)/game_main.h  $(SRC)/draw_string.h $(SRC)/utility.h  $(SRC)/window.h $(SRC)/level_a_1.h $(SRC)/level_a_2.h $(SRC)/level_a_3.h
+$(OBJ)/game_main.o: $(SRC)/game_main.cpp $(SRC)/game_main.h  $(SRC)/draw_string.h $(SRC)/utility.h  $(SRC)/window.h
 	$(CXX) $(CXXFLAGS) -o $@  $<
 
 $(OBJ)/draw_string.o: $(SRC)/draw_string.cpp $(SRC)/draw_string.h 
@@ -54,7 +54,7 @@ $(OBJ)/window.o: $(SRC)/window.cpp $(SRC)/window.h $(SRC)/box.h $(SRC)/constants
 $(OBJ)/box.o: $(SRC)/box.cpp $(SRC)/box.h $(SRC)/drawable.h
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(OBJ)/level_type_a.o: $(SRC)/level_type_a.cpp $(SRC)/level_type_a.h $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
+$(OBJ)/level_type_block_grid.o: $(SRC)/level_type_block_grid.cpp $(SRC)/level_type_block_grid.h $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
 $(OBJ)/ball.o: $(SRC)/ball.cpp $(SRC)/ball.h $(SRC)/drawable.h

@@ -1,15 +1,15 @@
 #include <string>
 
 #include "termbox.h"
+#include "../external/jsoncpp/json/json.h"
 
 #include "constants.h"
 #include "draw_string.h"
 #include "utility.h"
 #include "window.h"
 
-#include "level_a_1.h"
-#include "level_a_2.h"
-#include "level_a_3.h"
+#include "level_type_block_grid.h"
+
 
 /*
  * The main game class
@@ -24,12 +24,17 @@ private:
 	
 	Level_status level_status;
 
+	Json::Value level_root;
 	
 	void new_game();
 	
     void after_level_window();
     
 public:
+	Game_main(Json::Value level_root)
+	{
+		this->level_root = level_root;
+	}
 	void run();
 		
 };

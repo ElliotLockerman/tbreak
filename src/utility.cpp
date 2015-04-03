@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "utility.h"
 
 void sleep(unsigned int miliseconds)
@@ -13,6 +15,14 @@ void quit()
 	tb_shutdown();
 	std::exit(0);
 }
+
+void quit(int status, std::string error)
+{
+	tb_shutdown();
+	std::cerr << error << std::endl;
+	std::exit(status);
+}
+
 
 
 

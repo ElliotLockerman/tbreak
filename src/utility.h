@@ -11,6 +11,10 @@ void sleep(unsigned int miliseconds);
 // Immediatly quits
 void quit();
 
+// Immediatly quits with status and error message
+void quit(int status, std::string error);
+
+
 // Window asking if sure, if so calls quit()
 void quit_window();
 

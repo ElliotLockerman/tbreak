@@ -1,8 +1,10 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 
-#include "../external/jsoncpp/json/json-forwards.h"
 #include "../external/jsoncpp/json/json.h"
 
+#include "default_levels.h"
 #include "game_main.h"
 
 /*
@@ -10,8 +12,45 @@
  *
  */
 
-int main()
+int main(int argc, char* argv[])
 {
+	std::string level_json;
+	std::string line;
+	
+	if(argc > 1)
+	{
+		std::ifstream ifile(argv[1]);
+		if(ifile.is_open())
+		{
+			while(getline(ifile, line))
+			{
+				level_json.append(line);
+			}
+			ifile.close();
+		}
+		else
+		{
+			std::cerr << "The specified file could not be found" << std::endl;
+			return 1;
+		}
+	}
+	else
+	{
+		level_json = default_level;
+	}
+	
+
+	Json::Value level_root;
+	Json::Reader reader;
+	if(!reader.parse(level_json, level_root))
+	{
+		std::cerr << "Parser Error" << std::endl
+			     << reader.getFormattedErrorMessages();
+	}
+	// TODO: Check json before loading
+	
+	
+	
 	// Initialize
 	int init_status = tb_init();
 	if(init_status != 0)
@@ -20,6 +59,8 @@ int main()
 		return 1;
 	}
 	
-	Game_main game;
+	
+	Game_main game(level_root);
 	game.run();
+	
 }
