@@ -3,7 +3,6 @@
 
 Level_type_block_grid::Level_type_block_grid(block_grid_config config)
 {
-	score_per_block = 0;
 	
 	this->level_status.lives = config.lives,
 	this->level_status.score = config.score,
@@ -11,6 +10,7 @@ Level_type_block_grid::Level_type_block_grid(block_grid_config config)
 	
 
 	this->name = name;
+	this->points_per_block = config.points_per_block;
 	ball_in_play = false;
 	
 	
@@ -251,7 +251,7 @@ void Level_type_block_grid::delete_hit()
 {
 	for(hit_it = hit_blocks.begin(); hit_it != hit_blocks.end(); hit_it++)
 	{
-		level_status.score += score_per_block;	
+		level_status.score += points_per_block;	
 		blocks.remove(*hit_it);		
 	}
 	hit_blocks.clear();

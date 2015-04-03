@@ -32,7 +32,7 @@ protected:
 	std::set<std::shared_ptr<Box> > hit_blocks;
 	std::set<std::shared_ptr<Box> >::iterator hit_it;
 	
-	int score_per_block;
+	int points_per_block;
 	
 	
 	
