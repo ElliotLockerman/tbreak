@@ -188,6 +188,7 @@ void Game_main::run()
 			
 
 		// Title screen background blocks
+		/*
 		for(int i = 0; i < 13; i++) // < 13
 		{
 			for(int j = 0; j < 4; j++) // < 4
@@ -202,6 +203,29 @@ void Game_main::run()
 				block.draw();
 			}
 		}
+		*/
+		
+		
+		
+		for(int i = 0; i < level_root["levels"][0]["number_of_rows"].asInt(); i++) // < 13
+		{
+			for(int j = 0; j < level_root["levels"][0]["number_of_columns"].asInt(); j++) // < 4
+			{
+				int x = (j * (level_root["levels"][0]["block_width"].asInt() + level_root["levels"][0]["left_padding"].asInt())) + level_root["levels"][0]["starting_x"].asInt();
+				int y = (i * (level_root["levels"][0]["block_height"].asInt() + level_root["levels"][0]["top_padding"].asInt())) + level_root["levels"][0]["starting_y"].asInt();
+	
+				Box block(x, y, level_root["levels"][0]["block_width"].asInt(), level_root["levels"][0]["block_height"].asInt(), level_root["levels"][0]["block_default_char"].asString()[0], TB_DEFAULT, TB_DEFAULT);
+	
+				block.replace_string(0, 0, level_root["levels"][0]["block_width"].asInt(), level_root["levels"][0]["block_string"].asString(), TB_DEFAULT, TB_DEFAULT);
+
+				block.draw();
+				
+			
+			}
+		}
+		
+		
+		
 
 
 	

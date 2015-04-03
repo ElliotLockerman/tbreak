@@ -9,7 +9,7 @@ Level_type_block_grid::Level_type_block_grid(block_grid_config config)
 	this->level_status.result = OUT_OF_LIVES; // Just so its not uninitialized. It should be set before its read
 	
 
-	this->name = name;
+	this->name = config.name;
 	this->points_per_block = config.points_per_block;
 	ball_in_play = false;
 	
@@ -259,7 +259,7 @@ void Level_type_block_grid::delete_hit()
 
 void Level_type_block_grid::draw_data()
 {
-	draw_string(5, 1, 10, name, TB_DEFAULT, TB_DEFAULT);
+	draw_string(5, 1, 45, name, TB_DEFAULT, TB_DEFAULT);
 	draw_string(50, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
 	draw_string(65, 1, 15, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
 }
