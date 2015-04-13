@@ -26,9 +26,9 @@ private:
 
 	Json::Value level_root;
 	
-	void new_game();
+	bool new_game();
 	
-    void after_level_window();
+    bool after_level_window();
     
 public:
 	Game_main(Json::Value level_root)

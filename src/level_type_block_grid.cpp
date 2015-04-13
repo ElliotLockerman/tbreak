@@ -126,13 +126,21 @@ Level_status Level_type_block_grid::run()
 			// Pause
 			if(ev.ch == 'p')
 			{
-				pause_window();
+				if(pause_window())
+				{
+					level_status.result = QUIT;
+				 	return level_status;
+				}
 		
 			}
 			// Quit
 			else if(ev.key == TB_KEY_ESC)
 			{
-				quit_window();
+				if(quit_window())
+				{
+					level_status.result = QUIT;
+				 	return level_status;
+				}
 			}
 		}
 

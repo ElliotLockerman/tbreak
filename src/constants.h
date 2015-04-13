@@ -12,7 +12,7 @@ static const int full_height = 24;
 
 // Game
 
-enum Level_result{OUT_OF_LIVES, WON};
+enum Level_result{OUT_OF_LIVES, WON, QUIT};
 
 struct Level_status
 {

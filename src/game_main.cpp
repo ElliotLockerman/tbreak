@@ -2,7 +2,7 @@
 #include "game_main.h"
  
 
-void Game_main::new_game()
+bool Game_main::new_game()
 {
     Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 
@@ -45,53 +45,20 @@ void Game_main::new_game()
 			Level_type_block_grid level(config);
 			level_status = level.run();
 			
-			if(i < levels.size() - 1)
-				after_level_window();
+			if(level_status.result == QUIT)
+			{
+				return true;
+			}
+			if(i < levels.size() - 1) return after_level_window();
 			if(level_status.result == OUT_OF_LIVES)
 			{
-				return;
+				return false;
 			}
+			
 		}
 			
 	}
-	if(level_status.result == OUT_OF_LIVES)
-	{
-		after_level_window();
-	}
 	
-	 
-	/*
-	// Level 1
-	Level_a_1 level_a_1("Level 1", level_status.lives, level_status.score);
-	level_status = level_a_1.run();
-	after_level_window();
-	if(level_status.result == OUT_OF_LIVES)
-	{
-		return;
-	}
-	
-	
-	// Level 2
-	Level_a_2 level_a_2("Level 2", level_status.lives, level_status.score);
-	level_status = level_a_2.run();
-	after_level_window();
-	if(level_status.result == OUT_OF_LIVES)
-	{
-		return;
-	}
-	
-	
-
-	// Level 3
-	Level_a_3 level_a_3("Level 3", level_status.lives, level_status.score);
-	level_status = level_a_3.run();
-	if(level_status.result == OUT_OF_LIVES)
-	{
-		after_level_window();
-		return;
-	}
-	*/
-
 
 
 
@@ -124,9 +91,9 @@ void Game_main::new_game()
 		if(status > 0 && ev.type == TB_EVENT_KEY)
 		{   
             if(ev.key == TB_KEY_SPACE)
-				return;
+				return false;
 			if(ev.key == TB_KEY_ESC)
-				quit();
+				if(quit_window()) return true;
 		}
 		sleep(tick);
 	}
@@ -136,7 +103,7 @@ void Game_main::new_game()
 
 
 
-void Game_main::after_level_window()
+bool Game_main::after_level_window()
 {
 	Window end(Window::CENTER, 4, 40, 8, 1, 3, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
 
@@ -165,9 +132,9 @@ void Game_main::after_level_window()
 		if(status > 0 && ev.type == TB_EVENT_KEY) 
 		{
 			if(ev.key == TB_KEY_SPACE)
-				return;	
+				return false;	
 			if(ev.key == TB_KEY_ESC)
-				quit_window();	
+				if(quit_window()) return true;	
 		}	
 
 	}
@@ -186,24 +153,6 @@ void Game_main::run()
 		Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 		border.draw();
 			
-
-		// Title screen background blocks
-		/*
-		for(int i = 0; i < 13; i++) // < 13
-		{
-			for(int j = 0; j < 4; j++) // < 4
-			{
-				int x = (i * 6) + 1;
-				int y = (j * 2) + 3;
-		
-				Box block(x, y, 6, 2, '%', TB_DEFAULT, TB_DEFAULT);
-		
-				block.replace_string(0, 0, 6, "|\"\"\"\"||____|", TB_DEFAULT, TB_DEFAULT);
-
-				block.draw();
-			}
-		}
-		*/
 		
 		
 		
@@ -256,11 +205,11 @@ void Game_main::run()
 			{
 				if(ev.key == TB_KEY_SPACE) 
 				{	
-					new_game(); 
+					if(new_game()) return;
 					break;
 				}
 				else if(ev.key == TB_KEY_ESC)
-					quit();
+					return;
 			}	
 
 			sleep(tick);

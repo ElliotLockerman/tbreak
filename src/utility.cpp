@@ -10,24 +10,13 @@ void sleep(unsigned int miliseconds)
 }
 
 
-void quit()
-{
-	tb_shutdown();
-	std::exit(0);
-}
-
-void quit(int status, std::string error)
-{
-	tb_shutdown();
-	std::cerr << error << std::endl;
-	std::exit(status);
-}
 
 
 
 
 
-void pause_window()
+
+bool pause_window()
 {
 	Window pause_win(Window::CENTER, 4, 26, 7, 1, 0, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
     
@@ -46,10 +35,10 @@ void pause_window()
 		if(status > 0 && ev.type == TB_EVENT_KEY)
 		{
 			if(ev.ch == 'p')
-				return;
+				return false;
 			if(ev.key == TB_KEY_ESC)
 			{
-				quit_window();
+				if(quit_window())return true;
 			}
 			
 		}
@@ -58,7 +47,7 @@ void pause_window()
 
 
 
-void quit_window()
+bool quit_window()
 {
 	Window quit_win(Window::CENTER, 4, 26, 7, 1, 0, '*', TB_DEFAULT, TB_DEFAULT,  ' ', TB_DEFAULT, TB_DEFAULT);
 	quit_win.add_string(Window::CENTER, 2, "Quit?", 20, 0, TB_DEFAULT | TB_BOLD, TB_DEFAULT);
@@ -74,9 +63,9 @@ void quit_window()
 		if(status > 0 && ev.type == TB_EVENT_KEY)
 		{
 			if(ev.ch == 'n')
-				return;
+				return false;
 			if(ev.ch == 'y')
-				quit();
+				return true;
 		}
 	}
 }

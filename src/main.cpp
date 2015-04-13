@@ -62,5 +62,7 @@ int main(int argc, char* argv[])
 	
 	Game_main game(level_root);
 	game.run();
+
+	tb_shutdown();
 	
 }
