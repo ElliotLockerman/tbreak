@@ -1,6 +1,10 @@
 #include <vector>
 #include <string>
 #include <list>
+#include <iostream>
+#include <cassert>
+
+#include "termbox.h"
 
 #include "drawable.h"
 

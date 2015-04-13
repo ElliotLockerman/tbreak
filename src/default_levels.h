@@ -13,7 +13,7 @@ R"(
             "block_width": 8,
             "block_height": 3,
 			"block_default_char": "%",
-            "block_string": "|\"\"\"\"\"\"||      ||______||",
+            "block_string": "|\"\"\"\"\"\"||      ||______|",
 			
             "number_of_columns": 9,
             "number_of_rows": 3,

@@ -1,8 +1,3 @@
-#include <iostream>
-#include <string>
-
-#include "termbox.h"
-
 #include "box.h"
 
 
@@ -182,26 +177,40 @@ void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg)
 
 void Box::replace_string(int x, int y, int colwidth, std::string str, uint16_t fg, uint16_t bg)
 {	
-	if(x < width && x >= 0 && y < height && y >= 0)
-	{
-		for(unsigned int i = 0; i < str.length(); i++)
-		{			
-			tb_cell new_cell =
-			{
-				.ch = static_cast<uint32_t>(str[i]),
-				.fg = fg,
-				.bg = bg
-			};
-	
-			char_wrap new_wrap = 
-			{			
-				.cell = new_cell,
-				.empty = false
-			};
 
-			matrix[x + (i % colwidth)][y + (i / colwidth)] = new_wrap;			
-		}
+	assert(x < width);
+	assert(x >= 0);
+	assert(y < height);
+	assert(y >= 0);
+
+	if(colwidth <= 0) colwidth = 1;
+	if(colwidth > width - x) colwidth = width - x;
+
+
+
+	for(unsigned int i = 0; i < str.length(); i++)
+	{			
+		tb_cell new_cell =
+		{
+			.ch = static_cast<uint32_t>(str[i]),
+			.fg = fg,
+			.bg = bg
+		};
+
+		char_wrap new_wrap = 
+		{			
+			.cell = new_cell,
+			.empty = false
+		};
+
+
+		assert(x + (i % colwidth) < width);
+		assert(y + (i / colwidth) < height);
+
+
+		matrix[x + (i % colwidth)][y + (i / colwidth)] = new_wrap;			
 	}
+	
 	
 }
 
