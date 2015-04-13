@@ -14,7 +14,7 @@ void Game_main::new_game()
 	Json::Value levels = level_root["levels"];
 
 	
-	for(int i = 0; i < levels.size(); i++)
+	for(unsigned int i = 0; i < levels.size(); i++)
 	{
 		if(levels[i]["type"].asString() == "block_grid")
 		{

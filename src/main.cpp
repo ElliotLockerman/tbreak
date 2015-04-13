@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 		std::cerr << "Parser Error" << std::endl
 			     << reader.getFormattedErrorMessages();
 	}
-	// TODO: Check json before loading
+	// TODO: Parse json to data structure before starting up game 
 	
 	
 	
