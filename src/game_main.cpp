@@ -49,7 +49,7 @@ bool Game_main::new_game()
 			{
 				return true;
 			}
-			if(i < levels.size() - 1) return after_level_window();
+			if(i < levels.size() - 1 && after_level_window()) return true;
 			if(level_status.result == OUT_OF_LIVES)
 			{
 				return false;
