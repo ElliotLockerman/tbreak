@@ -199,18 +199,16 @@ void Game_main::run()
 
 		while(true)
 		{	
-			int level_status = tb_peek_event(&ev, peek_time);
 	
-			if(level_status > 0 && ev.type == TB_EVENT_KEY) 
-			{
-				if(ev.key == TB_KEY_SPACE) 
-				{	
-					if(new_game()) return;
-					break;
-				}
-				else if(ev.key == TB_KEY_ESC)
-					return;
-			}	
+
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) 
+			{	
+				if(new_game()) return;
+				break;
+			}
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+				return;
+				
 
 			sleep(tick);
 		}

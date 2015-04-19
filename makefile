@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -c -Wall -std=c++11
-LDFLAGS = -ltermbox
+LDFLAGS = -ltermbox -lsfml-window
 
 SRC = src
 OBJ = obj

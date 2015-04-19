@@ -2,6 +2,7 @@
 
 #include "termbox.h"
 #include "../external/jsoncpp/json/json.h"
+#include <SFML/Window/Keyboard.hpp>
 
 #include "constants.h"
 #include "draw_string.h"

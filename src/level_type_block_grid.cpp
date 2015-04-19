@@ -72,77 +72,75 @@ Level_status Level_type_block_grid::run()
 
 
 		// Handle input
-		int status = tb_peek_event(&ev, peek_time);
-		if(status > 0 && ev.type == TB_EVENT_KEY) 
+
+		// Launch ball
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			// Launch ball
-			if(ev.key == TB_KEY_SPACE)
+			if(!ball_in_play)
 			{
-				if(!ball_in_play)
-				{
-					srand (time(NULL));
-					int ran = rand() % 100;
+				srand (time(NULL));
+				int ran = rand() % 100;
+		
+				int dx;
+				if(ran > 50)
+					dx = 1;
+				if(ran <= 50)
+					dx = -1;
+							
+				ball->dx = dx;
+				ball->dy = -1;
 			
-					int dx;
-					if(ran > 50)
-						dx = 1;
-					if(ran <= 50)
-						dx = -1;
-								
-					ball->dx = dx;
-					ball->dy = -1;
-				
-					paddle->ball = false;
-					ball_in_play = true;
-					ball->move_to(paddle->ball_x(), paddle->get_y());
-				}
-		
+				paddle->ball = false;
+				ball_in_play = true;
+				ball->move_to(paddle->ball_x(), paddle->get_y());
 			}
-			// Move paddle left
-			else if(ev.key == TB_KEY_ARROW_LEFT)
-			{
-				// Check if we can move two (prefered), one or zero spaces
-				bool left_collide_1 = will_collide(paddle, paddle->get_x() - 1, paddle->get_y());
-				bool left_collide_2 = will_collide(paddle, paddle->get_x() - 2, paddle->get_y());
 	
-		
-				if(!(left_collide_1 || left_collide_2))
-					paddle->move_left(2);
-				else if(!left_collide_1)
-					paddle->move_left(1);
-			}
-			// Move paddle right
-			else if(ev.key == TB_KEY_ARROW_RIGHT)
+		}
+		// Move paddle left
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			// Check if we can move two (prefered), one or zero spaces
+			bool left_collide_1 = will_collide(paddle, paddle->get_x() - 1, paddle->get_y());
+			bool left_collide_2 = will_collide(paddle, paddle->get_x() - 2, paddle->get_y());
+
+	
+			if(!(left_collide_1 || left_collide_2))
+				paddle->move_left(2);
+			else if(!left_collide_1)
+				paddle->move_left(1);
+		}
+		// Move paddle right
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			// Check if we can move two (prefered), one or zero spaces
+			bool right_collide_1 = will_collide(paddle, paddle->get_x() + paddle->get_width(), paddle->get_y());
+			bool right_collide_2 = will_collide(paddle, paddle->get_x() + paddle->get_width() + 1, paddle->get_y());
+	
+			if(!(right_collide_1 || right_collide_2))
+				paddle->move_right(2);
+			else if(!right_collide_1)
+				paddle->move_right(1);
+		}
+		// Pause
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+		{
+			if(pause_window())
 			{
-				// Check if we can move two (prefered), one or zero spaces
-				bool right_collide_1 = will_collide(paddle, paddle->get_x() + paddle->get_width(), paddle->get_y());
-				bool right_collide_2 = will_collide(paddle, paddle->get_x() + paddle->get_width() + 1, paddle->get_y());
-		
-				if(!(right_collide_1 || right_collide_2))
-					paddle->move_right(2);
-				else if(!right_collide_1)
-					paddle->move_right(1);
+				level_status.result = QUIT;
+			 	return level_status;
 			}
-			// Pause
-			if(ev.ch == 'p')
+	
+		}
+		// Quit
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			if(quit_window())
 			{
-				if(pause_window())
-				{
-					level_status.result = QUIT;
-				 	return level_status;
-				}
-		
-			}
-			// Quit
-			else if(ev.key == TB_KEY_ESC)
-			{
-				if(quit_window())
-				{
-					level_status.result = QUIT;
-				 	return level_status;
-				}
+				level_status.result = QUIT;
+			 	return level_status;
 			}
 		}
+	
 
 
 

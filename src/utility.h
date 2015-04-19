@@ -2,6 +2,7 @@
 #include <cstdlib>
 
 #include "termbox.h"
+#include <SFML/Window/Keyboard.hpp>
 
 #include "window.h"
 

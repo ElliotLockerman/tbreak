@@ -11,7 +11,7 @@ Terminal Breakout is a Breakout clone that runs entirely in the terminal!
 
 ### Dependencies
 
-Termbreak requires [Termbox](https://github.com/nsf/termbox) to be installed first. 
+Termbreak requires [Termbox](https://github.com/nsf/termbox) and [SFML](http://www.sfml-dev.org/) to be installed first.  
 Included with Termbreak is [jsoncpp](https://github.com/open-source-parsers/jsoncpp).
 
 ### Build and Install
@@ -30,7 +30,6 @@ The default prefix is `/usr/local`; you can also set it manually.
 
 The default level pack can be played by running `termbreak`.  
 To run a level pack, specify the path to the pack as the first argument. See level_packs.html for information on making your own levels.   
-You should also turn off key-repeat delay.
 
 ### Controls
 

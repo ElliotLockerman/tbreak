@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "termbox.h"
+#include <SFML/Window/Keyboard.hpp>
 
 #include "level.h"
 #include "draw_string.h"
