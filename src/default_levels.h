@@ -6,7 +6,8 @@ R"(
 	"starting_lives": 3,
 	
     "levels": 
-	[	{
+	[	
+		{
 			"name": "Level 1",
             "type": "block_grid",
             
