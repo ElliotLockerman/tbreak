@@ -5,7 +5,7 @@
 // Constructors 
 
 // Border only
-Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch, uint16_t fg, uint16_t bg)
+Box::Box(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int border_thickness, uint32_t ch, uint16_t fg, uint16_t bg)
 {
 	// TODO: Bounds checking
 	
@@ -31,7 +31,7 @@ Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t ch,
 
 
 // Center only
-Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16_t cbg)
+Box::Box(unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint32_t cch, uint16_t cfg, uint16_t cbg)
 {
 	// TODO: Bounds checking
 	
@@ -56,7 +56,7 @@ Box::Box(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16
 
 
 // Border and center
-Box::Box(int x, int y, int width, int height, int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg, uint32_t cch, uint16_t cfg, uint16_t cbg)
+Box::Box(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg, uint32_t cch, uint16_t cfg, uint16_t cbg)
 {
 	// TODO: Bounds checking
 	bool has_border = false;
@@ -116,33 +116,33 @@ void Box::initialize_matrix(bool has_border, bool has_center)
 
 	if(has_center)
 	{
-		for(int i = 0; i < width; i++)
-			for(int j = 0; j < height; j++)
+		for(unsigned int i = 0; i < width; i++)
+			for(unsigned int j = 0; j < height; j++)
 				matrix[i][j] = center_wrap;
 	}
 	if(has_border)
 	{
 		//Top border
-		for(int i = 0; i < width; i++)
-			for(int j = 0; j < border_thickness; j++)
+		for(unsigned int i = 0; i < width; i++)
+			for(unsigned int j = 0; j < border_thickness; j++)
 				matrix[i][j] = border_wrap;
 		
 
 		//Bottom border
-		for(int i = 0; i < width; i++)
-			for(int j = 0; j < border_thickness; j++)
+		for(unsigned int i = 0; i < width; i++)
+			for(unsigned int j = 0; j < border_thickness; j++)
 				matrix[i][height - 1 - j] = border_wrap;
 			
 
 		// Left border
-		for(int i = 0; i < height; i++)
-			for(int j = 0; j < border_thickness; j++)
+		for(unsigned int i = 0; i < height; i++)
+			for(unsigned int j = 0; j < border_thickness; j++)
 				matrix[j][i] = border_wrap;
 					
 
 		//Right border
-		for(int i = 0; i < height; i++)
-			for(int j = 0; j < border_thickness; j++)
+		for(unsigned int i = 0; i < height; i++)
+			for(unsigned int j = 0; j < border_thickness; j++)
 				matrix[width - 1 - j][i] = border_wrap;
 	}
 		
@@ -151,9 +151,9 @@ void Box::initialize_matrix(bool has_border, bool has_center)
 
 
 
-void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg)
+void Box::replace_char(unsigned int x, unsigned int y, uint32_t ch, uint16_t fg, uint16_t bg)
 {
-	if(x < width && x >= 0 && y < height && y >= 0)
+	if(x < width && y < height)
 	{
 		tb_cell new_cell =
 		{
@@ -175,13 +175,11 @@ void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg)
 	
 }
 
-void Box::replace_string(int x, int y, int colwidth, std::string str, uint16_t fg, uint16_t bg)
+void Box::replace_string(unsigned int x, unsigned int y, unsigned int colwidth, std::string str, uint16_t fg, uint16_t bg)
 {	
 
 	assert(x < width);
-	assert(x >= 0);
 	assert(y < height);
-	assert(y >= 0);
 
 	if(colwidth <= 0) colwidth = 1;
 	if(colwidth > width - x) colwidth = width - x;
@@ -215,9 +213,9 @@ void Box::replace_string(int x, int y, int colwidth, std::string str, uint16_t f
 }
 
 
-void Box::remove_char(int x, int y)
+void Box::remove_char(unsigned int x, unsigned int y)
 {
-	if(x < width && x >= 0 && y < height && y >= 0)
+	if(x < width && y < height)
 	{	
 		matrix[x][y] = empty_wrap;
 	}
@@ -233,9 +231,9 @@ void Box::remove_char(int x, int y)
 void Box::draw()
 {
 	
-	for(int i = 0; i < width; i++)
+	for(unsigned int i = 0; i < width; i++)
 	{
-		for(int j = 0; j < height; j++)
+		for(unsigned int j = 0; j < height; j++)
 		{
 			if(!matrix[i][j].empty)
 			{
@@ -249,7 +247,7 @@ void Box::draw()
 
 
 
-bool Box::contains_point(int x, int y)
+bool Box::contains_point(unsigned int x, unsigned int y)
 {
 	// Don't want to index out of bounds
 	if(x < this->x || x >= this->x + this->width || y < this-> y || y >= this->y + this->height)
@@ -265,7 +263,7 @@ bool Box::contains_point(int x, int y)
 
 
 
-void Box::move_to(int x, int y)
+void Box::move_to(unsigned int x, unsigned int y)
 {
 	this->x = x;
 	this->y = y;

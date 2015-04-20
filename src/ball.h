@@ -21,7 +21,7 @@ public:
 	// Distance moved in each direction each time move() is called. 
 	int dy, dx;
 	
-	Ball(int x, int y, int dx, int dy, uint32_t ch, uint16_t fg, uint16_t bg);
+	Ball(unsigned int x, unsigned int y, int dx, int dy, uint32_t ch, uint16_t fg, uint16_t bg);
 	
 	// Moves the ball by one dx and one dy
 	void move();
@@ -33,11 +33,11 @@ public:
 	
 	// X and Y are absolute
 	using Drawable::contains_point;
-	virtual bool contains_point(int x, int y);
+	virtual bool contains_point(unsigned int x, unsigned int y);
 	
 	// X and Y are absolute
 	using Drawable::move_to;
-	virtual void move_to(int x, int y);
+	virtual void move_to(unsigned int x, unsigned int y);
 	
 	
 	using Drawable::get_x;
