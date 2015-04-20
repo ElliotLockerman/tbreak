@@ -24,29 +24,8 @@ class Level_type_block_grid : public Level
 {
 private:
 	
-protected:
 	
-	
-	std::list<std::shared_ptr<Box> > blocks;
-	std::list<std::shared_ptr<Box> >::iterator blocks_it;
-	
-	std::set<std::shared_ptr<Box> > hit_blocks;
-	std::set<std::shared_ptr<Box> >::iterator hit_it;
-	
-	int points_per_block;
-	
-	
-	
-	
-	using Level::will_collide;
-	virtual bool will_collide(std::shared_ptr<Drawable> object, int x, int y);
-	
-	using Level::delete_hit;
-	virtual void delete_hit();
-	
-	void draw_data();
-	
-public:	
+public:
 	struct block_grid_config
 	{
 		int lives;
@@ -69,8 +48,30 @@ public:
 		int left_padding;
 	};
 	
+protected:
+	block_grid_config config;
 	
-	Level_type_block_grid(block_grid_config config);
+	std::list<std::shared_ptr<Box> > blocks;
+	std::list<std::shared_ptr<Box> >::iterator blocks_it;
+	
+	std::set<std::shared_ptr<Box> > hit_blocks;
+	std::set<std::shared_ptr<Box> >::iterator hit_it;
+	
+	int points_per_block;
+	
+	
+	
+	
+	using Level::will_collide;
+	virtual bool will_collide(std::shared_ptr<Drawable> object, int x, int y);
+	
+	using Level::delete_hit;
+	virtual void delete_hit();
+	
+	void draw_data();
+	
+public:		
+	Level_type_block_grid(int lives, int score, generic_level_config config);
     
 	using Level::run;
 	virtual Level_status run(); 

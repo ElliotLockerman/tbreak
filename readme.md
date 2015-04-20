@@ -11,7 +11,7 @@ Terminal Breakout is a Breakout clone that runs entirely in the terminal!
 
 ### Dependencies
 
-Termbreak requires [Termbox](https://github.com/nsf/termbox) and [SFML](http://www.sfml-dev.org/) to be installed first.  
+Termbreak requires [Termbox](https://github.com/nsf/termbox) and [SFML 2](http://www.sfml-dev.org/) to be installed first.  
 Included with Termbreak is [jsoncpp](https://github.com/open-source-parsers/jsoncpp).
 
 ### Build and Install

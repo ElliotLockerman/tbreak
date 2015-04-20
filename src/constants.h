@@ -1,9 +1,7 @@
 #pragma once
 
 // Time
-const unsigned int tick = 75; // Delay between event loop cycles
-const int peek_time = 20; // Time waiting for event per cycle
-
+const double tick = 75; // Delay between event loop cycles in msec
 
 // Screensize
 const int full_width = 80;

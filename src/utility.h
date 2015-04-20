@@ -6,9 +6,7 @@
 
 #include "window.h"
 
-
-void sleep(unsigned int miliseconds);
-
+#pragma once
 
 
 // Window asking if sure, if so calls quit()
@@ -16,4 +14,6 @@ void sleep(unsigned int miliseconds);
 bool quit_window();
 
 bool pause_window();
+
+void sleep(double miliseconds);
 

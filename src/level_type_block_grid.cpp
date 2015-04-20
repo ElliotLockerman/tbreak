@@ -1,11 +1,11 @@
 #include "level_type_block_grid.h"
 
 
-Level_type_block_grid::Level_type_block_grid(block_grid_config config)
+Level_type_block_grid::Level_type_block_grid(int lives, int score, Level::generic_level_config config)
 {
 	
-	this->level_status.lives = config.lives,
-	this->level_status.score = config.score,
+	this->level_status.lives = lives,
+	this->level_status.score = score,
 	this->level_status.result = OUT_OF_LIVES; // Just so its not uninitialized. It should be set before its read
 	
 
@@ -45,7 +45,8 @@ Level_type_block_grid::Level_type_block_grid(block_grid_config config)
 
 Level_status Level_type_block_grid::run()
 {
-
+	bool p_been_released = true;
+	bool space_been_released = false;
 	// Game event loop	
 	while(true)
 	{	
@@ -72,10 +73,25 @@ Level_status Level_type_block_grid::run()
 
 
 		// Handle input
+		
+		
+		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+		{
+			p_been_released = true;
+		}
+		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			space_been_released = true;
+		}
+		
+		
 
 		// Launch ball
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		if(space_been_released 
+			&& sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
+			space_been_released = false;
+			
 			if(!ball_in_play)
 			{
 				srand (time(NULL));
@@ -122,14 +138,15 @@ Level_status Level_type_block_grid::run()
 				paddle->move_right(1);
 		}
 		// Pause
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+		else if(p_been_released && sf::Keyboard::isKeyPressed(sf::Keyboard::P))
 		{
+			p_been_released = false;
+			
 			if(pause_window())
 			{
 				level_status.result = QUIT;
 			 	return level_status;
 			}
-	
 		}
 		// Quit
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))

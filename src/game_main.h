@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 #include "termbox.h"
 #include "../external/jsoncpp/json/json.h"
@@ -9,6 +10,7 @@
 #include "utility.h"
 #include "window.h"
 
+#include "level.h"
 #include "level_type_block_grid.h"
 
 
@@ -21,20 +23,19 @@
 class Game_main
 {
 private:
-	tb_event ev;
-	
+	int starting_lives;
+	std::vector<Level::generic_level_config> levels;
 	Level_status level_status;
-
-	Json::Value level_root;
-	
+		
 	bool new_game();
 	
     bool after_level_window();
     
 public:
-	Game_main(Json::Value level_root)
+	Game_main(int starting_lives, std::vector<Level::generic_level_config> levels)
 	{
-		this->level_root = level_root;
+		this->starting_lives = starting_lives;
+		this->levels = levels;
 	}
 	void run();
 		

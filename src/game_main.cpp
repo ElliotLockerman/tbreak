@@ -6,43 +6,18 @@ bool Game_main::new_game()
 {
     Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 
-	this->level_status.lives = level_root["starting_lives"].asInt();
+	this->level_status.lives = starting_lives;
 	this->level_status.score = 0;
 	this->level_status.result = OUT_OF_LIVES;
 
 
-	Json::Value levels = level_root["levels"];
-
-	
 	for(unsigned int i = 0; i < levels.size(); i++)
-	{
-		if(levels[i]["type"].asString() == "block_grid")
+	{		
+		if(levels[i].type == "block_grid")
 		{
-			Level_type_block_grid::block_grid_config config = 
-			{
-				.lives              = level_status.lives,
-				.score              = level_status.score,
-				
-				.name               = levels[i]["name"].asString(),
-				
-				.block_width        = levels[i]["block_width"].asInt(),
-				.block_height       = levels[i]["block_height"].asInt(),
-				.block_default_char = levels[i]["block_default_char"].asString()[0],
-				.block_string       = levels[i]["block_string"].asString(),
-					
-					
-				.number_of_columns  = levels[i]["number_of_columns"].asInt(),
-				.number_of_rows     = levels[i]["number_of_rows"].asInt(),
-				.points_per_block   = levels[i]["points_per_block"].asInt(),
-
-				.starting_x         = levels[i]["starting_x"].asInt(),
-				.starting_y         = levels[i]["starting_y"].asInt(),
-				.top_padding        = levels[i]["top_padding"].asInt(),
-				.left_padding       = levels[i]["left_padding"].asInt()
-			};
 			
 			
-			Level_type_block_grid level(config);
+			Level_type_block_grid level(level_status.lives, level_status.score, levels[i]);
 			level_status = level.run();
 			
 			if(level_status.result == QUIT)
@@ -85,16 +60,12 @@ bool Game_main::new_game()
 
 	// End of game event loop
 	while(true)
-	{
-		int status = tb_peek_event(&ev, peek_time);
+	{		
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			return false;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			if(quit_window()) return true;
 		
-		if(status > 0 && ev.type == TB_EVENT_KEY)
-		{   
-            if(ev.key == TB_KEY_SPACE)
-				return false;
-			if(ev.key == TB_KEY_ESC)
-				if(quit_window()) return true;
-		}
 		sleep(tick);
 	}
 }
@@ -128,14 +99,17 @@ bool Game_main::after_level_window()
 		end.draw_window();
 		tb_present();
 		
-		int status = tb_peek_event(&ev, peek_time);
-		if(status > 0 && ev.type == TB_EVENT_KEY) 
+	
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			if(ev.key == TB_KEY_SPACE)
-				return false;	
-			if(ev.key == TB_KEY_ESC)
-				if(quit_window()) return true;	
-		}	
+			return false;
+		}
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			if(quit_window()) return true;	
+		}
+
+		sleep(tick);
 
 	}
 }
@@ -155,21 +129,23 @@ void Game_main::run()
 			
 		
 		
-		
-		for(int i = 0; i < level_root["levels"][0]["number_of_rows"].asInt(); i++) // < 13
+		if(levels[0].type == "block_grid")
 		{
-			for(int j = 0; j < level_root["levels"][0]["number_of_columns"].asInt(); j++) // < 4
+			for(int i = 0; i < levels[0].number_of_rows; i++) // < 13
 			{
-				int x = (j * (level_root["levels"][0]["block_width"].asInt() + level_root["levels"][0]["left_padding"].asInt())) + level_root["levels"][0]["starting_x"].asInt();
-				int y = (i * (level_root["levels"][0]["block_height"].asInt() + level_root["levels"][0]["top_padding"].asInt())) + level_root["levels"][0]["starting_y"].asInt();
+				for(int j = 0; j < levels[0].number_of_columns; j++) // < 4
+				{
+					int x = (j * (levels[0].block_width + levels[0].left_padding)) + levels[0].starting_x;
+					int y = (i * (levels[0].block_height + levels[0].top_padding)) + levels[0].starting_y;
 	
-				Box block(x, y, level_root["levels"][0]["block_width"].asInt(), level_root["levels"][0]["block_height"].asInt(), level_root["levels"][0]["block_default_char"].asString()[0], TB_DEFAULT, TB_DEFAULT);
+					Box block(x, y, levels[0].block_width, levels[0].block_height, levels[0].block_default_char, TB_DEFAULT, TB_DEFAULT);
 	
-				block.replace_string(0, 0, level_root["levels"][0]["block_width"].asInt(), level_root["levels"][0]["block_string"].asString(), TB_DEFAULT, TB_DEFAULT);
+					block.replace_string(0, 0, levels[0].block_width, levels[0].block_string, TB_DEFAULT, TB_DEFAULT);
 
-				block.draw();
+					block.draw();
 				
 			
+				}
 			}
 		}
 		
@@ -196,18 +172,25 @@ void Game_main::run()
 
 
 
-
+		bool space_been_released = false;
 		while(true)
 		{	
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			{
+				space_been_released = true;
+			}
 	
-
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) 
+			if(space_been_released
+				&& sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) 
 			{	
+				space_been_released = false;
 				if(new_game()) return;
 				break;
 			}
 			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			{
 				return;
+			}
 				
 
 			sleep(tick);
