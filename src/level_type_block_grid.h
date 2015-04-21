@@ -3,6 +3,7 @@
 
 #include "termbox.h"
 #include <SFML/Window/Keyboard.hpp>
+#include "../external/jsoncpp/json/json.h"
 
 #include "level.h"
 #include "draw_string.h"
@@ -75,5 +76,8 @@ public:
     
 	using Level::run;
 	virtual Level_status run(); 
+	
+	static bool verify_level_json(Json::Value level_json);
+	static Level::generic_level_config generate_config(Json::Value level_json);
 	
 };

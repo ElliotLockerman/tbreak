@@ -40,7 +40,9 @@ Level_type_block_grid::Level_type_block_grid(int lives, int score,
 
 	border.reset(new Box(0, 0, full_width, full_height, 1, 
 		'#', TB_DEFAULT, TB_DEFAULT));
+		
 	paddle.reset(new Paddle(32, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT));
+	
 	ball.reset(new Ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT));
 	
 }
@@ -303,3 +305,105 @@ void Level_type_block_grid::draw_data()
 	draw_string(65, 1, 15, "Score: " + std::to_string(level_status.score), 
 		TB_DEFAULT, TB_DEFAULT);
 }
+
+
+
+
+
+bool Level_type_block_grid::verify_level_json(Json::Value json_level)
+{
+	std::vector<std::string> required_strings =
+	{
+		"block_default_char",
+		"block_string"
+	};
+
+
+	for(int i = 0; i < static_cast<int>(required_strings.size()); i++)
+	{
+		if(!json_level.isMember(required_strings[i]))
+		{
+			std::cerr << "Level parsing error:" << std::endl;
+			std::cerr << json_level["name"].asString() << " must have a key \"" 
+				<< required_strings[i] << "\""<< std::endl;
+			return EXIT_FAILURE;
+		}
+		if(!json_level[required_strings[i]].isString())
+		{
+			std::cerr << "Level parsing error:" << std::endl;
+			std::cerr << json_level["name"].asString() << "'s " 
+				<< required_strings[i] <<" value must be a string" << std::endl;
+			return EXIT_FAILURE;
+		}
+	}
+	
+	
+	
+	
+	
+	std::vector<std::string> required_nums = 
+	{
+		"block_width",
+	    "block_height",
+		"number_of_columns",
+		"number_of_rows",
+		"points_per_block",
+
+		"starting_x",
+	    "starting_y",
+	    "top_padding",
+	    "left_padding"
+	};
+	
+	for(int i = 0; i < static_cast<int>(required_nums.size()); i++)
+	{
+		if(!json_level.isMember(required_nums[i]))
+		{
+			std::cerr << "Level parsing error:" << std::endl;
+			std::cerr << json_level["name"].asString() << " must have a key \"" 
+				<< required_nums[i] << "\"" << std::endl;
+			return EXIT_FAILURE;
+		}
+		if(!json_level[required_nums[i]].isNumeric())
+		{
+			std::cerr << "Level parsing error:" << std::endl;
+			std::cerr << json_level["name"].asString() << "'s " 
+				<< required_nums[i] <<" value must be a number" << std::endl; 
+			return EXIT_FAILURE;
+		}
+	}
+	
+	return true;
+}
+
+
+
+
+
+
+Level::generic_level_config 
+	Level_type_block_grid::generate_config(Json::Value json_level)
+{
+	Level::generic_level_config config =
+	{	
+		.name 				= json_level["name"].asString(),
+		.type 				= json_level["type"].asString(),
+		.block_default_char = json_level["block_default_char"].asString()[0],
+	
+		.block_string		= json_level["block_string"].asString(),
+		.block_width        = json_level["block_width"].asInt(),
+		.block_height       = json_level["block_height"].asInt(),
+
+		.number_of_columns  = json_level["number_of_columns"].asInt(),
+		.number_of_rows     = json_level["number_of_rows"].asInt(),
+		.points_per_block   = json_level["points_per_block"].asInt(),
+
+		.starting_x         = json_level["starting_x"].asInt(),
+		.starting_y         = json_level["starting_y"].asInt(),
+		.top_padding        = json_level["top_padding"].asInt(),
+		.left_padding       = json_level["left_padding"].asInt()
+	};
+	
+	return config;
+}
+

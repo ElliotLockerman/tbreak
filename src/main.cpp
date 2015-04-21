@@ -59,15 +59,11 @@ int main(int argc, char* argv[])
 	Json::Value json_levels = level_root["levels"];
 
 	std::vector<Level::generic_level_config> levels;
-	// levels.resize(json_levels.size());
+
 	
-	for(unsigned int i = 0; i < json_levels.size(); i++)
+	for(int i = 0; i < static_cast<int>(json_levels.size()); i++)
 	{
-		Level::generic_level_config config;
-		
-		
-		
-		
+	
 		if(!json_levels[i].isMember("name"))
 		{
 			std::cerr << "Level parsing error:" << std::endl;
@@ -82,8 +78,6 @@ int main(int argc, char* argv[])
 				<< "'s \"name\" value must be a string" << std::endl;
 			return EXIT_FAILURE;
 		}
-		config.name = json_levels[i]["name"].asString() ;
-		
 		
 		
 		
@@ -91,131 +85,36 @@ int main(int argc, char* argv[])
 		if(!json_levels[i].isMember("type"))
 		{
 			std::cerr << "Level parsing error:" << std::endl;
-			std::cerr << config.name << " must have a key \"type\"" 
+			std::cerr << json_levels[i]["name"]  << " must have a key \"type\"" 
 				<< std::endl;
 			return EXIT_FAILURE;
 		}
 		if(!json_levels[i]["type"].isString())
 		{
 			std::cerr << "Level parsing error:" << std::endl;
-			std::cerr << config.name << "'s \"type\" value must be a string" 
-				<< std::endl;
+			std::cerr << json_levels[i]["name"] 
+				<< "'s \"type\" value must be a string" << std::endl;
 			return EXIT_FAILURE;
 		}
-		config.type = json_levels[i]["type"].asString();
 		
 		
-		
-	
-	
-		
-		if(json_levels[i]["type"].asString() == "block_grid")
+		if(json_levels[i]["type"].asString() == "block_grid"
+			&& Level_type_block_grid::verify_level_json(json_levels[i]))
 		{
 			
-			
-			std::vector<std::string> required_strings =
-			{
-				"block_default_char",
-				"block_string"
-			};
-		
-		
-			for(unsigned int j = 0; j < required_strings.size(); j++)
-			{
-				if(!json_levels[i].isMember(required_strings[j]))
-				{
-					std::cerr << "Level parsing error:" << std::endl;
-					std::cerr << config.name << " must have a key \"" 
-						<< required_strings[j] << "\""<< std::endl;
-					return EXIT_FAILURE;
-				}
-				if(!json_levels[i][required_strings[j]].isString())
-				{
-					std::cerr << "Level parsing error:" << std::endl;
-					std::cerr << config.name << "'s " << required_strings[j] 
-						<<" value must be a string" << std::endl;
-					return EXIT_FAILURE;
-				}
-			}
-			config.block_default_char = 
-				json_levels[i]["block_default_char"].asString()[0];
-			config.block_string = json_levels[i]["block_string"].asString();
-			
-			
-			
-			
-			
-	
-			
-			
-			
-			
-			std::vector<std::string> required_nums = 
-			{
-				"block_width",
-			    "block_height",
-				"number_of_columns",
-				"number_of_rows",
-				"points_per_block",
-
-				"starting_x",
-			    "starting_y",
-			    "top_padding",
-			    "left_padding"
-			};
-			
-			for(unsigned int j = 0; j < required_nums.size(); j++)
-			{
-				if(!json_levels[i].isMember(required_nums[j]))
-				{
-					std::cerr << "Level parsing error:" << std::endl;
-					std::cerr << config.name << " must have a key \"" 
-						<< required_nums[j] << "\"" << std::endl;
-					return EXIT_FAILURE;
-				}
-				if(!json_levels[i][required_nums[j]].isNumeric())
-				{
-					std::cerr << "Level parsing error:" << std::endl;
-					std::cerr << config.name << "'s " << required_nums[j] 
-						<<" value must be a number" << std::endl; 
-					return EXIT_FAILURE;
-				}
-			}
-			
-			config.block_width        = json_levels[i]["block_width"].asInt();
-			config.block_height       = json_levels[i]["block_height"].asInt();
-
-			config.number_of_columns  = 
-				json_levels[i]["number_of_columns"].asInt();
-			config.number_of_rows     = 
-				json_levels[i]["number_of_rows"].asInt();
-			config.points_per_block   = 
-				json_levels[i]["points_per_block"].asInt();
- 
-			config.starting_x         = json_levels[i]["starting_x"].asInt();
-			config.starting_y         = json_levels[i]["starting_y"].asInt();
-			config.top_padding        = json_levels[i]["top_padding"].asInt();
-			config.left_padding       = json_levels[i]["left_padding"].asInt();
-		
-			
+			levels.push_back(Level_type_block_grid::generate_config(
+				json_levels[i]));
 		}
 		else
 		{
 			std::cerr << "The only level type currently available is " 
 				"\"block_grid\"" << std::endl;
 			return EXIT_FAILURE;
-		}
-			
-		levels.push_back(config);	
+		}		
 	}
 
 
-	
 
-	
-	
-	
-	
 	
 	
 	// Initialize termbox
@@ -224,13 +123,13 @@ int main(int argc, char* argv[])
 	{ 
 		std::cerr << "tb_init() failed with error code " << init_status 
 			<< std::endl; 
-		return 1;
+		return EXIT_FAILURE;
 	}
 	
 	if(tb_height() < full_height || tb_width() < full_width)
 	{
 		tb_shutdown();
-		std::cerr << "Error: Please resize terminal to at least 80x24" 
+		std::cerr << "Error: Please resize terminal to at least 80x24 (WxH)" 
 				  << std::endl;
 		return EXIT_FAILURE;
 	}
