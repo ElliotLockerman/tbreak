@@ -12,6 +12,7 @@
 
 #include "level.h"
 #include "level_type_block_grid.h"
+#include "constants.h"
 
 
 /*

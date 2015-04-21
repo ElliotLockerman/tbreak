@@ -10,8 +10,8 @@ Box::Box(int x, int y, int width, int height, int border_thickness,
 {
 	assert(x >= 0);
 	assert(y >= 0);
-	assert(x + width <= tb_width());
-	assert(y + height <= tb_height());
+	assert(x + width <= game_width);
+	assert(y + height <= game_height);
 	
 	if(border_thickness < 1) border_thickness = 1;
 
@@ -70,8 +70,8 @@ Box::Box(int x, int y, int width, int height, int border_thickness,
 {
 	assert(x >= 0);
 	assert(y >= 0);
-	assert(x + width <= tb_width());
-	assert(y + height <= tb_height());
+	assert(x + width <= game_width);
+	assert(y + height <= game_height);
 	
 	
 	bool has_border = false;
@@ -290,8 +290,8 @@ void Box::move_to(int x, int y)
 {
 	assert(x >= 0);
 	assert(y >= 0);
-	assert(x + width <= tb_width());
-	assert(y + height <= tb_height());
+	assert(x + width <= game_width);
+	assert(y + height <= game_height);
 	
 	this->x = x;
 	this->y = y;

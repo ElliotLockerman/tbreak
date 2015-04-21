@@ -53,8 +53,8 @@ public:
 		{
 			assert(x > 0);
 			assert(y > 0);
-			assert(x + width <= tb_width());
-			assert(y + height <= tb_height());
+			assert(x + width <= game_width);
+			assert(y + height <= game_height);
 		}
 	
 	// Automatically positioned window constructor
@@ -64,12 +64,12 @@ public:
 		uint32_t cch, uint16_t cfg, uint16_t cbg) :
 		Box(0, y, width, height, border_thickness, bch, bfg, bbg, cch, cfg, cbg)
 		{
-			assert(y + height <= tb_height());
+			assert(y + height <= game_height);
 			
 			int x = 0;
 			if(align == CENTER)
 			{
-				x = (full_width - width) / 2;
+				x = (game_width - width) / 2;
 			}
 			else if(align == LEFT)
 			{

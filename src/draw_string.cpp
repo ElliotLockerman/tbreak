@@ -11,8 +11,8 @@ void draw_string(int x, int y, int colwidth, std::string str,
 	assert(x >= 0);
 	assert(y >= 0);
 	assert(colwidth > 0);
-	assert(x < tb_width());
-	assert(y < tb_height());
+	assert(x < game_width);
+	assert(y < game_height);
 	
 	if(x + colwidth > tb_width()) colwidth = tb_width() - x;
 

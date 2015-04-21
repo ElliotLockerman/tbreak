@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 	
-	if(tb_height() < full_height || tb_width() < full_width)
+	if(tb_height() < game_height || tb_width() < game_width)
 	{
 		tb_shutdown();
 		std::cerr << "Error: Please resize terminal to at least 80x24 (WxH)" 

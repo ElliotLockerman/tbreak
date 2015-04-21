@@ -38,7 +38,7 @@ Level_type_block_grid::Level_type_block_grid(int lives, int score,
 	
 
 
-	border.reset(new Box(0, 0, full_width, full_height, 1, 
+	border.reset(new Box(0, 0, game_width, game_height, 1, 
 		'#', TB_DEFAULT, TB_DEFAULT));
 		
 	paddle.reset(new Paddle(32, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT));

@@ -20,6 +20,17 @@
  */
 
 
+enum Level_result{OUT_OF_LIVES, WON, QUIT};
+
+struct Level_status
+{
+	int lives;
+	int score;
+	Level_result result;
+};
+
+
+
 class Level
 {
 private:

@@ -4,7 +4,7 @@
 
 bool Game_main::new_game()
 {
-    Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
+    Box border(0, 0, game_width, game_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 
 	this->level_status.lives = starting_lives;
 	this->level_status.score = 0;
@@ -124,7 +124,7 @@ void Game_main::run()
 		// Draw title screen
 		tb_clear();
 
-		Box border(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
+		Box border(0, 0, game_width, game_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 		border.draw();
 			
 		

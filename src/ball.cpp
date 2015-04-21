@@ -5,8 +5,8 @@ Ball::Ball(int x, int y, int dx, int dy, uint32_t ch, uint16_t fg, uint16_t bg)
 {
 	assert(x >= 0);
 	assert(y >= 0);
-	assert(x < tb_width());
-	assert(y < tb_height());
+	assert(x < game_width);
+	assert(y < game_height);
 	
 	this->x = x;
 	this->y = y;
@@ -21,8 +21,8 @@ Ball::Ball(int x, int y, int dx, int dy, uint32_t ch, uint16_t fg, uint16_t bg)
 
 void Ball::move()
 {
-	assert(x + dx < tb_width());
-	assert(y + dy < tb_height());
+	assert(x + dx < game_width);
+	assert(y + dy < game_height);
 	
 	x += dx;
 	y += dy;
@@ -48,8 +48,8 @@ void Ball::move_to(int x, int y)
 {
 	assert(x >= 0);
 	assert(y >= 0);
-	assert(x < tb_width());
-	assert(y < tb_height());
+	assert(x < game_width);
+	assert(y < game_height);
 	
 	this->x = x;
 	this->y = y;

@@ -16,7 +16,7 @@ int Paddle::ball_x()
 
 void Paddle::move_right(int dx)
 {
-	assert(this->x + dx < tb_width());
+	assert(this->x + dx < game_width);
 	
 	move_to(this->x += dx, y);
 }
