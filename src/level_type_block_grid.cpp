@@ -1,7 +1,8 @@
 #include "level_type_block_grid.h"
 
 
-Level_type_block_grid::Level_type_block_grid(int lives, int score, Level::generic_level_config config)
+Level_type_block_grid::Level_type_block_grid(int lives, int score, 
+	Level::generic_level_config config)
 {
 	
 	this->level_status.lives = lives,
@@ -15,16 +16,20 @@ Level_type_block_grid::Level_type_block_grid(int lives, int score, Level::generi
 	
 	
 	
-	for(int i = 0; i < config.number_of_rows; i++) // < 13
+	for(int i = 0; i < config.number_of_rows; i++)
 	{
-		for(int j = 0; j < config.number_of_columns; j++) // < 4
+		for(int j = 0; j < config.number_of_columns; j++)
 		{
-			int x = (j * (config.block_width + config.left_padding)) + config.starting_x;
-			int y = (i * (config.block_height + config.top_padding)) + config.starting_y;
+			int x = (j * (config.block_width + config.left_padding)) + 
+				config.starting_x;
+			int y = (i * (config.block_height + config.top_padding)) + 
+				config.starting_y;
 	
-			Box* block = new Box(x, y, config.block_width, config.block_height, config.block_default_char, TB_DEFAULT, TB_DEFAULT);
+			Box* block = new Box(x, y, config.block_width, config.block_height, 
+				config.block_default_char, TB_DEFAULT, TB_DEFAULT);
 	
-			block->replace_string(0, 0, config.block_width, config.block_string, TB_DEFAULT, TB_DEFAULT);
+			block->replace_string(0, 0, config.block_width, 
+				config.block_string, TB_DEFAULT, TB_DEFAULT);
 
 			this->blocks.push_back(std::shared_ptr<Box>(block));
 			
@@ -33,7 +38,8 @@ Level_type_block_grid::Level_type_block_grid(int lives, int score, Level::generi
 	
 
 
-	border.reset(new Box(0, 0, full_width, full_height, 1, '#', TB_DEFAULT, TB_DEFAULT));
+	border.reset(new Box(0, 0, full_width, full_height, 1, 
+		'#', TB_DEFAULT, TB_DEFAULT));
 	paddle.reset(new Paddle(32, 20, 13, 1, '=', TB_DEFAULT, TB_DEFAULT));
 	ball.reset(new Ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT));
 	
@@ -116,8 +122,10 @@ Level_status Level_type_block_grid::run()
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			// Check if we can move two (prefered), one or zero spaces
-			bool left_collide_1 = will_collide(paddle, paddle->get_x() - 1, paddle->get_y());
-			bool left_collide_2 = will_collide(paddle, paddle->get_x() - 2, paddle->get_y());
+			bool left_collide_1 = 
+				will_collide(paddle, paddle->get_x() - 1, paddle->get_y());
+			bool left_collide_2 = 
+				will_collide(paddle, paddle->get_x() - 2, paddle->get_y());
 
 	
 			if(!(left_collide_1 || left_collide_2))
@@ -129,8 +137,10 @@ Level_status Level_type_block_grid::run()
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			// Check if we can move two (prefered), one or zero spaces
-			bool right_collide_1 = will_collide(paddle, paddle->get_x() + paddle->get_width(), paddle->get_y());
-			bool right_collide_2 = will_collide(paddle, paddle->get_x() + paddle->get_width() + 1, paddle->get_y());
+			bool right_collide_1 = will_collide(paddle, paddle->get_x() 
+				+ paddle->get_width(), paddle->get_y());
+			bool right_collide_2 = will_collide(paddle, paddle->get_x() 
+				+ paddle->get_width() + 1, paddle->get_y());
 	
 			if(!(right_collide_1 || right_collide_2))
 				paddle->move_right(2);
@@ -180,9 +190,11 @@ Level_status Level_type_block_grid::run()
 				ver_wall = true;
 	
 			
-			if(will_collide(ball, ball->get_x() + ball->dx, ball->get_y() + ball->dy) || ver_wall || hor_wall)
+			if(will_collide(ball, ball->get_x() + ball->dx, 
+				ball->get_y() + ball->dy) || ver_wall || hor_wall)
 			{
-				// Delete all hit blocks from blocks, clear hit_blocks, incriments score
+				// Delete all hit blocks from blocks, clear hit_blocks, 
+				// incriments score
 				delete_hit();
 		
 				// if its a corner (inside or outside), reverse both
@@ -191,11 +203,13 @@ Level_status Level_type_block_grid::run()
 					ball->dx *= -1;
 					ball->dy *= -1;
 				}
-				else if(hor_wall) // A horizontal wall (ball moving up or down to), reverse dy
+				else if(hor_wall) 
+				// A horizontal wall (ball moving up or down to), reverse dy
 				{
 					ball->dy *= -1;
 				}
-				else if(ver_wall) // A ver wall (ball moving left or right to), reverse dy
+				else if(ver_wall) 
+				// A ver wall (ball moving left or right to), reverse dy
 				{
 					ball->dx *= -1;
 				}
@@ -241,7 +255,8 @@ Level_status Level_type_block_grid::run()
 };
 
 
-bool Level_type_block_grid::will_collide(std::shared_ptr<Drawable> object, int x, int y)
+bool Level_type_block_grid::will_collide(std::shared_ptr<Drawable> object, 
+	int x, int y)
 {
 	if(object != paddle && paddle->contains_point(x, y))
 		return true;
@@ -283,6 +298,8 @@ void Level_type_block_grid::delete_hit()
 void Level_type_block_grid::draw_data()
 {
 	draw_string(5, 1, 45, name, TB_DEFAULT, TB_DEFAULT);
-	draw_string(50, 1, 10, "Lives: " + std::to_string(level_status.lives), TB_DEFAULT, TB_DEFAULT);
-	draw_string(65, 1, 15, "Score: " + std::to_string(level_status.score), TB_DEFAULT, TB_DEFAULT);
+	draw_string(50, 1, 10, "Lives: " + std::to_string(level_status.lives), 
+		TB_DEFAULT, TB_DEFAULT);
+	draw_string(65, 1, 15, "Score: " + std::to_string(level_status.score), 
+		TB_DEFAULT, TB_DEFAULT);
 }

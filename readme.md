@@ -19,7 +19,7 @@ Included with Termbreak is [jsoncpp](https://github.com/open-source-parsers/json
 Simply run
 
 	make
-	make install
+	sudo make install
 
 The default prefix is `/usr/local`; you can also set it manually.
 

@@ -9,7 +9,7 @@ private:
 	
 protected:
 	// Protected for subclassing
-	unsigned int x, y;
+	int x, y;
 	
 public:
 
@@ -17,10 +17,10 @@ public:
 	virtual void draw() = 0;
 	
 	// Returns true if the object has a character at the given point (Note: even if the character has been overwritten by another object's [which should be avoided]) If you need to replace a portion of an object, call its remove_char() function on any points that will be covered up
-	virtual bool contains_point(unsigned int x, unsigned int y) = 0;
+	virtual bool contains_point(int x, int y) = 0;
 	
 	// Changes x and y. Updates on the next calls to tb_clear(), draw(), tb_present(). 
-	virtual void move_to(unsigned int x, unsigned int y) = 0;
+	virtual void move_to(int x, int y) = 0;
 
 	virtual int get_x() = 0;
 	virtual int get_y() = 0;

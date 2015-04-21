@@ -15,9 +15,15 @@ public:
 	bool ball;
 	
 	
-	Paddle(int x, int y, int width, int height, uint32_t cch, uint16_t cfg, uint16_t cbg) : 
+	Paddle(int x, int y, int width, int height, 
+		uint32_t cch, uint16_t cfg, uint16_t cbg) : 
 		Box(x, y, width, height, cch, cfg, cbg)
 		{
+			assert(x > 0);
+			assert(y > 0);
+			assert(x + width <= tb_width());
+			assert(y + height <= tb_height());
+				
 			ball = true;
 			
 			ball_cell.ch = 'o';

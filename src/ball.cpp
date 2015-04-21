@@ -1,8 +1,13 @@
 #include "ball.h"
 
 
-Ball::Ball(unsigned int x, unsigned int y, int dx, int dy, uint32_t ch, uint16_t fg, uint16_t bg)
+Ball::Ball(int x, int y, int dx, int dy, uint32_t ch, uint16_t fg, uint16_t bg)
 {
+	assert(x >= 0);
+	assert(y >= 0);
+	assert(x < tb_width());
+	assert(y < tb_height());
+	
 	this->x = x;
 	this->y = y;
 	
@@ -16,6 +21,9 @@ Ball::Ball(unsigned int x, unsigned int y, int dx, int dy, uint32_t ch, uint16_t
 
 void Ball::move()
 {
+	assert(x + dx < tb_width());
+	assert(y + dy < tb_height());
+	
 	x += dx;
 	y += dy;
 }
@@ -28,16 +36,21 @@ void Ball::draw()
 	tb_put_cell(x, y, &cell);
 }
 
-bool Ball::contains_point(unsigned int x, unsigned int y)
+bool Ball::contains_point(int x, int y)
 {
-	if(this->x == x && this->y == y)
+	if(x == this->x && y == this->y)
 		return true;
 	
 	return false;
 }
 
-void Ball::move_to(unsigned int x, unsigned int y)
+void Ball::move_to(int x, int y)
 {
+	assert(x >= 0);
+	assert(y >= 0);
+	assert(x < tb_width());
+	assert(y < tb_height());
+	
 	this->x = x;
 	this->y = y;
 }

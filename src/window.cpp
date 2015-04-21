@@ -2,13 +2,17 @@
 
 
 
-void Window::add_string(alignment align, int rel_y, std::string str, int colwidth, int left_padding, uint16_t fg, uint16_t bg)
+void Window::add_string(alignment align, int rel_y, std::string str, 
+	int colwidth, int left_padding, uint16_t fg, uint16_t bg)
 {
 	int rel_x = 0;
 	if(align == CENTER)
 	{
-		if(str.length() < static_cast<unsigned int>(colwidth))
+		if(static_cast<int>(str.length()) < colwidth) 
+		{
 			colwidth = str.length();
+		}
+		
 		rel_x = (width - colwidth) / 2;
 	}
 	else if(align == LEFT)
@@ -21,7 +25,8 @@ void Window::add_string(alignment align, int rel_y, std::string str, int colwidt
 
 
 
-void Window::add_string(int rel_x, int rel_y, std::string str, int colwidth, uint16_t fg, uint16_t bg)
+void Window::add_string(int rel_x, int rel_y, std::string str, int colwidth, 
+	uint16_t fg, uint16_t bg)
 {
 	text new_text =
 	{
@@ -44,9 +49,11 @@ void Window::draw_window()
 		
 	for(std::list<text>::iterator it = texts.begin(); it != texts.end(); it++)
 	{	
-		for(unsigned int i = 0; i < it->str.length(); i++)
+		for(int i = 0; i < static_cast<int>(it->str.length()); i++)
 		{			
-			tb_change_cell(x + it->rel_x + (i % it->colwidth), y + it->rel_y + (i / it->colwidth), (uint32_t)it->str[i], it->fg, it->bg);
+			tb_change_cell(x + it->rel_x + (i % it->colwidth), 
+				y + it->rel_y + (i / it->colwidth), 
+				(uint32_t)it->str[i], it->fg, it->bg);
 		}
 		
 	}

@@ -16,7 +16,8 @@
 
 /*
  * The main game class
- * Displays the home screen, initializes and runs the levels, displays ending screens
+ * Displays the home screen, initializes and runs the levels, 
+ * displays ending screens
  *
  */
 
@@ -32,7 +33,8 @@ private:
     bool after_level_window();
     
 public:
-	Game_main(int starting_lives, std::vector<Level::generic_level_config> levels)
+	Game_main(int starting_lives, 
+		std::vector<Level::generic_level_config> levels)
 	{
 		this->starting_lives = starting_lives;
 		this->levels = levels;

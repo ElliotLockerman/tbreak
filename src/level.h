@@ -40,8 +40,11 @@ protected:
 	std::shared_ptr<Ball> ball;
 	
 	
-	// Tells you whether object will hit anything if at x,y (assuming that that is its next position). Pointers to blocks that are hit will be coppied to hit_blocks
-	virtual bool will_collide(std::shared_ptr<Drawable> object, int x, int y) = 0;
+	// Tells you whether object will hit anything if at x,y (assuming that that 
+	// is its next position). Pointers to blocks that are hit will be coppied
+	// to hit_blocks
+	virtual bool will_collide(std::shared_ptr<Drawable> object, 
+		int x, int y) = 0;
 	
 	// Deletes all hit_blocks
 	virtual void delete_hit() = 0;

@@ -16,7 +16,6 @@
 
 int main(int argc, char* argv[])
 {
-	
 	// Get the json of levels
 	
 	std::string level_json;
@@ -138,7 +137,8 @@ int main(int argc, char* argv[])
 					return EXIT_FAILURE;
 				}
 			}
-			config.block_default_char = json_levels[i]["block_default_char"].asString()[0];
+			config.block_default_char = 
+				json_levels[i]["block_default_char"].asString()[0];
 			config.block_string = json_levels[i]["block_string"].asString();
 			
 			
@@ -185,9 +185,12 @@ int main(int argc, char* argv[])
 			config.block_width        = json_levels[i]["block_width"].asInt();
 			config.block_height       = json_levels[i]["block_height"].asInt();
 
-			config.number_of_columns  = json_levels[i]["number_of_columns"].asInt();
-			config.number_of_rows     = json_levels[i]["number_of_rows"].asInt();
-			config.points_per_block   = json_levels[i]["points_per_block"].asInt();
+			config.number_of_columns  = 
+				json_levels[i]["number_of_columns"].asInt();
+			config.number_of_rows     = 
+				json_levels[i]["number_of_rows"].asInt();
+			config.points_per_block   = 
+				json_levels[i]["points_per_block"].asInt();
  
 			config.starting_x         = json_levels[i]["starting_x"].asInt();
 			config.starting_y         = json_levels[i]["starting_y"].asInt();
@@ -198,7 +201,8 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			std::cerr << "The only level type currently available is \"block_grid\"" << std::endl;
+			std::cerr << "The only level type currently available is " 
+				"\"block_grid\"" << std::endl;
 			return EXIT_FAILURE;
 		}
 			
@@ -218,10 +222,18 @@ int main(int argc, char* argv[])
 	int init_status = tb_init();
 	if(init_status != 0)
 	{ 
-		std::cerr << "tb_init() failed with error code " << init_status << std::endl; 
+		std::cerr << "tb_init() failed with error code " << init_status 
+			<< std::endl; 
 		return 1;
 	}
 	
+	if(tb_height() < full_height || tb_width() < full_width)
+	{
+		tb_shutdown();
+		std::cerr << "Error: Please resize terminal to at least 80x24" 
+				  << std::endl;
+		return EXIT_FAILURE;
+	}
 	
 	
 	

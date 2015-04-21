@@ -5,9 +5,13 @@
 // Constructors 
 
 // Border only
-Box::Box(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int border_thickness, uint32_t ch, uint16_t fg, uint16_t bg)
+Box::Box(int x, int y, int width, int height, int border_thickness, 
+	uint32_t ch, uint16_t fg, uint16_t bg)
 {
-	// TODO: Bounds checking
+	assert(x >= 0);
+	assert(y >= 0);
+	assert(x + width <= tb_width());
+	assert(y + height <= tb_height());
 	
 	if(border_thickness < 1) border_thickness = 1;
 
@@ -31,9 +35,13 @@ Box::Box(unsigned int x, unsigned int y, unsigned int width, unsigned int height
 
 
 // Center only
-Box::Box(unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint32_t cch, uint16_t cfg, uint16_t cbg)
+Box::Box(int x, int y, int width, int height, 
+	uint32_t cch, uint16_t cfg, uint16_t cbg)
 {
-	// TODO: Bounds checking
+	assert(x >= 0);
+	assert(y >= 0);
+	assert(x + width <= tb_width());
+	assert(y + height <= tb_height());
 	
 	bool has_border = false;
 	bool has_center = true;
@@ -56,9 +64,16 @@ Box::Box(unsigned int x, unsigned int y, unsigned int width, unsigned int height
 
 
 // Border and center
-Box::Box(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int border_thickness, uint32_t bch, uint16_t bfg, uint16_t bbg, uint32_t cch, uint16_t cfg, uint16_t cbg)
+Box::Box(int x, int y, int width, int height, int border_thickness, 
+	uint32_t bch, uint16_t bfg, uint16_t bbg, 
+	uint32_t cch, uint16_t cfg, uint16_t cbg)
 {
-	// TODO: Bounds checking
+	assert(x >= 0);
+	assert(y >= 0);
+	assert(x + width <= tb_width());
+	assert(y + height <= tb_height());
+	
+	
 	bool has_border = false;
 	
 	if(border_thickness > 0)
@@ -116,33 +131,33 @@ void Box::initialize_matrix(bool has_border, bool has_center)
 
 	if(has_center)
 	{
-		for(unsigned int i = 0; i < width; i++)
-			for(unsigned int j = 0; j < height; j++)
+		for(int i = 0; i < width; i++)
+			for(int j = 0; j < height; j++)
 				matrix[i][j] = center_wrap;
 	}
 	if(has_border)
 	{
 		//Top border
-		for(unsigned int i = 0; i < width; i++)
-			for(unsigned int j = 0; j < border_thickness; j++)
+		for(int i = 0; i < width; i++)
+			for(int j = 0; j < border_thickness; j++)
 				matrix[i][j] = border_wrap;
 		
 
 		//Bottom border
-		for(unsigned int i = 0; i < width; i++)
-			for(unsigned int j = 0; j < border_thickness; j++)
+		for(int i = 0; i < width; i++)
+			for(int j = 0; j < border_thickness; j++)
 				matrix[i][height - 1 - j] = border_wrap;
 			
 
 		// Left border
-		for(unsigned int i = 0; i < height; i++)
-			for(unsigned int j = 0; j < border_thickness; j++)
+		for(int i = 0; i < height; i++)
+			for(int j = 0; j < border_thickness; j++)
 				matrix[j][i] = border_wrap;
 					
 
 		//Right border
-		for(unsigned int i = 0; i < height; i++)
-			for(unsigned int j = 0; j < border_thickness; j++)
+		for(int i = 0; i < height; i++)
+			for(int j = 0; j < border_thickness; j++)
 				matrix[width - 1 - j][i] = border_wrap;
 	}
 		
@@ -151,33 +166,38 @@ void Box::initialize_matrix(bool has_border, bool has_center)
 
 
 
-void Box::replace_char(unsigned int x, unsigned int y, uint32_t ch, uint16_t fg, uint16_t bg)
+void Box::replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg)
 {
-	if(x < width && y < height)
+	assert(x >= 0);
+	assert(y >= 0);
+	assert(x < width);
+	assert(y < height);
+
+	tb_cell new_cell =
 	{
-		tb_cell new_cell =
-		{
-			.ch = ch,
-			.fg = fg,
-			.bg = bg
-		};
-	
-		char_wrap new_wrap = 
-		{			
-			.cell = new_cell,
-			.empty = false
-		};
-			
+		.ch = ch,
+		.fg = fg,
+		.bg = bg
+	};
 
-		matrix[x][y]= new_wrap;
+	char_wrap new_wrap = 
+	{			
+		.cell = new_cell,
+		.empty = false
+	};
+		
 
-	}
+	matrix[x][y]= new_wrap;
+
+
 	
 }
 
-void Box::replace_string(unsigned int x, unsigned int y, unsigned int colwidth, std::string str, uint16_t fg, uint16_t bg)
+void Box::replace_string(int x, int y, int colwidth, std::string str, 
+	uint16_t fg, uint16_t bg)
 {	
-
+	assert(x >= 0);
+	assert(y >= 0);
 	assert(x < width);
 	assert(y < height);
 
@@ -186,7 +206,7 @@ void Box::replace_string(unsigned int x, unsigned int y, unsigned int colwidth, 
 
 
 
-	for(unsigned int i = 0; i < str.length(); i++)
+	for(int i = 0; i < static_cast<int>(str.length()); i++)
 	{			
 		tb_cell new_cell =
 		{
@@ -213,12 +233,15 @@ void Box::replace_string(unsigned int x, unsigned int y, unsigned int colwidth, 
 }
 
 
-void Box::remove_char(unsigned int x, unsigned int y)
+void Box::remove_char(int x, int y)
 {
-	if(x < width && y < height)
-	{	
-		matrix[x][y] = empty_wrap;
-	}
+	assert(x >= 0);
+	assert(y >= 0);
+	assert(x < width);
+	assert(y < height);
+
+	matrix[x][y] = empty_wrap;
+
 }
 
 
@@ -231,9 +254,9 @@ void Box::remove_char(unsigned int x, unsigned int y)
 void Box::draw()
 {
 	
-	for(unsigned int i = 0; i < width; i++)
+	for(int i = 0; i < width; i++)
 	{
-		for(unsigned int j = 0; j < height; j++)
+		for(int j = 0; j < height; j++)
 		{
 			if(!matrix[i][j].empty)
 			{
@@ -247,10 +270,10 @@ void Box::draw()
 
 
 
-bool Box::contains_point(unsigned int x, unsigned int y)
+bool Box::contains_point(int x, int y)
 {
-	// Don't want to index out of bounds
-	if(x < this->x || x >= this->x + this->width || y < this-> y || y >= this->y + this->height)
+	if(x < this->x || x >= this->x + this->width 
+		|| y < this-> y || y >= this->y + this->height)
 		return false;
 	
 
@@ -263,8 +286,13 @@ bool Box::contains_point(unsigned int x, unsigned int y)
 
 
 
-void Box::move_to(unsigned int x, unsigned int y)
+void Box::move_to(int x, int y)
 {
+	assert(x >= 0);
+	assert(y >= 0);
+	assert(x + width <= tb_width());
+	assert(y + height <= tb_height());
+	
 	this->x = x;
 	this->y = y;
 	

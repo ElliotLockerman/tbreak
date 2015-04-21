@@ -16,10 +16,14 @@ int Paddle::ball_x()
 
 void Paddle::move_right(int dx)
 {
+	assert(this->x + dx < tb_width());
+	
 	move_to(this->x += dx, y);
 }
 
 void Paddle::move_left(int dx)
 {
+	assert(this->x - dx > 0);
+	
 	move_to(this->x -= dx, y);
 }
