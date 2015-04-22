@@ -29,7 +29,7 @@ The default prefix is `/usr/local`; you can also set it manually.
 ### Starting
 
 The default level pack can be played by running `termbreak`.  
-To run a level pack, specify the path to the pack as the first argument. See level_packs.html for information on making your own levels.   
+To run a level pack, specify the path to the pack as the first argument. See level_packs.md for information on making your own levels.   
 
 ### Controls
 
