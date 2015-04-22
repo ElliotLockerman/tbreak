@@ -20,16 +20,19 @@ Level_type_block_grid::Level_type_block_grid(int lives, int score,
 	{
 		for(int j = 0; j < config.number_of_columns; j++)
 		{
-			int x = (j * (config.block_width + config.left_padding)) + 
+			int x = (j * (config.block_width + config.left_margin)) + 
 				config.starting_x;
-			int y = (i * (config.block_height + config.top_padding)) + 
+			int y = (i * (config.block_height + config.top_margin)) + 
 				config.starting_y;
 	
 			Box* block = new Box(x, y, config.block_width, config.block_height, 
 				config.block_default_char, TB_DEFAULT, TB_DEFAULT);
 	
-			block->replace_string(0, 0, config.block_width, 
-				config.block_string, TB_DEFAULT, TB_DEFAULT);
+			if(config.has_block_string)
+			{				
+				block->replace_string(0, 0, config.block_width, 
+					config.block_string, TB_DEFAULT, TB_DEFAULT);
+			}
 
 			this->blocks.push_back(std::shared_ptr<Box>(block));
 			
@@ -314,7 +317,6 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 {
 	std::vector<std::string> required_strings =
 	{
-		"block_default_char",
 		"block_string"
 	};
 
@@ -338,7 +340,14 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 	}
 	
 	
-	
+	if(json_level.isMember("block_string") 
+		&& json_level["block_string"].isString())
+	{
+		std::cerr << "Level parsing error:" << std::endl;
+		std::cerr << json_level["name"].asString() << "'s " 
+			<< "block_string" <<" value must be a string" << std::endl;
+		return EXIT_FAILURE;
+	}
 	
 	
 	std::vector<std::string> required_nums = 
@@ -350,9 +359,8 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 		"points_per_block",
 
 		"starting_x",
-	    "starting_y",
-	    "top_padding",
-	    "left_padding"
+	    "starting_y"
+
 	};
 	
 	for(int i = 0; i < static_cast<int>(required_nums.size()); i++)
@@ -373,6 +381,24 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 		}
 	}
 	
+	if(json_level.isMember("top_margin")
+		&& !json_level["top_margin"].isNumeric())
+	{
+		std::cerr << "Level parsing error:" << std::endl;
+		std::cerr << json_level["name"].asString() << "'s " 
+			<< "top_margin" <<" value must be a number" << std::endl; 
+		return EXIT_FAILURE;
+	}
+	
+	if(json_level.isMember("left_margin")
+		 && !json_level["left_margin"].isNumeric())
+	{
+		std::cerr << "Level parsing error:" << std::endl;
+		std::cerr << json_level["name"].asString() << "'s " 
+			<< "left_margin" <<" value must be a number" << std::endl; 
+		return EXIT_FAILURE;
+	}
+	
 	return true;
 }
 
@@ -384,25 +410,51 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 Level::generic_level_config 
 	Level_type_block_grid::generate_config(Json::Value json_level)
 {
-	Level::generic_level_config config =
-	{	
-		.name 				= json_level["name"].asString(),
-		.type 				= json_level["type"].asString(),
-		.block_default_char = json_level["block_default_char"].asString()[0],
+	Level::generic_level_config config;
 	
-		.block_string		= json_level["block_string"].asString(),
-		.block_width        = json_level["block_width"].asInt(),
-		.block_height       = json_level["block_height"].asInt(),
+	config.name               = json_level["name"].asString();
+	config.type               = json_level["type"].asString();
+	config.block_default_char = json_level["block_default_char"].asString()[0];
 
-		.number_of_columns  = json_level["number_of_columns"].asInt(),
-		.number_of_rows     = json_level["number_of_rows"].asInt(),
-		.points_per_block   = json_level["points_per_block"].asInt(),
+	config.block_width        = json_level["block_width"].asInt();
+	config.block_height       = json_level["block_height"].asInt();
 
-		.starting_x         = json_level["starting_x"].asInt(),
-		.starting_y         = json_level["starting_y"].asInt(),
-		.top_padding        = json_level["top_padding"].asInt(),
-		.left_padding       = json_level["left_padding"].asInt()
-	};
+	config.number_of_columns  = json_level["number_of_columns"].asInt();
+	config.number_of_rows     = json_level["number_of_rows"].asInt();
+	config.points_per_block   = json_level["points_per_block"].asInt();
+
+	config.starting_x         = json_level["starting_x"].asInt();
+	config.starting_y         = json_level["starting_y"].asInt();
+	config.top_margin         = json_level["top_margin"].asInt();
+	config.left_margin        = json_level["left_margin"].asInt();
+
+	
+	if(json_level.isMember("block_string"))
+	{
+		config.has_block_string = true;
+		config.block_string = json_level["block_string"].asString();
+	}
+	
+	if(json_level.isMember("top_margin"))
+	{
+		config.top_margin = json_level["top_margin"].asInt();
+	}
+	else
+	{
+		config.top_margin = 0;
+	}
+	if(json_level.isMember("left_margin"))
+	{
+		config.left_margin = json_level["left_margin"].asInt();
+	}
+	else
+	{
+		config.left_margin = 0;
+	}
+	
+	
+	
+	
 	
 	return config;
 }

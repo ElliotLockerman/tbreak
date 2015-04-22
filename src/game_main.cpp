@@ -135,8 +135,8 @@ void Game_main::run()
 			{
 				for(int j = 0; j < levels[0].number_of_columns; j++) // < 4
 				{
-					int x = (j * (levels[0].block_width + levels[0].left_padding)) + levels[0].starting_x;
-					int y = (i * (levels[0].block_height + levels[0].top_padding)) + levels[0].starting_y;
+					int x = (j * (levels[0].block_width + levels[0].left_margin)) + levels[0].starting_x;
+					int y = (i * (levels[0].block_height + levels[0].top_margin)) + levels[0].starting_y;
 	
 					Box block(x, y, levels[0].block_width, levels[0].block_height, levels[0].block_default_char, TB_DEFAULT, TB_DEFAULT);
 	

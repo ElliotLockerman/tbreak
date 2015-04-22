@@ -73,6 +73,8 @@ public:
 		int block_width;
 		int block_height;
 		char block_default_char;
+		
+		bool has_block_string;
 		std::string block_string;
 		
 		int number_of_columns;
@@ -81,8 +83,8 @@ public:
 		
 		int starting_x;
 		int starting_y;
-		int top_padding;
-		int left_padding;
+		int top_margin;
+		int left_margin;
 	};
 
 
