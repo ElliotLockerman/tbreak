@@ -4,14 +4,21 @@
 	
 	<style>
 	
+
 	td, th
 	{
 		padding-top:10px;
 		padding-left:10px;
 		padding-left:15px;
-		padding-right:15px;
+		padding-right:15px;	
 	}
 	
+	table, td, th
+	{
+		border: 1px dotted gray;
+		border-collapse:collapse;
+	}
+
 	</style>
 	
 	
@@ -25,7 +32,7 @@
 	<h2>Background</h2>
 	<p>A Termbreak level pack is a <a href="http://en.wikipedia.org/wiki/JSON">JSON</a> config file.</p>
 	<p>The default level pack is loaded up automatically when Termbreak is started. To load a custom level pack, specify the path to the pack as the first argument</p>
-	<p>It is instructive to example "level pack example.json", a copy of the default level pack. Feel free to make changes, the original is compiled in.</p>
+	<p>It is instructive to examine "level pack example.json", a copy of the default level pack. Feel free to make changes; the original is compiled in.</p>
 	
 	
 	
@@ -52,9 +59,10 @@
 		</tr>
 		<tr>
 			<td>"levels"</td>
-			<td>Array of <a href="#Level_objects">level objects</a></td>
-			<td>One or more <a href="#level_objects">Level Objects</a></td>
+			<td>Array of <a href="#level_objects">level objects</a></td>
+			<td>One or more <a href="#level_objects">level objects</a></td>
 			<td>Yes</td>
+			<td></td>
 		</tr>
 	</table>
 	
@@ -83,7 +91,7 @@
 		<tr>
 			<td>"name"</td>
 			<td>string</td>
-			<td>Between 1 and 70 characters</td>
+			<td>1 to 70 (inclusive) characters</td>
 			<td>Yes</td>
 			<td>May include a number which does not affect level order.</td>
 		</tr>	
@@ -124,7 +132,7 @@
 		<tr>
 			<td>"block_string"</td>
 			<td>string</td>
-			<td>Between 1 and width*height characters</td>
+			<td>1 to width*height (inclusive) characters</td>
 			<td>No</td>
 			<td>Overwrites default characters, wrapping at the end</td>
 		</tr>
