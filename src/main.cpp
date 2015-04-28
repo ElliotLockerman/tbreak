@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 	int starting_lives = level_root["starting_lives"].asInt();
 	Json::Value json_levels = level_root["levels"];
 
-	std::vector<Level::generic_level_config> levels;
+	std::vector<Json::Value> levels;
 
 	
 	for(int i = 0; i < static_cast<int>(json_levels.size()); i++)
@@ -102,8 +102,7 @@ int main(int argc, char* argv[])
 			&& Level_type_block_grid::verify_level_json(json_levels[i]))
 		{
 			
-			levels.push_back(Level_type_block_grid::generate_config(
-				json_levels[i]));
+			levels.push_back(json_levels[i]);
 		}
 		else
 		{

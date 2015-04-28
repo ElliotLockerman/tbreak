@@ -65,27 +65,4 @@ public:
 	virtual Level_status run() = 0;
 
 
-	struct generic_level_config
-	{	
-		std::string name;
-		std::string type;
-		
-		int block_width;
-		int block_height;
-		char block_default_char;
-		
-		bool has_block_string;
-		std::string block_string;
-		
-		int number_of_columns;
-		int number_of_rows;
-		int points_per_block;
-		
-		int starting_x;
-		int starting_y;
-		int top_margin;
-		int left_margin;
-	};
-
-
 };

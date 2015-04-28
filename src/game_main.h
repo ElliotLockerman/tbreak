@@ -26,7 +26,7 @@ class Game_main
 {
 private:
 	int starting_lives;
-	std::vector<Level::generic_level_config> levels;
+	std::vector<Json::Value> levels;
 	Level_status level_status;
 		
 	bool new_game();
@@ -34,8 +34,7 @@ private:
     bool after_level_window();
     
 public:
-	Game_main(int starting_lives, 
-		std::vector<Level::generic_level_config> levels)
+	Game_main(int starting_lives, std::vector<Json::Value> levels)
 	{
 		this->starting_lives = starting_lives;
 		this->levels = levels;

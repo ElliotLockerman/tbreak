@@ -2,7 +2,7 @@
 
 
 Level_type_block_grid::Level_type_block_grid(int lives, int score, 
-	Level::generic_level_config config)
+	Json::Value config)
 {
 	
 	this->level_status.lives = lives,
@@ -10,28 +10,31 @@ Level_type_block_grid::Level_type_block_grid(int lives, int score,
 	this->level_status.result = OUT_OF_LIVES; // Just so its not uninitialized. It should be set before its read
 	
 
-	this->name = config.name;
-	this->points_per_block = config.points_per_block;
+	this->name = config["name"].asString();
+	this->points_per_block = config["points_per_block"].asInt();
 	ball_in_play = false;
 	
 	
 	
-	for(int i = 0; i < config.number_of_rows; i++)
+	for(int i = 0; i < config["number_of_rows"].asInt(); i++)
 	{
-		for(int j = 0; j < config.number_of_columns; j++)
+		for(int j = 0; j < config["number_of_columns"].asInt(); j++)
 		{
-			int x = (j * (config.block_width + config.left_margin)) + 
-				config.starting_x;
-			int y = (i * (config.block_height + config.top_margin)) + 
-				config.starting_y;
+			int x = (j * (config["block_width"].asInt() 
+                + config["left_margin"].asInt())) 
+                + config["starting_x"].asInt();
+			int y = (i * (config["block_height"].asInt()
+                + config["top_margin"].asInt())) 
+                + config["starting_y"].asInt();
 	
-			Box* block = new Box(x, y, config.block_width, config.block_height, 
-				config.block_default_char, TB_DEFAULT, TB_DEFAULT);
+			Box* block = new Box(x, y, config["block_width"].asInt(), 
+                config["block_height"].asInt(), 
+                config["block_default_char"].asString()[0], TB_DEFAULT, TB_DEFAULT);
 	
-			if(config.has_block_string)
+			if(config.isMember("block_string"))
 			{				
-				block->replace_string(0, 0, config.block_width, 
-					config.block_string, TB_DEFAULT, TB_DEFAULT);
+				block->replace_string(0, 0, config["block_width"].asInt(), 
+					config["block_string"].asString(), TB_DEFAULT, TB_DEFAULT);
 			}
 
 			this->blocks.push_back(std::shared_ptr<Box>(block));
@@ -401,61 +404,3 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 	
 	return true;
 }
-
-
-
-
-
-
-Level::generic_level_config 
-	Level_type_block_grid::generate_config(Json::Value json_level)
-{
-	Level::generic_level_config config;
-	
-	config.name               = json_level["name"].asString();
-	config.type               = json_level["type"].asString();
-	config.block_default_char = json_level["block_default_char"].asString()[0];
-
-	config.block_width        = json_level["block_width"].asInt();
-	config.block_height       = json_level["block_height"].asInt();
-
-	config.number_of_columns  = json_level["number_of_columns"].asInt();
-	config.number_of_rows     = json_level["number_of_rows"].asInt();
-	config.points_per_block   = json_level["points_per_block"].asInt();
-
-	config.starting_x         = json_level["starting_x"].asInt();
-	config.starting_y         = json_level["starting_y"].asInt();
-	config.top_margin         = json_level["top_margin"].asInt();
-	config.left_margin        = json_level["left_margin"].asInt();
-
-	
-	if(json_level.isMember("block_string"))
-	{
-		config.has_block_string = true;
-		config.block_string = json_level["block_string"].asString();
-	}
-	
-	if(json_level.isMember("top_margin"))
-	{
-		config.top_margin = json_level["top_margin"].asInt();
-	}
-	else
-	{
-		config.top_margin = 0;
-	}
-	if(json_level.isMember("left_margin"))
-	{
-		config.left_margin = json_level["left_margin"].asInt();
-	}
-	else
-	{
-		config.left_margin = 0;
-	}
-	
-	
-	
-	
-	
-	return config;
-}
-

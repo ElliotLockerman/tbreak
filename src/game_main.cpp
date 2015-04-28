@@ -13,11 +13,10 @@ bool Game_main::new_game()
 
 	for(unsigned int i = 0; i < levels.size(); i++)
 	{		
-		if(levels[i].type == "block_grid")
+		if(levels[i]["type"].asString() == "block_grid")
 		{
-			
-			
-			Level_type_block_grid level(level_status.lives, level_status.score, levels[i]);
+			Level_type_block_grid level(level_status.lives, 
+                level_status.score, levels[i]);
 			level_status = level.run();
 			
 			if(level_status.result == QUIT)
@@ -129,18 +128,27 @@ void Game_main::run()
 			
 		
 		
-		if(levels[0].type == "block_grid")
+		if(levels[0]["type"].asString() == "block_grid")
 		{
-			for(int i = 0; i < levels[0].number_of_rows; i++) // < 13
+			for(int i = 0; i < levels[0]["number_of_rows"].asInt(); i++)
 			{
-				for(int j = 0; j < levels[0].number_of_columns; j++) // < 4
+				for(int j = 0; j < levels[0]["number_of_columns"].asInt(); j++)
 				{
-					int x = (j * (levels[0].block_width + levels[0].left_margin)) + levels[0].starting_x;
-					int y = (i * (levels[0].block_height + levels[0].top_margin)) + levels[0].starting_y;
+					int x = (j * (levels[0]["block_width"].asInt() 
+                        + levels[0]["left_margin"].asInt())) 
+                        + levels[0]["starting_x"].asInt();
+					int y = (i * (levels[0]["block_height"].asInt() 
+                        + levels[0]["top_margin"].asInt())) 
+                        + levels[0]["starting_y"].asInt();
 	
-					Box block(x, y, levels[0].block_width, levels[0].block_height, levels[0].block_default_char, TB_DEFAULT, TB_DEFAULT);
+					Box block(x, y, levels[0]["block_width"].asInt(), 
+                        levels[0]["block_height"].asInt(),
+                        levels[0]["block_default_char"].asString()[0], 
+                        TB_DEFAULT, TB_DEFAULT);
 	
-					block.replace_string(0, 0, levels[0].block_width, levels[0].block_string, TB_DEFAULT, TB_DEFAULT);
+					block.replace_string(0,0, levels[0]["block_width"].asInt(), 
+                        levels[0]["block_string"].asString(), TB_DEFAULT, 
+                        TB_DEFAULT);
 
 					block.draw();
 				

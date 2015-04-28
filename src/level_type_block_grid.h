@@ -25,32 +25,9 @@ class Level_type_block_grid : public Level
 {
 private:
 	
-	
-public:
-	struct block_grid_config
-	{
-		int lives;
-		int score;
-		
-		std::string name;
-		
-		int block_width;
-		int block_height;
-		char block_default_char;
-		std::string block_string;
-		
-		int number_of_columns;
-		int number_of_rows;
-		int points_per_block;
 
-		int starting_x;
-		int starting_y;
-		int top_padding;
-		int left_padding;
-	};
 	
 protected:
-	block_grid_config config;
 	
 	std::list<std::shared_ptr<Box> > blocks;
 	std::list<std::shared_ptr<Box> >::iterator blocks_it;
@@ -72,12 +49,11 @@ protected:
 	void draw_data();
 	
 public:		
-	Level_type_block_grid(int lives, int score, generic_level_config config);
+	Level_type_block_grid(int lives, int score, Json::Value config);
     
 	using Level::run;
 	virtual Level_status run(); 
 	
 	static bool verify_level_json(Json::Value level_json);
-	static Level::generic_level_config generate_config(Json::Value level_json);
 	
 };
