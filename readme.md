@@ -21,7 +21,8 @@ Simply run
 	make
 	sudo make install
 
-The default prefix is `/usr/local`; you can also set it manually.
+The default compiler is clang++/llvm; you can use g++ with CXX=g++
+The default prefix is `/usr/local`; you can also set it manually with `prefix=your-prefix`
 
 
 ## Running

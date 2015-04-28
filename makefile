@@ -1,4 +1,4 @@
-CXX = g++
+CXX = clang++
 CXXFLAGS = -c -Wall -std=c++11
 LDFLAGS = -ltermbox -lsfml-window
 
