@@ -318,41 +318,30 @@ void Level_type_block_grid::draw_data()
 
 bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 {
-	std::vector<std::string> required_strings =
+	std::vector<std::string> optional_strings =
 	{
 		"block_string"
 	};
 
 
-	for(int i = 0; i < static_cast<int>(required_strings.size()); i++)
+	for(int i = 0; i < static_cast<int>(optional_strings.size()); i++)
 	{
-		if(!json_level.isMember(required_strings[i]))
-		{
-			std::cerr << "Level parsing error:" << std::endl;
-			std::cerr << json_level["name"].asString() << " must have a key \"" 
-				<< required_strings[i] << "\""<< std::endl;
-			return EXIT_FAILURE;
-		}
-		if(!json_level[required_strings[i]].isString())
+		if(json_level.isMember(optional_strings[i])
+            && !json_level[optional_strings[i]].isString())
 		{
 			std::cerr << "Level parsing error:" << std::endl;
 			std::cerr << json_level["name"].asString() << "'s " 
-				<< required_strings[i] <<" value must be a string" << std::endl;
+				<< optional_strings[i] <<" value must be a string" << std::endl;
 			return EXIT_FAILURE;
 		}
 	}
+
 	
-	
-	if(json_level.isMember("block_string") 
-		&& json_level["block_string"].isString())
-	{
-		std::cerr << "Level parsing error:" << std::endl;
-		std::cerr << json_level["name"].asString() << "'s " 
-			<< "block_string" <<" value must be a string" << std::endl;
-		return EXIT_FAILURE;
-	}
-	
-	
+    
+    
+    
+    
+    
 	std::vector<std::string> required_nums = 
 	{
 		"block_width",
@@ -383,24 +372,33 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 			return EXIT_FAILURE;
 		}
 	}
-	
-	if(json_level.isMember("top_margin")
-		&& !json_level["top_margin"].isNumeric())
+    
+    
+    
+    
+    
+    
+    std::vector<std::string> optional_nums =
+    {
+        "top_margin",
+        "left_margin"
+    };
+    
+	for(int i = 0; i < static_cast<int>(optional_nums.size()); i++)
 	{
-		std::cerr << "Level parsing error:" << std::endl;
-		std::cerr << json_level["name"].asString() << "'s " 
-			<< "top_margin" <<" value must be a number" << std::endl; 
-		return EXIT_FAILURE;
+		if(json_level.isMember(optional_nums[i])
+            && !json_level[optional_nums[i]].isNumeric())
+		{
+			std::cerr << "Level parsing error:" << std::endl;
+			std::cerr << json_level["name"].asString() << "'s " 
+				<< optional_nums[i] <<" value must be a number" << std::endl; 
+			return EXIT_FAILURE;
+		}
 	}
-	
-	if(json_level.isMember("left_margin")
-		 && !json_level["left_margin"].isNumeric())
-	{
-		std::cerr << "Level parsing error:" << std::endl;
-		std::cerr << json_level["name"].asString() << "'s " 
-			<< "left_margin" <<" value must be a number" << std::endl; 
-		return EXIT_FAILURE;
-	}
-	
+    
+    
+    
+    
+    
 	return true;
 }
