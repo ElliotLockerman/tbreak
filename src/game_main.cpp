@@ -17,18 +17,26 @@ bool Game_main::new_game()
 		{
 			Level_type_block_grid level(level_status.lives, 
                 level_status.score, levels[i]);
-			level_status = level.run();
-			
-			if(level_status.result == QUIT)
-			{
-				return true;
-			}
-			if(i < levels.size() - 1 && after_level_window()) return true;
-			if(level_status.result == OUT_OF_LIVES)
-			{
-				return false;
-			}
-			
+			level_status = level.run();		
+		}
+		else if(levels[i]["type"].asString() == "block_freeform")
+		{
+			Level_type_block_freeform level(level_status.lives, 
+                level_status.score, levels[i]);
+			level_status = level.run();		
+		}
+    
+      
+        
+        
+		if(level_status.result == QUIT)
+		{
+			return true;
+		}
+		if(i < levels.size() - 1 && after_level_window()) return true;
+		if(level_status.result == OUT_OF_LIVES)
+		{
+			return false;
 		}
 			
 	}
@@ -127,7 +135,7 @@ void Game_main::run()
 		border.draw();
 			
 		
-		
+		/*
 		if(levels[0]["type"].asString() == "block_grid")
 		{
 			for(int i = 0; i < levels[0]["number_of_rows"].asInt(); i++)
@@ -156,7 +164,7 @@ void Game_main::run()
 				}
 			}
 		}
-		
+		*/
 		
 		
 

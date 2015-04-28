@@ -62,7 +62,7 @@ protected:
 	
 	
 public:		
-	virtual Level_status run() = 0;
-
+    
+	virtual Level_status run() = 0;    
 
 };

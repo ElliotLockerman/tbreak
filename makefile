@@ -11,7 +11,7 @@ EXECUTABLE = termbreak
 
 
 
-OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_type_block_grid.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o $(OBJ)/jsoncpp.o
+OBJS = $(OBJ)/main.o $(OBJ)/ball.o $(OBJ)/box.o $(OBJ)/draw_string.o $(OBJ)/game_main.o $(OBJ)/level_type_block_grid.o $(OBJ)/level_abstract_block.o $(OBJ)/level_type_block_freeform.o $(OBJ)/paddle.o $(OBJ)/utility.o $(OBJ)/window.o $(OBJ)/jsoncpp.o
 
 all: $(OBJS)
 	$(CXX) $(LDFLAGS) -o $(EXECUTABLE) $(DEBUG) $(OBJS)
@@ -54,7 +54,13 @@ $(OBJ)/window.o: $(SRC)/window.cpp $(SRC)/window.h $(SRC)/box.h $(SRC)/constants
 $(OBJ)/box.o: $(SRC)/box.cpp $(SRC)/box.h $(SRC)/drawable.h $(SRC)/constants.h
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(OBJ)/level_type_block_grid.o: $(SRC)/level_type_block_grid.cpp $(SRC)/level_type_block_grid.h $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
+$(OBJ)/level_abstract_block.o: $(SRC)/level_abstract_block.cpp $(SRC)/level_abstract_block.h $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
+$(OBJ)/level_type_block_grid.o: $(SRC)/level_type_block_grid.cpp $(SRC)/level_type_block_grid.h $(SRC)/level_abstract_block.h $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
+	$(CXX) $(CXXFLAGS) -o $@ $<
+	
+$(OBJ)/level_type_block_freeform.o: $(SRC)/level_type_block_freeform.cpp $(SRC)/level_type_block_freeform.h $(SRC)/level_abstract_block.h $(SRC)/constants.h $(SRC)/level.h $(SRC)/draw_string.h $(SRC)/window.h $(SRC)/paddle.h $(SRC)/utility.h
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
 $(OBJ)/ball.o: $(SRC)/ball.cpp $(SRC)/ball.h $(SRC)/drawable.h

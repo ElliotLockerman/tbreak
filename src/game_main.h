@@ -12,6 +12,7 @@
 
 #include "level.h"
 #include "level_type_block_grid.h"
+#include "level_type_block_freeform.h"
 #include "constants.h"
 
 
@@ -39,6 +40,9 @@ public:
 		this->starting_lives = starting_lives;
 		this->levels = levels;
 	}
+    
+    Game_main(const Game_main&) = delete;
+    
 	void run();
 		
 };

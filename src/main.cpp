@@ -104,10 +104,15 @@ int main(int argc, char* argv[])
 			
 			levels.push_back(json_levels[i]);
 		}
+        else if (json_levels[i]["type"].asString() == "block_freeform")
+		{
+			
+			levels.push_back(json_levels[i]);
+		}
 		else
 		{
-			std::cerr << "The only level type currently available is " 
-				"\"block_grid\"" << std::endl;
+			std::cerr << "Error: The only level types currently available are " 
+				"\"block_grid\" and \"block_freeform\"" << std::endl;
 			return EXIT_FAILURE;
 		}		
 	}

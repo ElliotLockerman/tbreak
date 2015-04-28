@@ -1,13 +1,5 @@
-#include <string>
-#include <memory>
+#include "level_abstract_block.h"
 
-#include "termbox.h"
-#include <SFML/Window/Keyboard.hpp>
-#include "../external/jsoncpp/json/json.h"
-
-#include "level.h"
-#include "draw_string.h"
-#include "window.h"
 
 
 #pragma once
@@ -21,38 +13,15 @@
  */
 
 
-class Level_type_block_grid : public Level
+class Level_type_block_grid : public Level_abstract_block
 {
 private:
-	
 
-	
-protected:
-	
-	std::list<std::shared_ptr<Box> > blocks;
-	std::list<std::shared_ptr<Box> >::iterator blocks_it;
-	
-	std::set<std::shared_ptr<Box> > hit_blocks;
-	std::set<std::shared_ptr<Box> >::iterator hit_it;
-	
-	int points_per_block;
-	
-	
-	
-	
-	using Level::will_collide;
-	virtual bool will_collide(std::shared_ptr<Drawable> object, int x, int y);
-	
-	using Level::delete_hit;
-	virtual void delete_hit();
-	
-	void draw_data();
 	
 public:		
 	Level_type_block_grid(int lives, int score, Json::Value config);
     
-	using Level::run;
-	virtual Level_status run(); 
+    Level_type_block_grid(const Level_type_block_grid&) = delete;
 	
 	static bool verify_level_json(Json::Value level_json);
 	

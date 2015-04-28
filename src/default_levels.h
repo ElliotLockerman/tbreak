@@ -23,9 +23,36 @@ R"(
             "starting_x": 3,
             "starting_y": 3
         },
+        {
+            "type": "block_freeform",
+            "name": "Level 2",
+            "blocks":
+            [
+                {
+                    "x": 5,
+                    "y": 3,
+                    "block_width": 8,
+                    "block_height": 3,
+        			"block_default_char": "%",
+                    "block_string": "|\"\"\"\"\"\"||      ||______|",
+            
+                    "points_per_block": 10
+                },
+                {
+                    "x": 20,
+                    "y": 10,
+                    "block_width": 8,
+                    "block_height": 3,
+        			"block_default_char": "%",
+                    "block_string": "|\"\"\"\"\"\"||      ||______|",
+            
+                    "points_per_block": 10
+                }    
+            ]
+        },
 		{
 			"type": "block_grid",
-			"name": "Level 2",
+			"name": "Level 3",
             
             "block_width": 6,
             "block_height": 2,
@@ -41,7 +68,7 @@ R"(
         },
 		{
 			"type": "block_grid",
-			"name": "Level 3",
+			"name": "Level 4",
 
             "block_width": 6,
             "block_height": 2,
@@ -56,7 +83,7 @@ R"(
         },
 		{
 			"type": "block_grid",
-			"name": "Level 4",
+			"name": "Level 5",
 			
             "block_width": 6,
             "block_height": 2,
@@ -73,7 +100,7 @@ R"(
         },
 		{
 			"type": "block_grid",
-			"name": "Level 5",
+			"name": "Level 6",
             
             "block_width": 4,
             "block_height": 2,
