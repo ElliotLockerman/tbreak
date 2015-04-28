@@ -52,6 +52,7 @@ int main(int argc, char* argv[])
     {
         std::cerr << "Parser Error" << std::endl
                  << reader.getFormattedErrorMessages();
+        return EXIT_FAILURE;
     }
 
 

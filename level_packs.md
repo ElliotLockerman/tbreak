@@ -8,7 +8,7 @@ A Termbreak level pack is a [JSON](http://en.wikipedia.org/wiki/JSON) config fil
 
 The default level pack is loaded up automatically when Termbreak is started. To load a custom level pack, specify the path to the pack as the first argument.
 
-It is instructive to examine [level_pack_example.json](https://github.com/ElliotLockerman/termbreak/blob/master/level_pack_example.json), a copy of the default level pack. Feel free to make changes; the original is compiled in.
+It is instructive to examine [level_pack_example.json](https://github.com/ElliotLockerman/termbreak/blob/master/level_pack_example.json), a copy of the default level pack. Feel free to make changes; the original is compiled in. It may also be useful to use an ascii art editor, such as [JavE](http://www.jave.de/). A level template, "level_template.txt" is included, but - of course - you can always copy and paste from the terminal. 
 
 Properties
 ----------
