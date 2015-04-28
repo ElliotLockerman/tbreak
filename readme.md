@@ -18,8 +18,8 @@ Included with Termbreak is [jsoncpp](https://github.com/open-source-parsers/json
 
 Simply run
 
-	make
-	sudo make install
+    make
+    sudo make install
 
 The default compiler is clang++/llvm; you can use g++ with CXX=g++
 The default prefix is `/usr/local`; you can also set it manually with `prefix=your-prefix`
@@ -37,4 +37,4 @@ To run a level pack, specify the path to the pack as the first argument. See lev
 Space: Start/Launch new ball   
 Left/Right Arrows: Move paddle  
 p: Pause  
-ESC: Quit             
+ESC: Quit

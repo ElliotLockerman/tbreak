@@ -8,7 +8,7 @@ A Termbreak level pack is a [JSON](http://en.wikipedia.org/wiki/JSON) config fil
 
 The default level pack is loaded up automatically when Termbreak is started. To load a custom level pack, specify the path to the pack as the first argument.
 
-It is instructive to examine "level pack example.json", a copy of the default level pack. Feel free to make changes; the original is compiled in.
+It is instructive to examine [level_pack_example.json](https://github.com/ElliotLockerman/termbreak/blob/master/level_pack_example.json), a copy of the default level pack. Feel free to make changes; the original is compiled in.
 
 Properties
 ----------
@@ -31,7 +31,7 @@ Each level must have properties "type" and "name". The type determines which pro
 
 |Key|Value type|Permissible values|Required?|Notes|
 |:--|:---------|:-----------------|:--------|:----|
-|"type"|string|"block\_grid"|Yes||
+|"type"|string|"block\_grid" or "block\_freeform"|Yes||
 |"name"|string|1 to 70 (inclusive) characters|Yes|May include a number which does not affect level order.|
 
 ### Level type "block\_grid" properties
@@ -54,7 +54,7 @@ Levels of type "block\_grid" contain a matrix of identical rectangular blocks
 
 ### Level type "block\_freeform" properties
 
-Levels of type "block\freeform" allows the use of a disparate rectangular blocks, placed freely. Care should be taken to prevent overlapping. 
+Levels of type "block\_freeform" allows the use of a disparate rectangular blocks, placed freely. Care should be taken to prevent overlapping. 
 
 |Key|Value type|Permissible values|Required?|Notes|
 |:--|:---------|:-----------------|:--------|:----|

@@ -8,4 +8,4 @@ Draws a string str starting at x, y. If longer than colwidth, it wraps to the ne
 For information on fg and bg, see termbox.h
 */
 void draw_string(int x, int y, int colwidth, std::string str, 
-	uint16_t fg, uint16_t bg);
+    uint16_t fg, uint16_t bg);

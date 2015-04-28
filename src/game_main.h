@@ -26,23 +26,23 @@
 class Game_main
 {
 private:
-	int starting_lives;
-	std::vector<Json::Value> levels;
-	Level_status level_status;
-		
-	bool new_game();
-	
+    int starting_lives;
+    std::vector<Json::Value> levels;
+    Level_status level_status;
+        
+    bool new_game();
+    
     bool after_level_window();
     
 public:
-	Game_main(int starting_lives, std::vector<Json::Value> levels)
-	{
-		this->starting_lives = starting_lives;
-		this->levels = levels;
-	}
+    Game_main(int starting_lives, std::vector<Json::Value> levels)
+    {
+        this->starting_lives = starting_lives;
+        this->levels = levels;
+    }
     
     Game_main(const Game_main&) = delete;
     
-	void run();
-		
+    void run();
+        
 };

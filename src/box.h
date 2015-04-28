@@ -23,84 +23,84 @@
 class Box: public Drawable
 {
 private:
-	
-	// The basic unit - one character on the screen, if !empty
-	struct char_wrap
-	{
-		tb_cell cell;	
-		bool empty; 
-	} empty_wrap, border_wrap, center_wrap;
-	
-	// Matrix representing the box; is directly drawn to buffer
-	// Outer is column/width (x), inner is row/height (y)
-	std::vector<std::vector<char_wrap> > matrix; 
+    
+    // The basic unit - one character on the screen, if !empty
+    struct char_wrap
+    {
+        tb_cell cell;   
+        bool empty; 
+    } empty_wrap, border_wrap, center_wrap;
+    
+    // Matrix representing the box; is directly drawn to buffer
+    // Outer is column/width (x), inner is row/height (y)
+    std::vector<std::vector<char_wrap> > matrix; 
 
-	// ALl the constructers feed in to this after dealing with their arguments
-	void initialize_matrix(bool has_border, bool has_center);
+    // ALl the constructers feed in to this after dealing with their arguments
+    void initialize_matrix(bool has_border, bool has_center);
 
 
 protected:
-	// Protected for subclassing
-	int width, height, border_thickness;
-	
+    // Protected for subclassing
+    int width, height, border_thickness;
+    
 
 public:
-	// Border only
-	Box(int x, int y, int width, int height, int border_thickness, 
-		uint32_t bch, uint16_t bfg, uint16_t bbg);
+    // Border only
+    Box(int x, int y, int width, int height, int border_thickness, 
+        uint32_t bch, uint16_t bfg, uint16_t bbg);
 
-	
-	// Center only
-	Box(int x, int y, int width, int height, 
-		uint32_t cch, uint16_t cfg, uint16_t cbg);
-	
-	// Both border and center
-	Box(int x, int y, int width, int height, int border_thickness, 
-		uint32_t bch, uint16_t bfg, uint16_t bbg, 
-		uint32_t cch, uint16_t cfg, uint16_t cbg);
+    
+    // Center only
+    Box(int x, int y, int width, int height, 
+        uint32_t cch, uint16_t cfg, uint16_t cbg);
+    
+    // Both border and center
+    Box(int x, int y, int width, int height, int border_thickness, 
+        uint32_t bch, uint16_t bfg, uint16_t bbg, 
+        uint32_t cch, uint16_t cfg, uint16_t cbg);
 
 
-	
-	
-	// Replaces the char at the given location with the arguments.
-	// X and Y are relative
-	// Cannot be placed outside of box's bounds
-	void replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg);
-	
-	// Same as char but for an entire string, with wrapping behavior 
-	// similar to draw_string()
-	// X and Y are relative
-	// Cannot be placed outside of box's bounds
-	void replace_string(int x, int y, int colwidth, std::string str, 
-		uint16_t fg, uint16_t bg);
-	
-	// Remove a char. Will no longer be collidable and will not overwrite buffer
-	// X and Y are relative
-	void remove_char(int x,int y);
-	
-	
-	
-	
-	// Drawable implementations. See drawable.h
-	using Drawable::draw;
-	virtual void draw();
-	
-	// X and Y are absolute
-	using Drawable::contains_point;
-	virtual bool contains_point(int x, int y);
-	
-	// X and Y are absolute
-	using Drawable::move_to;
-	virtual void move_to(int x, int y);
-	
-	
-	using Drawable::get_x;
-	virtual int get_x();
-	
-	using Drawable::get_y;
-	virtual int get_y();
-	
-	int get_width(){return width;}
-	int get_height(){return height;}
-	
+    
+    
+    // Replaces the char at the given location with the arguments.
+    // X and Y are relative
+    // Cannot be placed outside of box's bounds
+    void replace_char(int x, int y, uint32_t ch, uint16_t fg, uint16_t bg);
+    
+    // Same as char but for an entire string, with wrapping behavior 
+    // similar to draw_string()
+    // X and Y are relative
+    // Cannot be placed outside of box's bounds
+    void replace_string(int x, int y, int colwidth, std::string str, 
+        uint16_t fg, uint16_t bg);
+    
+    // Remove a char. Will no longer be collidable and will not overwrite buffer
+    // X and Y are relative
+    void remove_char(int x,int y);
+    
+    
+    
+    
+    // Drawable implementations. See drawable.h
+    using Drawable::draw;
+    virtual void draw();
+    
+    // X and Y are absolute
+    using Drawable::contains_point;
+    virtual bool contains_point(int x, int y);
+    
+    // X and Y are absolute
+    using Drawable::move_to;
+    virtual void move_to(int x, int y);
+    
+    
+    using Drawable::get_x;
+    virtual int get_x();
+    
+    using Drawable::get_y;
+    virtual int get_y();
+    
+    int get_width(){return width;}
+    int get_height(){return height;}
+    
 };
