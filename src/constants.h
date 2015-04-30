@@ -6,3 +6,5 @@ const double tick = 75; // Delay between event loop cycles in msec
 // Screensize
 const int game_width = 80;
 const int game_height = 24; 
+
+const int default_starting_lives = 3;

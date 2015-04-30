@@ -55,10 +55,21 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-
-    int starting_lives = level_root["starting_lives"].asInt();
+    
+    int starting_lives = default_starting_lives;
+    if(level_root.isMember("starting_lives"))
+    {
+        if(!level_root["starting_lives"].isNumeric())
+        {
+            std::cerr << "Level parsing error:" << std::endl;
+            std::cerr << "\"starting_lives\" must be number" <<std::endl;
+            return EXIT_FAILURE;
+        }
+        starting_lives = level_root["starting_lives"].asInt();
+    }
+   
+   
     Json::Value json_levels = level_root["levels"];
-
     std::vector<Json::Value> levels;
 
     

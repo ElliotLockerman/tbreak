@@ -3,7 +3,7 @@
 std::string default_level =
 R"(
 {
-    "starting_lives": 3,
+    "points_for_life": 1000,
     
     "levels": 
     [   
