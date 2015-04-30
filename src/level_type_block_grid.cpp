@@ -60,6 +60,35 @@ Level_type_block_grid::Level_type_block_grid(int lives, int score,
 
 bool Level_type_block_grid::verify_level_json(Json::Value json_level)
 {
+    std::vector<std::string> required_str = 
+    {
+        "block_default_char"
+
+    };
+    
+    for(int i = 0; i < static_cast<int>(required_str.size()); i++)
+    {
+        if(!json_level.isMember(required_str[i]))
+        {
+            std::cerr << "Level parsing error:" << std::endl;
+            std::cerr << json_level["name"].asString() << " must have a key \"" 
+                << required_str[i] << "\"" << std::endl;
+            return false;
+        }
+        if(!json_level[required_str[i]].isString())
+        {
+            std::cerr << "Level parsing error:" << std::endl;
+            std::cerr << json_level["name"].asString() << "'s " 
+                << required_str[i] <<" value must be a string" << std::endl; 
+            return false;
+        }
+    }
+    
+    
+    
+    
+    
+    
     std::vector<std::string> optional_strings =
     {
         "block_string"
@@ -74,7 +103,7 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
             std::cerr << "Level parsing error:" << std::endl;
             std::cerr << json_level["name"].asString() << "'s " 
                 << optional_strings[i] <<" value must be a string" << std::endl;
-            return EXIT_FAILURE;
+            return false;
         }
     }
 
@@ -104,14 +133,14 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
             std::cerr << "Level parsing error:" << std::endl;
             std::cerr << json_level["name"].asString() << " must have a key \"" 
                 << required_nums[i] << "\"" << std::endl;
-            return EXIT_FAILURE;
+            return false;
         }
         if(!json_level[required_nums[i]].isNumeric())
         {
             std::cerr << "Level parsing error:" << std::endl;
             std::cerr << json_level["name"].asString() << "'s " 
                 << required_nums[i] <<" value must be a number" << std::endl; 
-            return EXIT_FAILURE;
+            return false;
         }
     }
     
@@ -134,7 +163,7 @@ bool Level_type_block_grid::verify_level_json(Json::Value json_level)
             std::cerr << "Level parsing error:" << std::endl;
             std::cerr << json_level["name"].asString() << "'s " 
                 << optional_nums[i] <<" value must be a number" << std::endl; 
-            return EXIT_FAILURE;
+            return false;
         }
     }
     

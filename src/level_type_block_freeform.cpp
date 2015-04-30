@@ -43,3 +43,110 @@ Level_type_block_freeform::Level_type_block_freeform(int lives, int score,
     ball.reset(new Ball(3, 22, 1, -1, 'o', TB_DEFAULT, TB_DEFAULT));
     
 }
+
+
+
+
+bool Level_type_block_freeform::verify_level_json(Json::Value json_level)
+{
+    
+    for(int j = 0; j < json_level["blocks"].size(); j++)
+    {        
+        Json::Value block = json_level["blocks"][j];
+        
+        
+        std::vector<std::string> required_str = 
+        {
+            "block_default_char"
+
+        };
+    
+        for(int i = 0; i < static_cast<int>(required_str.size()); i++)
+        {
+            if(!block.isMember(required_str[i]))
+            {
+                std::cerr << "Level parsing error:" << std::endl;
+                std::cerr << json_level["name"].asString() << " block " 
+                    << j+1 << " must have a key \""  << required_str[i] 
+                    << "\"" << std::endl;
+                return false;
+            }
+            if(!block[required_str[i]].isString())
+            {
+                std::cerr << "Level parsing error:" << std::endl;
+                std::cerr << json_level["name"].asString() << " block " << j+1 
+                    << "'s \"" << required_str[i] << "\" value must be a string" 
+                    << std::endl; 
+                return false;
+            }
+        }
+    
+    
+        
+        
+        
+        
+        
+        
+        
+        std::vector<std::string> optional_strings =
+        {
+            "block_string"
+        };
+
+
+        for(int i = 0; i < static_cast<int>(optional_strings.size()); i++)
+        {
+            if(block.isMember(optional_strings[i])
+                && !block[optional_strings[i]].isString())
+            {
+                std::cerr << "Level parsing error:" << std::endl;
+                std::cerr << json_level["name"].asString() << " block " << j+1 
+                    << "'s \"" << optional_strings[i] <<"\" value must be a string" << std::endl;
+                return false;
+            }
+        }
+
+    
+    
+    
+    
+    
+    
+        std::vector<std::string> required_nums = 
+        {
+            "block_width",
+            "block_height",
+            "points_per_block",
+
+            "x",
+            "y",
+
+        };
+    
+        for(int i = 0; i < static_cast<int>(required_nums.size()); i++)
+        {
+            if(!block.isMember(required_nums[i]))
+            {
+                std::cerr << "Level parsing error:" << std::endl;
+                std::cerr << json_level["name"].asString() << " block " 
+                    << j+1 <<  " must have a key \"" << required_nums[i] << "\"" 
+                    << std::endl;
+                return false;
+            }
+            if(!block[required_nums[i]].isNumeric())
+            {
+                std::cerr << "Level parsing error:" << std::endl;
+                std::cerr << json_level["name"].asString() << " block " << j+1 
+                    << "'s \"" <<  required_nums[i] <<"\" value must be a number" 
+                    << std::endl; 
+                return false;
+            }
+        }
+    
+    
+    
+    }
+    
+    return true;
+}

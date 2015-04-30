@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
                 << "'s \"name\" value must be a string" << std::endl;
             return EXIT_FAILURE;
         }
-        
+    
         
         
         
@@ -99,16 +99,22 @@ int main(int argc, char* argv[])
         }
         
         
-        if(json_levels[i]["type"].asString() == "block_grid"
-            && Level_type_block_grid::verify_level_json(json_levels[i]))
-        {
+        
             
-            levels.push_back(json_levels[i]);
+        
+        if(json_levels[i]["type"].asString() == "block_grid")
+        {
+            if(Level_type_block_grid::verify_level_json(json_levels[i]))
+                levels.push_back(json_levels[i]);
+            else
+                return EXIT_FAILURE;
         }
         else if (json_levels[i]["type"].asString() == "block_freeform")
         {
-            
-            levels.push_back(json_levels[i]);
+            if(Level_type_block_freeform::verify_level_json(json_levels[i]))
+                levels.push_back(json_levels[i]);
+            else
+                return EXIT_FAILURE;
         }
         else
         {
