@@ -18,7 +18,7 @@ R"(
         
             "number_of_columns": 9,
             "number_of_rows": 3,
-            "points_per_block": 10,
+            "points_per_block": 15,
         
             "starting_x": 3,
             "starting_y": 3

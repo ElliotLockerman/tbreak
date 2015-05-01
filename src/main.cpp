@@ -54,6 +54,21 @@ int main(int argc, char* argv[])
                  << reader.getFormattedErrorMessages();
         return EXIT_FAILURE;
     }
+    
+    
+    
+    int points_for_life = -1;
+    if(level_root.isMember("points_for_life"))
+    {
+        if(!level_root["points_for_life"].isNumeric())
+        {
+            std::cerr << "Level parsing error:" << std::endl;
+            std::cerr << "\"points_for_life\" must be number" <<std::endl;
+            return EXIT_FAILURE;
+        }
+        points_for_life = level_root["points_for_life"].asInt();
+    }
+    
 
     
     int starting_lives = default_starting_lives;
@@ -159,7 +174,7 @@ int main(int argc, char* argv[])
     
     
     // Start the game
-    Game_main game(starting_lives, levels);
+    Game_main game(points_for_life, starting_lives, levels);
     game.run();
 
     tb_shutdown();

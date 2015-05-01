@@ -26,7 +26,8 @@
 class Game_main
 {
 private:
-    int starting_lives;
+    int points_for_life;
+    
     std::vector<Json::Value> levels;
     Level_status level_status;
         
@@ -35,9 +36,14 @@ private:
     bool after_level_window();
     
 public:
-    Game_main(int starting_lives, std::vector<Json::Value> levels)
+    Game_main(int points_for_life, int starting_lives, std::vector<Json::Value> levels)
     {
-        this->starting_lives = starting_lives;
+        this->points_for_life = points_for_life;
+        
+        this->level_status.lives = starting_lives;
+        this->level_status.score = 0;
+        this->level_status.result = OUT_OF_LIVES;
+        
         this->levels = levels;
     }
     

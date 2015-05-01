@@ -45,6 +45,7 @@ protected:
     std::string name;
     bool ball_in_play;
     
+    int points_for_life;
         
     std::shared_ptr<Box> border;
     std::shared_ptr<Paddle> paddle;

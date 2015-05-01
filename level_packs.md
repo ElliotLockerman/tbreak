@@ -19,7 +19,8 @@ Properties
 
 |Key|Value type|Permissible values|Required?|Notes|
 |:--|:---------|:-----------------|:--------|:----|
-|"starting\_lives"|number|\> 0|No (default 3)|Decrements by one each time the ball hits the bottom. Game ends when lives hits 0|
+|"starting\_lives"|number|\> 0|No|Default is 3. Decrements by one each time the ball hits the bottom. Game ends when lives hits 0|
+|"points\_for\_life"|number|\> 0|No|If not set, no additional lives will be granted|
 |"levels"|Array of [level objects](#level_objects)|One or more [level objects](#level_objects)|Yes||
 
 Level Objects

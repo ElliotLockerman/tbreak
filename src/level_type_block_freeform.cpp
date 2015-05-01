@@ -1,8 +1,9 @@
 #include "level_type_block_freeform.h"
 
-Level_type_block_freeform::Level_type_block_freeform(int lives, int score, 
-    Json::Value config)
+Level_type_block_freeform::Level_type_block_freeform(int points_for_life, int 
+    lives, int score, Json::Value config)
 {
+    this->points_for_life = points_for_life;
     
     this->level_status.lives = lives,
     this->level_status.score = score,

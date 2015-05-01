@@ -243,6 +243,12 @@ void Level_abstract_block::delete_hit()
 {
     for(hit_it = hit_blocks.begin(); hit_it != hit_blocks.end(); hit_it++)
     {
+        if(this->points_for_life > 0 
+            && ((level_status.score + (**hit_it).get_points()) 
+                / points_for_life) > (level_status.score / points_for_life))
+        {
+            this->level_status.lives++;
+        }
         level_status.score += (**hit_it).get_points();  
         blocks.remove(*hit_it);     
     }

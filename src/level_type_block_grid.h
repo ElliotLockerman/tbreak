@@ -19,7 +19,7 @@ private:
 
     
 public:     
-    Level_type_block_grid(int lives, int score, Json::Value config);
+    Level_type_block_grid(int points_for_life, int lives, int score, Json::Value config);
     
     Level_type_block_grid(const Level_type_block_grid&) = delete;
     

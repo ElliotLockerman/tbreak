@@ -6,7 +6,7 @@ class Level_type_block_freeform : public Level_abstract_block
 private:
     
 public:
-    Level_type_block_freeform(int lives, int score, Json::Value config);
+    Level_type_block_freeform(int points_for_life, int lives, int score, Json::Value config);
     
     Level_type_block_freeform(const Level_type_block_freeform&) = delete;
 

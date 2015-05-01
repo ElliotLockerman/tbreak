@@ -6,23 +6,18 @@ bool Game_main::new_game()
 {
     Box border(0, 0, game_width, game_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
 
-    this->level_status.lives = starting_lives;
-    this->level_status.score = 0;
-    this->level_status.result = OUT_OF_LIVES;
-
-
     for(unsigned int i = 0; i < levels.size(); i++)
     {       
         if(levels[i]["type"].asString() == "block_grid")
         {
-            Level_type_block_grid level(level_status.lives, 
-                level_status.score, levels[i]);
+            Level_type_block_grid level(this->points_for_life, 
+                level_status.lives, level_status.score, levels[i]);
             level_status = level.run();     
         }
         else if(levels[i]["type"].asString() == "block_freeform")
         {
-            Level_type_block_freeform level(level_status.lives, 
-                level_status.score, levels[i]);
+            Level_type_block_freeform level(this->points_for_life,
+                level_status.lives, level_status.score, levels[i]);
             level_status = level.run();     
         }
     
