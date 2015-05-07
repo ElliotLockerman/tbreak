@@ -14,7 +14,7 @@ Level_type_block_freeform::Level_type_block_freeform(int points_for_life, int
     ball_in_play = false;
     
     
-    for(int i = 0; i < config["blocks"].size(); i++)
+    for(int i = 0; i < static_cast<int>(config["blocks"].size()); i++)
     {
         Block* block = new Block(config["blocks"][i]["x"].asInt(), 
             config["blocks"][i]["y"].asInt(), 
@@ -51,7 +51,7 @@ Level_type_block_freeform::Level_type_block_freeform(int points_for_life, int
 bool Level_type_block_freeform::verify_level_json(Json::Value json_level)
 {
     
-    for(int j = 0; j < json_level["blocks"].size(); j++)
+    for(int j = 0; j < static_cast<int>(json_level["blocks"].size()); j++)
     {        
         Json::Value block = json_level["blocks"][j];
         
