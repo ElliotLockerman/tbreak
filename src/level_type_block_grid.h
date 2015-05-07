@@ -23,6 +23,8 @@ public:
     
     Level_type_block_grid(const Level_type_block_grid&) = delete;
     
+    Level_type_block_grid operator=(const Level_type_block_grid&) = delete;
+    
     static bool verify_level_json(Json::Value level_json);
     
 };

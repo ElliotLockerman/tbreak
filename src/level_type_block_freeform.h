@@ -10,5 +10,8 @@ public:
     
     Level_type_block_freeform(const Level_type_block_freeform&) = delete;
 
+    Level_type_block_freeform operator=(const Level_type_block_freeform&) 
+        = delete;
+
     static bool verify_level_json(Json::Value level_json);
 };
