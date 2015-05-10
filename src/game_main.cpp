@@ -130,7 +130,7 @@ void Game_main::run()
         border.draw();
             
         
-        /*
+        
         if(levels[0]["type"].asString() == "block_grid")
         {
             for(int i = 0; i < levels[0]["number_of_rows"].asInt(); i++)
@@ -159,8 +159,30 @@ void Game_main::run()
                 }
             }
         }
-        */
-        
+        else if(levels[0]["type"].asString() == "block_freeform")
+        {
+            for(int i = 0; i < static_cast<int>(levels[0]["blocks"].size()); i++)
+                {
+                    Block block(levels[0]["blocks"][i]["x"].asInt(), 
+                        levels[0]["blocks"][i]["y"].asInt(), 
+                        levels[0]["blocks"][i]["block_width"].asInt(), 
+                        levels[0]["blocks"][i]["block_height"].asInt(), 
+                        levels[0]["blocks"][i]["points_per_block"].asInt(),
+                        levels[0]["blocks"][i]["block_default_char"]
+                            .asString()[0], 
+                        TB_DEFAULT, TB_DEFAULT);
+    
+                    if(levels[0]["blocks"][i].isMember("block_string"))
+                    {               
+                        block.replace_string(0, 0, 
+                            levels[0]["blocks"][i]["block_width"].asInt(), 
+                            levels[0]["blocks"][i]["block_string"].asString(), 
+                            TB_DEFAULT, TB_DEFAULT);
+                    }
+
+                    block.draw();
+                }
+        }
         
 
 
