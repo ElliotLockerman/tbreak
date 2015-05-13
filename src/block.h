@@ -1,5 +1,9 @@
 #include "box.h"
 
+/*
+ * Block
+ * Box plus points
+ */
 
 class Block : public Box
 {

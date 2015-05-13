@@ -48,6 +48,7 @@ public:
     }
     
     Game_main(const Game_main&) = delete;
+    Game_main operator=(const Game_main&) = delete;
     
     void run();
         

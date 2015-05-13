@@ -10,6 +10,7 @@
 
 /*
  * The Ball
+ * One cell drawable with velocity
  */
 
 

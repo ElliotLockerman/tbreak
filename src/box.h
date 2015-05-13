@@ -14,9 +14,10 @@
 /*
  * A box
  * Can have a center, border, or both
- * x, y are the upper left corner
- * Extra lines for thicknesses greater than 1 are placed on the *inside* of the width and height, replacing any center
- * Character provided in constructor is default, but can be replaced or removed with replace_char(), replace_string(), remove_char();
+ * Extra lines for thicknesses greater than 1 are placed on the *inside* of the 
+ *     width and height, replacing any center
+ * Character provided in constructor is default, but can be replaced or removed
+ *     with replace_char(), replace_string(), remove_char();
  * For information on ch, fg and bg, see termbox.h
  */
 
@@ -46,15 +47,18 @@ protected:
 
 public:
     // Border only
+    // x, y are the upper left corner
     Box(int x, int y, int width, int height, int border_thickness, 
         uint32_t bch, uint16_t bfg, uint16_t bbg);
 
     
     // Center only
+    // x, y are the upper left corner
     Box(int x, int y, int width, int height, 
         uint32_t cch, uint16_t cfg, uint16_t cbg);
     
     // Both border and center
+    // x, y are the upper left corner
     Box(int x, int y, int width, int height, int border_thickness, 
         uint32_t bch, uint16_t bfg, uint16_t bbg, 
         uint32_t cch, uint16_t cfg, uint16_t cbg);
