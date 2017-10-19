@@ -1,11 +1,11 @@
 CXX = clang++
-CXXFLAGS = -c -Wall -std=c++11 -O2
-LDFLAGS = -ltermbox -lsfml-window
+CXXFLAGS = -c -Wall -std=c++11 -O2 -I /usr/local/include
+LDFLAGS = -L /usr/local/lib -ltermbox -lsfml-window
 
 SRC = src
 OBJ = obj
 EXT = external
-PREFIX? = /usr/local
+PREFIX ?= /usr/local
 
 EXECUTABLE = termbreak
 

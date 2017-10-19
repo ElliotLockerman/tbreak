@@ -30,6 +30,7 @@ private:
     
     std::vector<Json::Value> levels;
     Level_status level_status;
+    int starting_lives;
         
     bool new_game();
     
@@ -37,6 +38,7 @@ private:
     
 public:
     Game_main(int points_for_life, int starting_lives, std::vector<Json::Value> levels)
+    : starting_lives(starting_lives)
     {
         this->points_for_life = points_for_life;
         
@@ -48,6 +50,7 @@ public:
     }
     
     Game_main(const Game_main&) = delete;
+    Game_main operator=(const Game_main&) = delete;
     
     void run();
         

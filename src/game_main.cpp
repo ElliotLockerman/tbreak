@@ -1,10 +1,13 @@
 
 #include "game_main.h"
  
+#include "constants.h"
 
 bool Game_main::new_game()
 {
     Box border(0, 0, game_width, game_height, 1, '#', TB_DEFAULT, TB_DEFAULT);
+
+    level_status.lives = starting_lives;
 
     for(unsigned int i = 0; i < levels.size(); i++)
     {       
